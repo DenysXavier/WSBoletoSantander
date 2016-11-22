@@ -118,8 +118,8 @@ class Config {
         if ($handler) {
             $ini = $this->converterArrayDeConfiguracaoParaINI();
 
-            fwrite($h, $ini);
-            fclose($h);
+            fwrite($handler, $ini);
+            fclose($handler);
         } else {
             $err = error_get_last();
             throw new \Exception("Não foi possível encontrar o arquivo de configuração e, ao tentar criá-lo, ocorreu o seguinte erro: " . $err["message"]);
