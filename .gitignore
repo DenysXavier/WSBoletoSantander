@@ -7,3 +7,6 @@ composer.phar
 
 # Ignorando pastas de metadados gerados por projetos criados no NetBeans
 /nbproject/
+
+# Ignorando a pasta gerada pelos logs do PHPUnit
+/logs/
