@@ -11,11 +11,16 @@
             "homepage": "http://www.tiexpert.net"
         }
     ],
+    "support": {
+        "issues": "https://github.com/DenysXavier/WSBoletoSantander/issues",
+        "source": "https://github.com/DenysXavier/WSBoletoSantander"
+    },
     "require": {
         "php": ">=5.6"
     },
     "require-dev": {
-        "phpunit/phpunit": "^5.6"
+        "phpunit/phpunit": "^5.6",
+        "satooshi/php-coveralls": "^1.0"
     },
     "autoload": {
         "psr-4": {
