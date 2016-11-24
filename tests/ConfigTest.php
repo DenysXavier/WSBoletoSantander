@@ -18,29 +18,46 @@
 
 namespace TIExpert\WSBoletoSantander;
 
+/**
+ * Testes unitários para a classe Config
+ * 
+ * @author Denys Xavier <equipe@tiexpert.net>
+ */
 class ConfigTest extends \PHPUnit_Framework_TestCase {
 
-    private $caminhoArquivoINI = "./config.ini";
+    private static $caminhoArquivoINI = "./config.ini";
+    private $caminhoPadraoArquivoINI = "src/config.ini";
     private $configObj;
 
-    protected function setUp() {
-        parent::setUp();
-        if (file_exists($this->caminhoArquivoINI)) {
-            unlink($this->caminhoArquivoINI);
+    public static function setUpBeforeClass() {
+        parent::setUpBeforeClass();
+        if (file_exists(self::$caminhoArquivoINI)) {
+            unlink(self::$caminhoArquivoINI);
         }
     }
 
-    protected function tearDown() {
-        parent::tearDown();
-        unlink($this->caminhoArquivoINI);
+    public static function tearDownAfterClass() {
+        parent::tearDownAfterClass();
+        unlink(self::$caminhoArquivoINI);
     }
 
-    /** @test */
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     */
+    public function oCaminhoDoArquivoDeConfiguracaoPadraoFicaNaRaiz() {
+        $this->assertStringEndsWith($this->caminhoPadraoArquivoINI, Config::getCaminhoArquivoConfig());
+    }
+
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     */
     public function seNaoExistirArquivoDeConfiguracaoNoPrimeiroAcessoDaClasseConfigEntaoUmDeveSerCriado() {
-        Config::setCaminhoArquivoConfig($this->caminhoArquivoINI);
+        Config::setCaminhoArquivoConfig(self::$caminhoArquivoINI);
         $this->configObj = Config::getInstance();
 
-        $this->assertFileExists($this->caminhoArquivoINI);
+        $this->assertFileExists(self::$caminhoArquivoINI);
     }
 
 }
