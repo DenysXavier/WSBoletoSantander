@@ -60,4 +60,33 @@ class ConfigTest extends \PHPUnit_Framework_TestCase {
         $this->assertFileExists(self::$caminhoArquivoINI);
     }
 
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     * @expectedException InvalidArgumentException
+     */
+    public function aoAlterarCaminhoDoArquivoDeConfiguracaoONovoArquivoDeveSerCarregado() {
+        $caminhoArquivoConfigTemp = "./configTemp.ini";
+
+        $this->configObj = Config::getInstance();
+
+        try {
+            $this->configObj->getOpcao("grupoTeste1", "chaveTeste1");
+        } catch (InvalidArgumentException $e) {
+            $handler = fopen($caminhoArquivoConfigTemp, "w");
+            fwrite($handler, "[grupoTeste1]" . PHP_EOL . "chaveTeste1=1234567890");
+            fclose($handler);
+
+            Config::setCaminhoArquivoConfig($caminhoArquivoConfigTemp);
+
+            $this->assertEquals("1234567890", $this->configObj->getOpcao("grupoTeste1", "chaveTeste1"));
+            
+            unlink($caminhoArquivoConfigTemp);
+            Config::setCaminhoArquivoConfig(self::$caminhoArquivoINI);
+            return;
+        }
+
+        $this->fail("Uma exceção deveria ser lançada para opções que não tem grupo nem chaves existentes.");
+    }
+
 }

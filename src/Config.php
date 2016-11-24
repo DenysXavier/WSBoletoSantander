@@ -70,10 +70,10 @@ class Config {
      * @param string $caminhoArquivoConfig Caminho para o arquivo de configuração a ser utilizado ou criado
      */
     public static function setCaminhoArquivoConfig($caminhoArquivoConfig) {
-        self::$caminhoArquivoConfig = $caminhoArquivoConfig;
-        if (!is_null(self::$instance)) {
+        if (!is_null(self::$instance) && self::$caminhoArquivoConfig != $caminhoArquivoConfig) {
             $this->carregarConfiguracao();
         }
+        self::$caminhoArquivoConfig = $caminhoArquivoConfig;
     }
 
     /** Obtém o valor da chave informada dentro do grupo convenio
