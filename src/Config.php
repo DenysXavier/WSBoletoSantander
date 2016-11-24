@@ -26,7 +26,7 @@ namespace TIExpert\WSBoletoSantander;
 class Config {
 
     /** @property string $caminhoArquivoConfig Caminho para o arquivo de configuração utilizado. */
-    private static $caminhoArquivoConfig;
+    private static $caminhoArquivoConfig = __DIR__ . "/config.ini";
 
     /** @property array $config Array de configurações unificado. */
     private $config = array("convenio" => array("banco_padrao" => "0033",
@@ -59,7 +59,7 @@ class Config {
      * 
      * @return string
      */
-    static function getCaminhoArquivoConfig() {
+    public static function getCaminhoArquivoConfig() {
         return self::$caminhoArquivoConfig;
     }
 
@@ -69,12 +69,10 @@ class Config {
      * 
      * @param string $caminhoArquivoConfig Caminho para o arquivo de configuração a ser utilizado ou criado
      */
-    public static function setCaminhoArquivoConfig($caminhoArquivoConfig = NULL) {
-        if (is_null(self::$instance)) {
-            self::$caminhoArquivoConfig = $caminhoArquivoConfig;
-            if (is_null($caminhoArquivoConfig) || trim($caminhoArquivoConfig) == "") {
-                self::$caminhoArquivoConfig = __DIR__ . "/config.ini";
-            }
+    public static function setCaminhoArquivoConfig($caminhoArquivoConfig) {
+        self::$caminhoArquivoConfig = $caminhoArquivoConfig;
+        if (!is_null(self::$instance)) {
+            $this->carregarConfiguracao();
         }
     }
 
@@ -146,5 +144,3 @@ class Config {
     }
 
 }
-
-?>
