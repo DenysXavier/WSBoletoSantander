@@ -28,9 +28,17 @@ use TIExpert\WSBoletoSantander\IPropriedadesExportaveisParaArray;
  */
 class Convenio implements IPropriedadesExportaveisParaArray {
 
+    /** property string $codigoBanco Código do banco */
     private $codigoBanco;
+
+    /** property string $codigoConvenio Número do convênio informado pelo banco */
     private $codigoConvenio;
 
+    /** Cria uma nova instância de Convenio
+     * 
+     * @param type $codigoBanco Código do banco
+     * @param type $codigoConvenio Número do convênio informado pelo banco
+     */
     public function __construct($codigoBanco = NULL, $codigoConvenio = NULL) {
         $this->codigoBanco = $codigoBanco;
         $this->codigoConvenio = $codigoConvenio;
@@ -42,24 +50,46 @@ class Convenio implements IPropriedadesExportaveisParaArray {
         }
     }
 
+    /** Obtém o código do banco
+     * 
+     * @return string
+     */
     public function getCodigoBanco() {
         return $this->codigoBanco;
     }
 
+    /** Obtém o número do convênio
+     * 
+     * @return string
+     */
     public function getCodigoConvenio() {
         return $this->codigoConvenio;
     }
 
+    /** Determina o código do banco
+     * 
+     * @param string $codigoBanco Código do banco
+     * @return \TIExpert\WSBoletoSantander\Convenio
+     */
     public function setCodigoBanco($codigoBanco) {
         $this->codigoBanco = $codigoBanco;
         return $this;
     }
 
+    /** Determina o número do convênio
+     * 
+     * @param string $codigoConvenio
+     * @return \TIExpert\WSBoletoSantander\Convenio
+     */
     public function setCodigoConvenio($codigoConvenio) {
         $this->codigoConvenio = $codigoConvenio;
         return $this;
     }
 
+    /** Exporta um array associativo no qual as chaves são as propriedades representadas como no WebService do Santander
+     * 
+     * @return array
+     */
     public function exportarArray() {
         $array["CONVENIO.COD-BANCO"] = $this->codigoBanco;
         $array["CONVENIO.COD-CONVENIO"] = $this->codigoConvenio;
