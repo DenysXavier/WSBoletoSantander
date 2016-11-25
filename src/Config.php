@@ -29,7 +29,7 @@ class Config {
     private static $caminhoArquivoConfig = __DIR__ . "/config.ini";
 
     /** @property array $config Array de configurações unificado. */
-    private $config = array("convenio" => array("banco_padrao" => "0033",
+    private static $config = array("convenio" => array("banco_padrao" => "0033",
             "convenio_padrao" => "")
     );
 
@@ -91,19 +91,19 @@ class Config {
      * @return mixed
      */
     public function getOpcao($grupo, $chave) {
-        if (isset($this->config[$grupo][$chave])) {
-            return $this->config[$grupo][$chave];
+        if (isset(self::$config[$grupo][$chave])) {
+            return self::$config[$grupo][$chave];
         } else {
             throw new \InvalidArgumentException("O valor da chave " . $chave . " pertencente ao grupo " . $grupo . " não existe.");
         }
     }
 
     /** Carrega as configurações a partir de um arquivo INI */
-    private function carregarConfiguracao() {
+    private static function carregarConfiguracao() {
         if (file_exists(self::$caminhoArquivoConfig)) {
-            $this->config = parse_ini_file(self::$caminhoArquivoConfig, true);
+            self::$config = parse_ini_file(self::$caminhoArquivoConfig, true);
         } else {
-            $this->criarArquivoDeConfiguracao();
+            self::criarArquivoDeConfiguracao();
         }
     }
 
@@ -111,10 +111,10 @@ class Config {
      * 
      * @throws \Exception se acontecer algum problema ao tentar manipular o arquivo.
      */
-    private function criarArquivoDeConfiguracao() {
+    private static function criarArquivoDeConfiguracao() {
         $handler = @fopen(self::$caminhoArquivoConfig, "w");
         if ($handler) {
-            $ini = $this->converterArrayDeConfiguracaoParaINI();
+            $ini = self::converterArrayDeConfiguracaoParaINI();
 
             fwrite($handler, $ini);
             fclose($handler);
@@ -128,19 +128,47 @@ class Config {
      *
      * @return string
      */
-    private function converterArrayDeConfiguracaoParaINI() {
+    private static function converterArrayDeConfiguracaoParaINI() {
         $ini = "; Este arquivo foi criado automaticamente ao tentar acessar as configurações do WSBoletoSantander
-; Se quiser uma versão com as opções comentadas, acesse: http://github.com
+; Se quiser uma versão com as opções comentadas, acesse: https://github.com/DenysXavier/WSBoletoSantander
 ; Arquivo de configuração gerado em " . date("d/m/Y H:i:s") . PHP_EOL;
 
-        foreach ($this->config as $grupo => $chaves) {
-            $ini .= PHP_EOL . "[" . $grupo . "]" . PHP_EOL;
+        foreach (self::$config as $grupo => $chaves) {
+            $ini .= PHP_EOL . self::converterStringEmGrupoDeConfiguracaoINI($grupo);
             foreach ($chaves as $chave => $valor) {
-                $ini .= $chave . " = " . (is_string($valor) ? '"' . $valor . '"' : $valor) . PHP_EOL;
+                $ini .= self::converterChaveEValorEmLinhaDeOpcaoINI($chave, $valor);
             }
         }
 
         return $ini;
+    }
+
+    /** Formata uma string qualquer em um grupo de configuração.
+     * 
+     * Por exemplo, uma string "XPTO" seria formatada como <code>[XPTO]</code>.
+     * 
+     * @param string $string String a ser convertida em um formato de grupo
+     * @return string
+     */
+    private static function converterStringEmGrupoDeConfiguracaoINI($string) {
+        return "[" . $string . "]" . PHP_EOL;
+    }
+
+    /** Formata duas strings quaisquer em uma linha de opção de configuração.
+     * 
+     * Por exemplo: uma string de chave "ordenar" e outra string de valor "ASC" resulta na linha de configuração <code>ordernar = "ASC"</code>.
+     * 
+     * @param string $chave A string que será usada como chave de configuração
+     * @param string $valor A string que será usada como valor da chave de configuração
+     * @return string
+     */
+    private static function converterChaveEValorEmLinhaDeOpcaoINI($chave, $valor) {
+        $str = $chave . " = ";
+        if (is_string($valor)) {
+            $valor = '"' . $valor . '"';
+        }
+        $str .= $valor . PHP_EOL;
+        return $str;
     }
 
 }
