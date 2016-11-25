@@ -71,7 +71,7 @@ class Config {
      */
     public static function setCaminhoArquivoConfig($caminhoArquivoConfig) {
         if (!is_null(self::$instance) && self::$caminhoArquivoConfig != $caminhoArquivoConfig) {
-            $this->carregarConfiguracao();
+            self::carregarConfiguracao();
         }
         self::$caminhoArquivoConfig = $caminhoArquivoConfig;
     }
