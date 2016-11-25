@@ -45,7 +45,7 @@ class ConvenioTest extends \PHPUnit_Framework_TestCase {
      * @test
      */
     public function testeAcessorDaPropriedadeCodigoBanco() {
-        $validParam = 0033;
+        $validParam = "0033";
 
         $this->convenioObj = new Convenio("CÓDIGO ERRADO", NULL);
         $this->convenioObj->setCodigoBanco($validParam);
