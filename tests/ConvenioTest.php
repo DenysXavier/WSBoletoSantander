@@ -40,6 +40,28 @@ class ConvenioTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($config->getConvenio("convenio_padrao"), $this->convenioObj->getCodigoConvenio());
     }
 
-}
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     */
+    public function testeAcessorDaPropriedadeCodigoBanco() {
+        $validParam = 0033;
 
-?>
+        $this->convenioObj = new Convenio("CÓDIGO ERRADO", NULL);
+        $this->convenioObj->setCodigoBanco($validParam);
+        $this->assertEquals($validParam, $this->convenioObj->getCodigoBanco());
+    }
+
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     */
+    public function testeAcessorDaPropriedadeCodigoConvenio() {
+        $validParam = 123456;
+
+        $this->convenioObj = new Convenio(NULL, "CONVÊNIO ERRADO");
+        $this->convenioObj->setCodigoConvenio($validParam);
+        $this->assertEquals($validParam, $this->convenioObj->getCodigoConvenio());
+    }
+
+}
