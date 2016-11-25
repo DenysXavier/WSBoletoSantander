@@ -75,7 +75,7 @@ class Pagador {
      * 
      * @return string
      */
-    function getTipoDoc() {
+    public function getTipoDoc() {
         return $this->tipoDoc;
     }
 
@@ -83,7 +83,7 @@ class Pagador {
      * 
      * @return string
      */
-    function getNumeroDoc() {
+    public function getNumeroDoc() {
         return $this->numeroDoc;
     }
 
@@ -91,7 +91,7 @@ class Pagador {
      * 
      * @return string
      */
-    function getNome() {
+    public function getNome() {
         return $this->nome;
     }
 
@@ -99,7 +99,7 @@ class Pagador {
      * 
      * @return string
      */
-    function getEndereco() {
+    public function getEndereco() {
         return $this->endereco;
     }
 
@@ -107,7 +107,7 @@ class Pagador {
      * 
      * @return string
      */
-    function getBairro() {
+    public function getBairro() {
         return $this->bairro;
     }
 
@@ -115,7 +115,7 @@ class Pagador {
      * 
      * @return string
      */
-    function getCidade() {
+    public function getCidade() {
         return $this->cidade;
     }
 
@@ -123,7 +123,7 @@ class Pagador {
      * 
      * @return string
      */
-    function getUF() {
+    public function getUF() {
         return $this->UF;
     }
 
@@ -131,7 +131,7 @@ class Pagador {
      * 
      * @return string
      */
-    function getCEP() {
+    public function getCEP() {
         return $this->CEP;
     }
 
@@ -140,7 +140,7 @@ class Pagador {
      * @param string $tipoDoc Tipo de Documento do Pagador
      * @return \TIExpert\WSBoletoSantander\Pagador
      */
-    function setTipoDoc($tipoDoc) {
+    public function setTipoDoc($tipoDoc) {
         $this->tipoDoc = $tipoDoc;
         return $this;
     }
@@ -150,7 +150,7 @@ class Pagador {
      * @param string $numeroDoc CPF/CNPJ do Pagador
      * @return \TIExpert\WSBoletoSantander\Pagador
      */
-    function setNumeroDoc($numeroDoc) {
+    public function setNumeroDoc($numeroDoc) {
         $this->numeroDoc = $numeroDoc;
         return $this;
     }
@@ -160,7 +160,7 @@ class Pagador {
      * @param string $nome Nome do Pagador
      * @return \TIExpert\WSBoletoSantander\Pagador
      */
-    function setNome($nome) {
+    public function setNome($nome) {
         $this->nome = $nome;
         return $this;
     }
@@ -170,7 +170,7 @@ class Pagador {
      * @param string $endereco Endereço do Pagador
      * @return \TIExpert\WSBoletoSantander\Pagador
      */
-    function setEndereco($endereco) {
+    public function setEndereco($endereco) {
         $this->endereco = $endereco;
         return $this;
     }
@@ -180,7 +180,7 @@ class Pagador {
      * @param string $bairro Bairro do Pagador
      * @return \TIExpert\WSBoletoSantander\Pagador
      */
-    function setBairro($bairro) {
+    public function setBairro($bairro) {
         $this->bairro = $bairro;
         return $this;
     }
@@ -190,7 +190,7 @@ class Pagador {
      * @param string $cidade Cidade do Pagador
      * @return \TIExpert\WSBoletoSantander\Pagador
      */
-    function setCidade($cidade) {
+    public function setCidade($cidade) {
         $this->cidade = $cidade;
         return $this;
     }
@@ -200,7 +200,7 @@ class Pagador {
      * @param string $UF UF do Pagador
      * @return \TIExpert\WSBoletoSantander\Pagador
      */
-    function setUF($UF) {
+    public function setUF($UF) {
         $this->UF = $UF;
         return $this;
     }
@@ -210,7 +210,7 @@ class Pagador {
      * @param string $CEP CEP do Pagador
      * @return \TIExpert\WSBoletoSantander\Pagador
      */
-    function setCEP($CEP) {
+    public function setCEP($CEP) {
         $this->CEP = $CEP;
         return $this;
     }
