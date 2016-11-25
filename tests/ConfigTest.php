@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-namespace TIExpert\WSBoletoSantander;
+use TIExpert\WSBoletoSantander\Config;
 
 /**
  * Testes unitários para a classe Config
