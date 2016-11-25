@@ -19,13 +19,14 @@
 namespace TIExpert\WSBoletoSantander;
 
 use TIExpert\WSBoletoSantander\Config;
+use TIExpert\WSBoletoSantander\IPropriedadesExportaveisParaArray;
 
 /**
  * Classe que representa o convênio usado na confecção do boleto
  *
  * @author Denys Xavier <equipe@tiexpert.net>
  */
-class Convenio {
+class Convenio implements IPropriedadesExportaveisParaArray {
 
     private $codigoBanco;
     private $codigoConvenio;
@@ -57,6 +58,13 @@ class Convenio {
     public function setCodigoConvenio($codigoConvenio) {
         $this->codigoConvenio = $codigoConvenio;
         return $this;
+    }
+
+    public function exportarArray() {
+        $array["CONVENIO.COD-BANCO"] = $this->codigoBanco;
+        $array["CONVENIO.COD-CONVENIO"] = $this->codigoConvenio;
+
+        return $array;
     }
 
 }

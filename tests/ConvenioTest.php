@@ -64,4 +64,18 @@ class ConvenioTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($validParam, $this->convenioObj->getCodigoConvenio());
     }
 
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     */
+    public function oArrayExportadoDevePossuirAsMesmasChavesUtilizadasPeloWSdoBanco(){
+        $chaveConvenioBanco = array("CONVENIO.COD-BANCO", "CONVENIO.COD-CONVENIO");
+        
+        $this->convenioObj = new Convenio();
+        $export = $this->convenioObj->exportarArray();
+        
+        foreach ($chaveConvenioBanco as $chave) {
+            $this->assertArrayHasKey($chave, $export);
+        }
+    }
 }
