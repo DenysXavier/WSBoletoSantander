@@ -25,7 +25,7 @@ namespace TIExpert\WSBoletoSantander;
  * 
  * @author Denys Xavier <equipe@tiexpert.net>
  */
-interface IPropriedadesExportaveisParaArray {
+interface PropriedadesExportaveisParaArrayInterface {
 
     public function exportarArray();
 }
