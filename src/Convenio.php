@@ -41,20 +41,20 @@ class Convenio {
         }
     }
 
-    function getCodigoBanco() {
+    public function getCodigoBanco() {
         return $this->codigoBanco;
     }
 
-    function getCodigoConvenio() {
+    public function getCodigoConvenio() {
         return $this->codigoConvenio;
     }
 
-    function setCodigoBanco($codigoBanco) {
+    public function setCodigoBanco($codigoBanco) {
         $this->codigoBanco = $codigoBanco;
         return $this;
     }
 
-    function setCodigoConvenio($codigoConvenio) {
+    public function setCodigoConvenio($codigoConvenio) {
         $this->codigoConvenio = $codigoConvenio;
         return $this;
     }
