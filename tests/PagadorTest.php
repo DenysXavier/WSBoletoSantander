@@ -121,4 +121,19 @@ class PagadorTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($validParam, $obj->getUF());
     }
 
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     */
+    public function oArrayExportadoDevePossuirAsMesmasChavesUtilizadasPeloWSdoBanco() {
+        $chavePagador = array("PAGADOR.TP-DOC", "PAGADOR.NUM-DOC", "PAGADOR.NOME", "PAGADOR.ENDER", "PAGADOR.BAIRRO", "PAGADOR.CIDADE", "PAGADOR.UF", "PAGADOR.CEP");
+
+        $pagadorObj = new Pagador();
+        $export = $pagadorObj->exportarArray();
+
+        foreach ($chavePagador as $chave) {
+            $this->assertArrayHasKey($chave, $export);
+        }
+    }
+
 }

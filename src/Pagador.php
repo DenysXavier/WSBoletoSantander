@@ -23,7 +23,7 @@ namespace TIExpert\WSBoletoSantander;
  * 
  * @author Denys Xavier <equipe@tiexpert.net>
  */
-class Pagador {
+class Pagador implements PropriedadesExportaveisParaArrayInterface {
 
     /** property int $tipoDoc Tipo de Documento do Pagador */
     private $tipoDoc;
@@ -213,6 +213,22 @@ class Pagador {
     public function setCEP($CEP) {
         $this->CEP = $CEP;
         return $this;
+    }
+
+    /** Exporta um array associativo no qual as chaves são as propriedades representadas como no WebService do Santander
+     * 
+     * @return array
+     */
+    public function exportarArray() {
+        $array["PAGADOR.TP-DOC"] = $this->tipoDoc;
+        $array["PAGADOR.NUM-DOC"] = $this->numeroDoc;
+        $array["PAGADOR.NOME"] = $this->nome;
+        $array["PAGADOR.ENDER"] = $this->endereco;
+        $array["PAGADOR.BAIRRO"] = $this->bairro;
+        $array["PAGADOR.CIDADE"] = $this->cidade;
+        $array["PAGADOR.UF"] = $this->UF;
+        $array["PAGADOR.CEP"] = $this->CEP;
+        return $array;
     }
 
 }
