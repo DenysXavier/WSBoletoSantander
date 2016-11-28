@@ -23,12 +23,18 @@ namespace TIExpert\WSBoletoSantander;
  * @author Denys Xavier <equipe@tiexpert.net>
  */
 class Util {
-
+/** Tenta converter um parâmetro do tipo string para um objeto \DateTime. Se o parâmetro for um objeto DateTime ou NULL, o próprio parâmetro é retornado.
+ * 
+ * @param \DateTime $param Parâmetro que será convertido
+ * @return \DateTime
+ * @throws \Exception
+ * @throws \InvalidArgumentException
+ */
     public static function converterParaDateTime($param) {
         try {
             if (is_string($param)) {
                 return new \DateTime($param);
-            } else if ($param instanceof \DateTime) {
+            } else if ($param instanceof \DateTime || is_null($param)) {
                 return $param;
             }
 

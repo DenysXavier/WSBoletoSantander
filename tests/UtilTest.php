@@ -56,6 +56,14 @@ class UtilTest extends \PHPUnit_Framework_TestCase {
     /**
      * @author Denys Xavier <equipe@tiexpert.net>
      * @test
+     */
+    public function seOParametroUsadoAoConverterParaDateTimeForNuloEntaoOProprioParametroEhRetornado() {
+        $this->assertNull(Util::converterParaDateTime(NULL));
+    }
+
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
      * @expectedException InvalidArgumentException
      */
     public function seOParametroUsadoAoConverterParaDateTimeNaoForStringOuDateTimeEntaoUmaExcecaoDeveSerLancada() {
