@@ -18,7 +18,8 @@
 
 namespace TIExpert\WSBoletoSantander;
 
-/**
+/** Classe utilitária de responsabilidades diversas
+ * 
  * @author Denys Xavier <equipe@tiexpert.net>
  */
 class Util {
@@ -32,7 +33,7 @@ class Util {
             }
 
             throw new \InvalidArgumentException("Não é possível converter parâmetro " . gettype($param) . " para uma data válida.");
-        } catch (Exception $ex) {
+        } catch (\Exception $ex) {
             throw $ex;
         }
     }

@@ -18,6 +18,10 @@
 
 namespace TIExpert\WSBoletoSantander;
 
+/** Classe que representa os dados de um título de boleto a ser utilizado no WebService do banco Santander
+ * 
+ * @author Denys Xavier <equipe@tiexpert.net>
+ */
 class Titulo {
 
     /** @property string $nossoNumero Número do Título no Banco. */
@@ -123,7 +127,7 @@ class Titulo {
      * 
      * @return string
      */
-    function getNossoNumero() {
+    public function getNossoNumero() {
         return $this->nossoNumero;
     }
 
@@ -131,7 +135,7 @@ class Titulo {
      * 
      * @return string
      */
-    function getSeuNumero() {
+    public function getSeuNumero() {
         return $this->seuNumero;
     }
 
@@ -139,7 +143,7 @@ class Titulo {
      * 
      * @return \DateTime
      */
-    function getDataVencimento() {
+    public function getDataVencimento() {
         return $this->dataVencimento;
     }
 
@@ -147,7 +151,7 @@ class Titulo {
      * 
      * @return \DateTime
      */
-    function getDataEmissao() {
+    public function getDataEmissao() {
         return $this->dataEmissao;
     }
 
@@ -155,7 +159,7 @@ class Titulo {
      * 
      * @return int
      */
-    function getEspecie() {
+    public function getEspecie() {
         return $this->especie;
     }
 
@@ -163,7 +167,7 @@ class Titulo {
      * 
      * @return float
      */
-    function getValor() {
+    public function getValor() {
         return $this->valor;
     }
 
@@ -171,7 +175,7 @@ class Titulo {
      * 
      * @return float
      */
-    function getMulta() {
+    public function getMulta() {
         return $this->multa;
     }
 
@@ -179,7 +183,7 @@ class Titulo {
      * 
      * @return int
      */
-    function getMultarApos() {
+    public function getMultarApos() {
         return $this->multarApos;
     }
 
@@ -187,7 +191,7 @@ class Titulo {
      * 
      * @return float
      */
-    function getJuros() {
+    public function getJuros() {
         return $this->juros;
     }
 
@@ -195,7 +199,7 @@ class Titulo {
      * 
      * @return int
      */
-    function getTipoDesconto() {
+    public function getTipoDesconto() {
         return $this->tipoDesconto;
     }
 
@@ -203,7 +207,7 @@ class Titulo {
      * 
      * @return type
      */
-    function getValorDesconto() {
+    public function getValorDesconto() {
         return $this->valorDesconto;
     }
 
@@ -211,7 +215,7 @@ class Titulo {
      * 
      * @return \DateTime
      */
-    function getDataLimiteDesconto() {
+    public function getDataLimiteDesconto() {
         return $this->dataLimiteDesconto;
     }
 
@@ -219,7 +223,7 @@ class Titulo {
      * 
      * @return float
      */
-    function getValorAbatimento() {
+    public function getValorAbatimento() {
         return $this->valorAbatimento;
     }
 
@@ -227,7 +231,7 @@ class Titulo {
      * 
      * @return int
      */
-    function getTipoProtesto() {
+    public function getTipoProtesto() {
         return $this->tipoProtesto;
     }
 
@@ -235,7 +239,7 @@ class Titulo {
      * 
      * @return int
      */
-    function getProtestarApos() {
+    public function getProtestarApos() {
         return $this->protestarApos;
     }
 
@@ -243,7 +247,7 @@ class Titulo {
      * 
      * @return int
      */
-    function getBaixarApos() {
+    public function getBaixarApos() {
         return $this->baixarApos;
     }
 
@@ -251,7 +255,7 @@ class Titulo {
      * 
      * @return string
      */
-    function getMensagem() {
+    public function getMensagem() {
         return $this->mensagem;
     }
 
@@ -260,7 +264,7 @@ class Titulo {
      * @param string $nossoNumero Número do Título no Banco.
      * @return \TIExpert\WSBoletoSantander\Titulo
      */
-    function setNossoNumero($nossoNumero) {
+    public function setNossoNumero($nossoNumero) {
         $this->nossoNumero = $nossoNumero;
         return $this;
     }
@@ -270,7 +274,7 @@ class Titulo {
      * @param string $seuNumero Número do Título no cliente.
      * @return \TIExpert\WSBoletoSantander\Titulo
      */
-    function setSeuNumero($seuNumero) {
+    public function setSeuNumero($seuNumero) {
         $this->seuNumero = $seuNumero;
         return $this;
     }
@@ -280,10 +284,10 @@ class Titulo {
      * @param \DateTime $dataVencimento Data de vencimento do título.
      * @return \TIExpert\WSBoletoSantander\Titulo
      */
-    function setDataVencimento($dataVencimento) {
+    public function setDataVencimento($dataVencimento) {
         try {
             $this->dataVencimento = Util::converterParaDateTime($dataVencimento);
-        } catch (Exception $ex) {
+        } catch (\Exception $ex) {
             throw $ex;
         }
         return $this;
@@ -294,10 +298,10 @@ class Titulo {
      * @param \DateTime $dataEmissao Data de emissão do Título.
      * @return \TIExpert\WSBoletoSantander\Titulo
      */
-    function setDataEmissao($dataEmissao) {
+    public function setDataEmissao($dataEmissao) {
         try {
             $this->dataEmissao = Util::converterParaDateTime($dataEmissao);
-        } catch (Exception $ex) {
+        } catch (\Exception $ex) {
             throw $ex;
         }
         return $this;
@@ -308,7 +312,7 @@ class Titulo {
      * @param int $especie Código da Espécie do Documento.
      * @return \TIExpert\WSBoletoSantander\Titulo
      */
-    function setEspecie($especie) {
+    public function setEspecie($especie) {
         $this->especie = $especie;
         return $this;
     }
@@ -318,7 +322,7 @@ class Titulo {
      * @param float $valor Valor nominal do título, com 2 casas decimais.
      * @return \TIExpert\WSBoletoSantander\Titulo
      */
-    function setValor($valor) {
+    public function setValor($valor) {
         $this->valor = $valor;
         return $this;
     }
@@ -328,7 +332,7 @@ class Titulo {
      * @param float $multa Percentual da multa, com 2 decimais.
      * @return \TIExpert\WSBoletoSantander\Titulo
      */
-    function setMulta($multa) {
+    public function setMulta($multa) {
         $this->multa = $multa;
         return $this;
     }
@@ -338,7 +342,7 @@ class Titulo {
      * @param int $multarApos Quantidade de dias após o vencimento do título para incidência da multa.
      * @return \TIExpert\WSBoletoSantander\Titulo
      */
-    function setMultarApos($multarApos) {
+    public function setMultarApos($multarApos) {
         $this->multarApos = $multarApos;
         return $this;
     }
@@ -348,7 +352,7 @@ class Titulo {
      * @param float $juros Percentual de juros com 2 decimais.
      * @return \TIExpert\WSBoletoSantander\Titulo
      */
-    function setJuros($juros) {
+    public function setJuros($juros) {
         $this->juros = $juros;
         return $this;
     }
@@ -358,7 +362,7 @@ class Titulo {
      * @param int $tipoDesconto Tipo de desconto a ser aplicado. Sendo: 0 = isento; 1 = Valor fixo até a data informada; 2 = Percentual até a data informada; 3 = Valor por antecipação dia corrido.
      * @return \TIExpert\WSBoletoSantander\Titulo
      */
-    function setTipoDesconto($tipoDesconto) {
+    public function setTipoDesconto($tipoDesconto) {
         $this->tipoDesconto = $tipoDesconto;
         return $this;
     }
@@ -368,7 +372,7 @@ class Titulo {
      * @param float $valorDesconto Valor ou percentual de desconto com 2 casas decimais.
      * @return \TIExpert\WSBoletoSantander\Titulo
      */
-    function setValorDesconto($valorDesconto) {
+    public function setValorDesconto($valorDesconto) {
         $this->valorDesconto = $valorDesconto;
         return $this;
     }
@@ -378,10 +382,10 @@ class Titulo {
      * @param \DateTime $dataLimiteDesconto Data limite para Desconto.
      * @return \TIExpert\WSBoletoSantander\Titulo
      */
-    function setDataLimiteDesconto($dataLimiteDesconto) {
+    public function setDataLimiteDesconto($dataLimiteDesconto) {
         try {
             $this->dataLimiteDesconto = Util::converterParaDateTime($dataLimiteDesconto);
-        } catch (Exception $ex) {
+        } catch (\Exception $ex) {
             throw $ex;
         }
         return $this;
@@ -392,7 +396,7 @@ class Titulo {
      * @param float $valorAbatimento Valor do abatimento.
      * @return \TIExpert\WSBoletoSantander\Titulo
      */
-    function setValorAbatimento($valorAbatimento) {
+    public function setValorAbatimento($valorAbatimento) {
         $this->valorAbatimento = $valorAbatimento;
         return $this;
     }
@@ -402,7 +406,7 @@ class Titulo {
      * @param int $tipoProtesto Tipo de protesto a ser adotado. Sendo: 0 = Nao Protestar; 1 = Protestar dias corridos; 2 = Protestar dias úteis; 3 = Utilizar Perfil Cedente.
      * @return \TIExpert\WSBoletoSantander\Titulo
      */
-    function setTipoProtesto($tipoProtesto) {
+    public function setTipoProtesto($tipoProtesto) {
         $this->tipoProtesto = $tipoProtesto;
         return $this;
     }
@@ -412,7 +416,7 @@ class Titulo {
      * @param int $protestarApos Quantidade de dias após o vencimento para protesto.
      * @return \TIExpert\WSBoletoSantander\Titulo
      */
-    function setProtestarApos($protestarApos) {
+    public function setProtestarApos($protestarApos) {
         $this->protestarApos = $protestarApos;
         return $this;
     }
@@ -422,7 +426,7 @@ class Titulo {
      * @param int $baixarApos Quantidade de dias após o vencimento para baixa/devolução do título.
      * @return \TIExpert\WSBoletoSantander\Titulo
      */
-    function setBaixarApos($baixarApos) {
+    public function setBaixarApos($baixarApos) {
         $this->baixarApos = $baixarApos;
         return $this;
     }
@@ -432,7 +436,7 @@ class Titulo {
      * @param string $mensagem Mensagem do boleto.
      * @return \TIExpert\WSBoletoSantander\Titulo
      */
-    function setMensagem($mensagem) {
+    public function setMensagem($mensagem) {
         $this->mensagem = $mensagem;
         return $this;
     }
