@@ -42,38 +42,11 @@ class Titulo {
     /** @property float $valor Valor nominal do título, com 2 casas decimais. */
     private $valor;
 
-    /** @property float $multa Percentual da multa com 2 decimais. Opcional. */
-    private $multa;
-
-    /** @property int $multarApos Quantidade de dias após o vencimento do título para incidência da multa. Opcional. */
-    private $multarApos;
-
-    /** @property float $juros Percentual de juros com 2 decimais. Opcional. */
-    private $juros;
-
-    /** @property int $tipoDesconto Tipo de desconto a ser aplicado. Sendo: 0 = isento; 1 = Valor fixo até a data informada; 2 = Percentual até a data informada; 3 = Valor por antecipação dia corrido. */
-    private $tipoDesconto;
-
-    /** @property float $valorDesconto Valor ou percentual de desconto, com 2 casas decimais. */
-    private $valorDesconto;
-
-    /** @property \DateTime $dataLimiteDesconto Data limite para Desconto. */
-    private $dataLimiteDesconto;
-
-    /** @property float $valorAbatimento Valor do abatimento. Opcional. */
-    private $valorAbatimento;
-
-    /** @property int $tipoProtesto Tipo de protesto a ser adotado. Sendo: 0 = Nao Protestar; 1 = Protestar dias corridos; 2 = Protestar dias úteis; 3 = Utilizar Perfil Cedente. */
-    private $tipoProtesto;
-
-    /** @property int $protestarApos Quantidade de dias após o vencimento para protesto. */
-    private $protestarApos;
-
-    /** @property int $baixarApos Quantidade de dias após o vencimento para baixa/devolução do título. */
-    private $baixarApos;
-
     /** @property string $mensagem Mensagem do boleto. */
     private $mensagem;
+
+    /** @property InstrucoesDeTitulo $instrucoes Instruções do que o banco Santander deve fazer com o título bancário. */
+    private $instrucoes;
 
     /** Cria uma nova instância de Titulo
      * 
@@ -83,19 +56,10 @@ class Titulo {
      * @param \DateTime $dataVencimento Data de vencimento do título.
      * @param string $mensagem Mensagem do boleto.
      * @param \DateTime $dataEmissao Data de emissão do Título.
-     * @param int $especie Código da Espécie do Documento.     
-     * @param float $multa Percentual da multa com 2 decimais.
-     * @param int $multarApos Quantidade de dias após o vencimento do título para incidência da multa.
-     * @param float $juros Percentual de juros com 2 decimais.
-     * @param int $tipoDesconto Tipo de desconto a ser aplicado.
-     * @param float $valorDesconto Valor ou percentual de desconto, com 2 casas decimais.
-     * @param \DateTime $dataLimiteDesconto Data limite para Desconto.
-     * @param float $valorAbatimento Valor do abatimento.
-     * @param int $tipoProtesto Tipo de protesto a ser adotado.
-     * @param int $protestarApos Quantidade de dias após o vencimento para protesto.
-     * @param int $baixarApos Quantidade de dias após o vencimento para baixa/devolução do título.   
+     * @param int $especie Código da Espécie do Documento.      
+     * @param \TIExpert\WSBoletoSantander\InstrucoesDeTitulo $instrucoes Instruções do que o banco Santander deve fazer com o título bancário.
      */
-    public function __construct($valor, $nossoNumero, $seuNumero, $dataVencimento, $mensagem, $dataEmissao, $especie, $multa, $multarApos, $juros, $tipoDesconto, $valorDesconto, $dataLimiteDesconto, $valorAbatimento, $tipoProtesto, $protestarApos, $baixarApos) {
+    public function __construct($valor, $nossoNumero, $seuNumero = NULL, $dataVencimento = NULL, $mensagem = NULL, $dataEmissao = NULL, $especie = NULL, InstrucoesDeTitulo $instrucoes = NULL) {
         if (is_null($dataVencimento)) {
             $dataVencimento = new \DateTime();
         }
@@ -111,16 +75,7 @@ class Titulo {
         $this->setDataEmissao($dataEmissao);
         $this->setEspecie($especie);
         $this->setValor($valor);
-        $this->setMulta($multa);
-        $this->setMultarApos($multarApos);
-        $this->setJuros($juros);
-        $this->setTipoDesconto($tipoDesconto);
-        $this->setValorDesconto($valorDesconto);
-        $this->setDataLimiteDesconto($dataLimiteDesconto);
-        $this->setValorAbatimento($valorAbatimento);
-        $this->setTipoProtesto($tipoProtesto);
-        $this->setProtestarApos($protestarApos);
-        $this->setBaixarApos($baixarApos);
+        $this->setInstrucoes($instrucoes);
     }
 
     /** Obtém o número do título no banco.
@@ -171,92 +126,20 @@ class Titulo {
         return $this->valor;
     }
 
-    /** Obtém o percentual da multa, com 2 decimais.
-     * 
-     * @return float
-     */
-    public function getMulta() {
-        return $this->multa;
-    }
-
-    /** Obtém a quantidade de dias após o vencimento do título para incidência da multa.
-     * 
-     * @return int
-     */
-    public function getMultarApos() {
-        return $this->multarApos;
-    }
-
-    /** Obtém o percentual de juros com 2 decimais.
-     * 
-     * @return float
-     */
-    public function getJuros() {
-        return $this->juros;
-    }
-
-    /** Obtém o tipo de desconto a ser aplicado.
-     * 
-     * @return int
-     */
-    public function getTipoDesconto() {
-        return $this->tipoDesconto;
-    }
-
-    /** Obtém o valor ou percentual de desconto com 2 casas decimais.
-     * 
-     * @return type
-     */
-    public function getValorDesconto() {
-        return $this->valorDesconto;
-    }
-
-    /** Obtém a data limite para Desconto.
-     * 
-     * @return \DateTime
-     */
-    public function getDataLimiteDesconto() {
-        return $this->dataLimiteDesconto;
-    }
-
-    /** Obtém o valor do abatimento.
-     * 
-     * @return float
-     */
-    public function getValorAbatimento() {
-        return $this->valorAbatimento;
-    }
-
-    /** Obtém o tipo de protesto a ser adotado.
-     * 
-     * @return int
-     */
-    public function getTipoProtesto() {
-        return $this->tipoProtesto;
-    }
-
-    /** Obtém a quantidade de dias após o vencimento para protesto.
-     * 
-     * @return int
-     */
-    public function getProtestarApos() {
-        return $this->protestarApos;
-    }
-
-    /** Obtém a quantidade de dias após o vencimento para baixa/devolução do título.
-     * 
-     * @return int
-     */
-    public function getBaixarApos() {
-        return $this->baixarApos;
-    }
-
     /** Obtém a mensagem do boleto.
      * 
      * @return string
      */
     public function getMensagem() {
         return $this->mensagem;
+    }
+
+    /** Obtém as instruções do que o banco Santander deve fazer com o título bancário.
+     * 
+     * @return InstrucoesDeTitulo
+     */
+    public function getInstrucoes() {
+        return $this->instrucoes;
     }
 
     /** Determina o número do título no banco.
@@ -327,107 +210,13 @@ class Titulo {
         return $this;
     }
 
-    /** Determina o percentual da multa, com 2 decimais.
+    /** Determina as instruções do que o banco Santander deve fazer com o título bancário.
      * 
-     * @param float $multa Percentual da multa, com 2 decimais.
+     * @param \TIExpert\WSBoletoSantander\InstrucoesDeTitulo $instrucoes
      * @return \TIExpert\WSBoletoSantander\Titulo
      */
-    public function setMulta($multa) {
-        $this->multa = $multa;
-        return $this;
-    }
-
-    /** Determina a quantidade de dias após o vencimento do título para incidência da multa.
-     * 
-     * @param int $multarApos Quantidade de dias após o vencimento do título para incidência da multa.
-     * @return \TIExpert\WSBoletoSantander\Titulo
-     */
-    public function setMultarApos($multarApos) {
-        $this->multarApos = $multarApos;
-        return $this;
-    }
-
-    /** Determina o percentual de juros, com 2 decimais.
-     * 
-     * @param float $juros Percentual de juros com 2 decimais.
-     * @return \TIExpert\WSBoletoSantander\Titulo
-     */
-    public function setJuros($juros) {
-        $this->juros = $juros;
-        return $this;
-    }
-
-    /** Determina o tipo de desconto a ser aplicado.
-     * 
-     * @param int $tipoDesconto Tipo de desconto a ser aplicado. Sendo: 0 = isento; 1 = Valor fixo até a data informada; 2 = Percentual até a data informada; 3 = Valor por antecipação dia corrido.
-     * @return \TIExpert\WSBoletoSantander\Titulo
-     */
-    public function setTipoDesconto($tipoDesconto) {
-        $this->tipoDesconto = $tipoDesconto;
-        return $this;
-    }
-
-    /** Determina o valor ou percentual de desconto com 2 casas decimais.
-     * 
-     * @param float $valorDesconto Valor ou percentual de desconto com 2 casas decimais.
-     * @return \TIExpert\WSBoletoSantander\Titulo
-     */
-    public function setValorDesconto($valorDesconto) {
-        $this->valorDesconto = $valorDesconto;
-        return $this;
-    }
-
-    /** Determina a data limite para Desconto.
-     * 
-     * @param \DateTime $dataLimiteDesconto Data limite para Desconto.
-     * @return \TIExpert\WSBoletoSantander\Titulo
-     */
-    public function setDataLimiteDesconto($dataLimiteDesconto) {
-        try {
-            $this->dataLimiteDesconto = Util::converterParaDateTime($dataLimiteDesconto);
-        } catch (\Exception $ex) {
-            throw $ex;
-        }
-        return $this;
-    }
-
-    /** Determina o valor do abatimento.
-     * 
-     * @param float $valorAbatimento Valor do abatimento.
-     * @return \TIExpert\WSBoletoSantander\Titulo
-     */
-    public function setValorAbatimento($valorAbatimento) {
-        $this->valorAbatimento = $valorAbatimento;
-        return $this;
-    }
-
-    /** Determina o tipo de protesto a ser adotado.
-     * 
-     * @param int $tipoProtesto Tipo de protesto a ser adotado. Sendo: 0 = Nao Protestar; 1 = Protestar dias corridos; 2 = Protestar dias úteis; 3 = Utilizar Perfil Cedente.
-     * @return \TIExpert\WSBoletoSantander\Titulo
-     */
-    public function setTipoProtesto($tipoProtesto) {
-        $this->tipoProtesto = $tipoProtesto;
-        return $this;
-    }
-
-    /** Determina a quantidade de dias após o vencimento para protesto.
-     * 
-     * @param int $protestarApos Quantidade de dias após o vencimento para protesto.
-     * @return \TIExpert\WSBoletoSantander\Titulo
-     */
-    public function setProtestarApos($protestarApos) {
-        $this->protestarApos = $protestarApos;
-        return $this;
-    }
-
-    /** Determina a quantidade de dias após o vencimento para baixa/devolução do título.
-     * 
-     * @param int $baixarApos Quantidade de dias após o vencimento para baixa/devolução do título.
-     * @return \TIExpert\WSBoletoSantander\Titulo
-     */
-    public function setBaixarApos($baixarApos) {
-        $this->baixarApos = $baixarApos;
+    public function setInstrucoes(InstrucoesDeTitulo $instrucoes = NULL) {
+        $this->instrucoes = $instrucoes;
         return $this;
     }
 
