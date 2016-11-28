@@ -25,6 +25,13 @@ use TIExpert\WSBoletoSantander\Pagador;
  */
 class PagadorTest extends PHPUnit_Framework_TestCase {
 
+    private static $pagadorObj;
+
+    public static function setUpBeforeClass() {
+        parent::setUpBeforeClass();
+        self::$pagadorObj = new Pagador();
+    }
+
     /**
      * @author Denys Xavier <equipe@tiexpert.net>
      * @test
@@ -32,9 +39,8 @@ class PagadorTest extends PHPUnit_Framework_TestCase {
     public function testeAcessorDaPropriedadeBairro() {
         $validParam = "Centro";
 
-        $obj = new Pagador();
-        $obj->setBairro($validParam);
-        $this->assertEquals($validParam, $obj->getBairro());
+        self::$pagadorObj->setBairro($validParam);
+        $this->assertEquals($validParam, self::$pagadorObj->getBairro());
     }
 
     /**
@@ -44,9 +50,8 @@ class PagadorTest extends PHPUnit_Framework_TestCase {
     public function testeAcessorDaPropriedadeCEP() {
         $validParam = "01001-001";
 
-        $obj = new Pagador();
-        $obj->setCEP($validParam);
-        $this->assertEquals($validParam, $obj->getCEP());
+        self::$pagadorObj->setCEP($validParam);
+        $this->assertEquals($validParam, self::$pagadorObj->getCEP());
     }
 
     /**
@@ -56,9 +61,8 @@ class PagadorTest extends PHPUnit_Framework_TestCase {
     public function testeAcessorDaPropriedadeCidade() {
         $validParam = "São Paulo";
 
-        $obj = new Pagador();
-        $obj->setCidade($validParam);
-        $this->assertEquals($validParam, $obj->getCidade());
+        self::$pagadorObj->setCidade($validParam);
+        $this->assertEquals($validParam, self::$pagadorObj->getCidade());
     }
 
     /**
@@ -68,9 +72,8 @@ class PagadorTest extends PHPUnit_Framework_TestCase {
     public function testeAcessorDaPropriedadeEndereco() {
         $validParam = "Praça da Sé, S/N";
 
-        $obj = new Pagador();
-        $obj->setEndereco($validParam);
-        $this->assertEquals($validParam, $obj->getEndereco());
+        self::$pagadorObj->setEndereco($validParam);
+        $this->assertEquals($validParam, self::$pagadorObj->getEndereco());
     }
 
     /**
@@ -80,9 +83,8 @@ class PagadorTest extends PHPUnit_Framework_TestCase {
     public function testeAcessorDaPropriedadeNome() {
         $validParam = "Fulano da Silva";
 
-        $obj = new Pagador();
-        $obj->setNome($validParam);
-        $this->assertEquals($validParam, $obj->getNome());
+        self::$pagadorObj->setNome($validParam);
+        $this->assertEquals($validParam, self::$pagadorObj->getNome());
     }
 
     /**
@@ -92,9 +94,8 @@ class PagadorTest extends PHPUnit_Framework_TestCase {
     public function testeAcessorDaPropriedadeNumeroDoc() {
         $validParam = "123456789";
 
-        $obj = new Pagador();
-        $obj->setNumeroDoc($validParam);
-        $this->assertEquals($validParam, $obj->getNumeroDoc());
+        self::$pagadorObj->setNumeroDoc($validParam);
+        $this->assertEquals($validParam, self::$pagadorObj->getNumeroDoc());
     }
 
     /**
@@ -104,9 +105,8 @@ class PagadorTest extends PHPUnit_Framework_TestCase {
     public function testeAcessorDaPropriedadeTipoDoc() {
         $validParam = 1;
 
-        $obj = new Pagador();
-        $obj->setTipoDoc($validParam);
-        $this->assertEquals($validParam, $obj->getTipoDoc());
+        self::$pagadorObj->setTipoDoc($validParam);
+        $this->assertEquals($validParam, self::$pagadorObj->getTipoDoc());
     }
 
     /**
@@ -116,9 +116,8 @@ class PagadorTest extends PHPUnit_Framework_TestCase {
     public function testeAcessorDaPropriedadeUF() {
         $validParam = "SP";
 
-        $obj = new Pagador();
-        $obj->setUF($validParam);
-        $this->assertEquals($validParam, $obj->getUF());
+        self::$pagadorObj->setUF($validParam);
+        $this->assertEquals($validParam, self::$pagadorObj->getUF());
     }
 
     /**
