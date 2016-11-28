@@ -18,9 +18,6 @@
 
 namespace TIExpert\WSBoletoSantander;
 
-use TIExpert\WSBoletoSantander\Config;
-use TIExpert\WSBoletoSantander\PropriedadesExportaveisParaArrayInterface;
-
 /**
  * Classe que representa o convênio usado na confecção do boleto
  *
