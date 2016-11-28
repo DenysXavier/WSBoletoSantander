@@ -25,11 +25,11 @@ use TIExpert\WSBoletoSantander\InstrucoesDeTitulo;
  */
 class InstrucoesDeTituloTest extends PHPUnit_Framework_TestCase {
 
-    private $instrucoesObj;
+    private static $instrucoesObj;
 
-    protected function setUp() {
-        parent::setUp();
-        $this->instrucoesObj = new InstrucoesDeTitulo();
+    public static function setUpBeforeClass() {
+        parent::setUpBeforeClass();
+        self::$instrucoesObj = new InstrucoesDeTitulo();
     }
 
     /**
@@ -39,8 +39,8 @@ class InstrucoesDeTituloTest extends PHPUnit_Framework_TestCase {
     public function testeAcessorDaPropriedadeMulta() {
         $validParam = 100.99;
 
-        $this->instrucoesObj->setMulta($validParam);
-        $this->assertEquals($validParam, $this->instrucoesObj->getMulta());
+        self::$instrucoesObj->setMulta($validParam);
+        $this->assertEquals($validParam, self::$instrucoesObj->getMulta());
     }
 
     /**
@@ -50,8 +50,8 @@ class InstrucoesDeTituloTest extends PHPUnit_Framework_TestCase {
     public function testeAcessorDaPropriedadeMultarApos() {
         $validParam = 99;
 
-        $this->instrucoesObj->setMultarApos($validParam);
-        $this->assertEquals($validParam, $this->instrucoesObj->getMultarApos());
+        self::$instrucoesObj->setMultarApos($validParam);
+        $this->assertEquals($validParam, self::$instrucoesObj->getMultarApos());
     }
 
     /**
@@ -61,8 +61,8 @@ class InstrucoesDeTituloTest extends PHPUnit_Framework_TestCase {
     public function testeAcessorDaPropriedadeJuros() {
         $validParam = 105.02;
 
-        $this->instrucoesObj->setJuros($validParam);
-        $this->assertEquals($validParam, $this->instrucoesObj->getJuros());
+        self::$instrucoesObj->setJuros($validParam);
+        $this->assertEquals($validParam, self::$instrucoesObj->getJuros());
     }
 
     /**
@@ -72,8 +72,8 @@ class InstrucoesDeTituloTest extends PHPUnit_Framework_TestCase {
     public function testeAcessorDaPropriedadeTipoDesconto() {
         $validParam = 0;
 
-        $this->instrucoesObj->setTipoDesconto($validParam);
-        $this->assertEquals($validParam, $this->instrucoesObj->getTipoDesconto());
+        self::$instrucoesObj->setTipoDesconto($validParam);
+        $this->assertEquals($validParam, self::$instrucoesObj->getTipoDesconto());
     }
 
     /**
@@ -83,8 +83,8 @@ class InstrucoesDeTituloTest extends PHPUnit_Framework_TestCase {
     public function testeAcessorDaPropriedadeValorDesconto() {
         $validParam = 12000.01;
 
-        $this->instrucoesObj->setValorDesconto($validParam);
-        $this->assertEquals($validParam, $this->instrucoesObj->getValorDesconto());
+        self::$instrucoesObj->setValorDesconto($validParam);
+        $this->assertEquals($validParam, self::$instrucoesObj->getValorDesconto());
     }
 
     /**
@@ -94,8 +94,8 @@ class InstrucoesDeTituloTest extends PHPUnit_Framework_TestCase {
     public function testeAcessorDaPropriedadeDataLimiteDesconto() {
         $validParam = new \DateTime("2016-11-28");
 
-        $this->instrucoesObj->setDataLimiteDesconto($validParam);
-        $this->assertEquals($validParam, $this->instrucoesObj->getDataLimiteDesconto());
+        self::$instrucoesObj->setDataLimiteDesconto($validParam);
+        $this->assertEquals($validParam, self::$instrucoesObj->getDataLimiteDesconto());
     }
 
     /**
@@ -106,7 +106,7 @@ class InstrucoesDeTituloTest extends PHPUnit_Framework_TestCase {
     public function testeAcessorDaPropriedadeDataLimiteDescontoComParametroInvalido() {
         $invalidParam = array();
 
-        $this->instrucoesObj->setDataLimiteDesconto($invalidParam);
+        self::$instrucoesObj->setDataLimiteDesconto($invalidParam);
     }
 
     /**
@@ -116,8 +116,8 @@ class InstrucoesDeTituloTest extends PHPUnit_Framework_TestCase {
     public function testeAcessorDaPropriedadeValorAbatimento() {
         $validParam = 12000.01;
 
-        $this->instrucoesObj->setValorAbatimento($validParam);
-        $this->assertEquals($validParam, $this->instrucoesObj->getValorAbatimento());
+        self::$instrucoesObj->setValorAbatimento($validParam);
+        $this->assertEquals($validParam, self::$instrucoesObj->getValorAbatimento());
     }
 
     /**
@@ -127,8 +127,8 @@ class InstrucoesDeTituloTest extends PHPUnit_Framework_TestCase {
     public function testeAcessorDaPropriedadeTipoProtesto() {
         $validParam = 0;
 
-        $this->instrucoesObj->setTipoProtesto($validParam);
-        $this->assertEquals($validParam, $this->instrucoesObj->getTipoProtesto());
+        self::$instrucoesObj->setTipoProtesto($validParam);
+        $this->assertEquals($validParam, self::$instrucoesObj->getTipoProtesto());
     }
 
     /**
@@ -138,8 +138,8 @@ class InstrucoesDeTituloTest extends PHPUnit_Framework_TestCase {
     public function testeAcessorDaPropriedadeProtestarApos() {
         $validParam = 99;
 
-        $this->instrucoesObj->setProtestarApos($validParam);
-        $this->assertEquals($validParam, $this->instrucoesObj->getProtestarApos());
+        self::$instrucoesObj->setProtestarApos($validParam);
+        $this->assertEquals($validParam, self::$instrucoesObj->getProtestarApos());
     }
 
     /**
@@ -149,8 +149,8 @@ class InstrucoesDeTituloTest extends PHPUnit_Framework_TestCase {
     public function testeAcessorDaPropriedadeBaixarApos() {
         $validParam = 99;
 
-        $this->instrucoesObj->setBaixarApos($validParam);
-        $this->assertEquals($validParam, $this->instrucoesObj->getBaixarApos());
+        self::$instrucoesObj->setBaixarApos($validParam);
+        $this->assertEquals($validParam, self::$instrucoesObj->getBaixarApos());
     }
 
 }
