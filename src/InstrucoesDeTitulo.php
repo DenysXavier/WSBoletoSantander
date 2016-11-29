@@ -22,7 +22,7 @@ namespace TIExpert\WSBoletoSantander;
  * 
  * @author Denys Xavier <equipe@tiexpert.net>
  */
-class InstrucoesDeTitulo {
+class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface {
 
     /** @property float $multa Percentual da multa com 2 decimais. Opcional. */
     private $multa;
@@ -269,6 +269,27 @@ class InstrucoesDeTitulo {
 
         $this->baixarApos = $baixarApos;
         return $this;
+    }
+
+    /** Exporta um array associativo no qual as chaves são as propriedades representadas como no WebService do Santander
+     * 
+     * @return array
+     */
+    public function exportarArray() {
+        $formatoDataPadrao = Config::getInstance()->getGeral("formato_data");
+
+        $array["TITULO.PC-MULTA"] = $this->getMulta();
+        $array["TITULO.QT-DIAS-MULTA"] = $this->getMultarApos();
+        $array["TITULO.PC-JURO"] = $this->getJuros();
+        $array["TITULO.TP-DESC"] = $this->getTipoDesconto();
+        $array["TITULO.VL-DESC"] = $this->getValorDesconto();
+        $array["TITULO.DT-LIMI-DESC"] = $this->getDataLimiteDesconto()->format($formatoDataPadrao);
+        $array["TITULO.VL-ABATIMENTO"] = $this->getValorAbatimento();
+        $array["TITULO.TP-PROTESTO"] = $this->getTipoProtesto();
+        $array["TITULO.QT-DIAS-PROTESTO"] = $this->getProtestarApos();
+        $array["TITULO.QT-DIAS-BAIXA"] = $this->getBaixarApos();
+
+        return $array;
     }
 
 }
