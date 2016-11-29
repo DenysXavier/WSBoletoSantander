@@ -26,11 +26,11 @@ use TIExpert\WSBoletoSantander\InstrucoesDeTitulo;
  */
 class TituloTest extends PHPUnit_Framework_TestCase {
 
-    private $tituloObj;
+    private static $tituloObj;
 
-    protected function setUp() {
-        parent::setUp();
-        $this->tituloObj = new Titulo(100, "000000000");
+    public static function setUpBeforeClass() {
+        parent::setUpBeforeClass();
+        self::$tituloObj = new Titulo(100, "000000000");
     }
 
     /**
@@ -40,8 +40,8 @@ class TituloTest extends PHPUnit_Framework_TestCase {
     public function osValoresPadroesParaDataDeEmissaoEDataDeVencimentoSaoOProprioDia() {
         $dataEsperada = new \DateTime();
 
-        $this->assertEquals($dataEsperada->format("Y-m-d"), $this->tituloObj->getDataEmissao()->format("Y-m-d"));
-        $this->assertEquals($dataEsperada->format("Y-m-d"), $this->tituloObj->getDataVencimento()->format("Y-m-d"));
+        $this->assertEquals($dataEsperada->format("Y-m-d"), self::$tituloObj->getDataEmissao()->format("Y-m-d"));
+        $this->assertEquals($dataEsperada->format("Y-m-d"), self::$tituloObj->getDataVencimento()->format("Y-m-d"));
     }
 
     /**
@@ -50,8 +50,8 @@ class TituloTest extends PHPUnit_Framework_TestCase {
      */
     public function testeAcessorDaPropriedadeNossoNumero() {
         $validParam = "123456789";
-        $this->tituloObj->setNossoNumero($validParam);
-        $this->assertEquals($validParam, $this->tituloObj->getNossoNumero());
+        self::$tituloObj->setNossoNumero($validParam);
+        $this->assertEquals($validParam, self::$tituloObj->getNossoNumero());
     }
 
     /**
@@ -60,8 +60,8 @@ class TituloTest extends PHPUnit_Framework_TestCase {
      */
     public function testeAcessorDaPropriedadeSeuNumero() {
         $validParam = "0123456789ABCDE";
-        $this->tituloObj->setSeuNumero($validParam);
-        $this->assertEquals($validParam, $this->tituloObj->getSeuNumero());
+        self::$tituloObj->setSeuNumero($validParam);
+        $this->assertEquals($validParam, self::$tituloObj->getSeuNumero());
     }
 
     /**
@@ -70,8 +70,8 @@ class TituloTest extends PHPUnit_Framework_TestCase {
      */
     public function testeAcessorDaPropriedadeDataVencimento() {
         $validParam = new \DateTime("2016-11-28");
-        $this->tituloObj->setDataVencimento($validParam);
-        $this->assertEquals($validParam, $this->tituloObj->getDataVencimento());
+        self::$tituloObj->setDataVencimento($validParam);
+        $this->assertEquals($validParam, self::$tituloObj->getDataVencimento());
     }
 
     /**
@@ -81,7 +81,7 @@ class TituloTest extends PHPUnit_Framework_TestCase {
      */
     public function testeAcessorDaPropriedadeDataVencimentoComParametroInvalido() {
         $invalidParam = array();
-        $this->tituloObj->setDataVencimento($invalidParam);
+        self::$tituloObj->setDataVencimento($invalidParam);
     }
 
     /**
@@ -90,8 +90,8 @@ class TituloTest extends PHPUnit_Framework_TestCase {
      */
     public function testeAcessorDaPropriedadeDataEmissao() {
         $validParam = new \DateTime("2016-11-28");
-        $this->tituloObj->setDataEmissao($validParam);
-        $this->assertEquals($validParam, $this->tituloObj->getDataEmissao());
+        self::$tituloObj->setDataEmissao($validParam);
+        $this->assertEquals($validParam, self::$tituloObj->getDataEmissao());
     }
 
     /**
@@ -101,7 +101,7 @@ class TituloTest extends PHPUnit_Framework_TestCase {
      */
     public function testeAcessorDaPropriedadeDataEmissaoComParametroInvalido() {
         $invalidParam = array();
-        $this->tituloObj->setDataEmissao($invalidParam);
+        self::$tituloObj->setDataEmissao($invalidParam);
     }
 
     /**
@@ -110,8 +110,8 @@ class TituloTest extends PHPUnit_Framework_TestCase {
      */
     public function testeAcessorDaPropriedadeEspecie() {
         $validParam = 99;
-        $this->tituloObj->setEspecie($validParam);
-        $this->assertEquals($validParam, $this->tituloObj->getEspecie());
+        self::$tituloObj->setEspecie($validParam);
+        $this->assertEquals($validParam, self::$tituloObj->getEspecie());
     }
 
     /**
@@ -120,8 +120,8 @@ class TituloTest extends PHPUnit_Framework_TestCase {
      */
     public function testeAcessorDaPropriedadeValor() {
         $validParam = 25.50;
-        $this->tituloObj->setValor($validParam);
-        $this->assertEquals($validParam, $this->tituloObj->getValor());
+        self::$tituloObj->setValor($validParam);
+        $this->assertEquals($validParam, self::$tituloObj->getValor());
     }
 
     /**
@@ -130,8 +130,8 @@ class TituloTest extends PHPUnit_Framework_TestCase {
      */
     public function testeAcessorDaPropriedadeMensagem() {
         $validParam = "Mensagem de teste\r\nLinha 1\r\nLinha 2\r\n...";
-        $this->tituloObj->setMensagem($validParam);
-        $this->assertEquals($validParam, $this->tituloObj->getMensagem());
+        self::$tituloObj->setMensagem($validParam);
+        $this->assertEquals($validParam, self::$tituloObj->getMensagem());
     }
 
     /**
@@ -140,8 +140,8 @@ class TituloTest extends PHPUnit_Framework_TestCase {
      */
     public function testeAcessorDaPropriedadeInstrucoes() {
         $validParam = new InstrucoesDeTitulo();
-        $this->tituloObj->setInstrucoes($validParam);
-        $this->assertEquals($validParam, $this->tituloObj->getInstrucoes());
+        self::$tituloObj->setInstrucoes($validParam);
+        $this->assertEquals($validParam, self::$tituloObj->getInstrucoes());
     }
 
 }
