@@ -144,4 +144,18 @@ class TituloTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($validParam, self::$tituloObj->getInstrucoes());
     }
 
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     */
+    public function oArrayExportadoDevePossuirAsMesmasChavesUtilizadasPeloWSdoBanco() {
+        $chaveTitulo = array("TITULO.NOSSO-NUMERO", "TITULO.SEU-NUMERO", "TITULO.DT-VENCTO", "TITULO.DT-EMISSAO", "TITULO.ESPECIE", "TITULO.VL-NOMINAL", "MENSAGEM");
+
+        $export = self::$tituloObj->exportarArray();
+
+        foreach ($chaveTitulo as $chave) {
+            $this->assertArrayHasKey($chave, $export);
+        }
+    }
+
 }

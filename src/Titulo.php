@@ -22,7 +22,7 @@ namespace TIExpert\WSBoletoSantander;
  * 
  * @author Denys Xavier <equipe@tiexpert.net>
  */
-class Titulo {
+class Titulo implements PropriedadesExportaveisParaArrayInterface {
 
     /** @property string $nossoNumero Número do Título no Banco. */
     private $nossoNumero;
@@ -228,6 +228,19 @@ class Titulo {
     public function setMensagem($mensagem) {
         $this->mensagem = $mensagem;
         return $this;
+    }
+
+    public function exportarArray() {
+        $formatoDataPadrao = Config::getInstance()->getGeral("formato_data");
+
+        $array["TITULO.NOSSO-NUMERO"] = $this->getNossoNumero();
+        $array["TITULO.SEU-NUMERO"] = $this->getSeuNumero();
+        $array["TITULO.DT-VENCTO"] = $this->getDataVencimento()->format($formatoDataPadrao);
+        $array["TITULO.DT-EMISSAO"] = $this->getDataEmissao()->format($formatoDataPadrao);
+        $array["TITULO.ESPECIE"] = $this->getEspecie();
+        $array["TITULO.VL-NOMINAL"] = $this->getValor();
+        $array["MENSAGEM"] = $this->getMensagem();
+        return $array;
     }
 
 }
