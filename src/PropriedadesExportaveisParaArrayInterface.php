@@ -27,5 +27,9 @@ namespace TIExpert\WSBoletoSantander;
  */
 interface PropriedadesExportaveisParaArrayInterface {
 
+    /** Exporta um array associativo no qual as chaves são as propriedades representadas como no WebService do Santander
+     * 
+     * @return array
+     */
     public function exportarArray();
 }
