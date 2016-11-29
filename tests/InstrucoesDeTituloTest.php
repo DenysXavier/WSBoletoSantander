@@ -17,9 +17,10 @@
  */
 
 use TIExpert\WSBoletoSantander\InstrucoesDeTitulo;
+use TIExpert\WSBoletoSantander\Config;
 
 /**
- * Testes unitários para a classe Convenio
+ * Testes unitários para a classe InstrucoesDeTitulo
  * 
  * @author Denys Xavier <equipe@tiexpert.net>
  */
@@ -80,11 +81,29 @@ class InstrucoesDeTituloTest extends PHPUnit_Framework_TestCase {
      * @author Denys Xavier <equipe@tiexpert.net>
      * @test
      */
+    public function aoTentarSetarTipoDescontoComoNuloEntaoOValorConfiguradoDeveSerCarregado() {
+        self::$instrucoesObj->setTipoDesconto(NULL);
+        $this->assertEquals(Config::getInstance()->getInstrucao("tipo_desconto"), self::$instrucoesObj->getTipoDesconto());
+    }
+
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     */
     public function testeAcessorDaPropriedadeValorDesconto() {
         $validParam = 12000.01;
 
         self::$instrucoesObj->setValorDesconto($validParam);
         $this->assertEquals($validParam, self::$instrucoesObj->getValorDesconto());
+    }
+
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     */
+    public function aoTentarSetarValorDescontoComoNuloEntaoOValorConfiguradoDeveSerCarregado() {
+        self::$instrucoesObj->setValorDesconto(NULL);
+        $this->assertEquals(Config::getInstance()->getInstrucao("valor_desconto"), self::$instrucoesObj->getValorDesconto());
     }
 
     /**
@@ -113,6 +132,18 @@ class InstrucoesDeTituloTest extends PHPUnit_Framework_TestCase {
      * @author Denys Xavier <equipe@tiexpert.net>
      * @test
      */
+    public function aoTentarSetarDataLimiteDescontoComoNuloEntaoOValorConfiguradoDeveSerCarregado() {
+        self::$instrucoesObj->setDataLimiteDesconto(NULL);
+
+        $dataEsperada = new \DateTime(Config::getInstance()->getInstrucao("data_limite_desconto"));
+
+        $this->assertEquals($dataEsperada, self::$instrucoesObj->getDataLimiteDesconto());
+    }
+
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     */
     public function testeAcessorDaPropriedadeValorAbatimento() {
         $validParam = 12000.01;
 
@@ -135,6 +166,15 @@ class InstrucoesDeTituloTest extends PHPUnit_Framework_TestCase {
      * @author Denys Xavier <equipe@tiexpert.net>
      * @test
      */
+    public function aoTentarSetarTipoProtestoComoNuloEntaoOValorConfiguradoDeveSerCarregado() {
+        self::$instrucoesObj->setTipoProtesto(NULL);
+        $this->assertEquals(Config::getInstance()->getInstrucao("tipo_protesto"), self::$instrucoesObj->getTipoProtesto());
+    }
+
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     */
     public function testeAcessorDaPropriedadeProtestarApos() {
         $validParam = 99;
 
@@ -151,6 +191,15 @@ class InstrucoesDeTituloTest extends PHPUnit_Framework_TestCase {
 
         self::$instrucoesObj->setBaixarApos($validParam);
         $this->assertEquals($validParam, self::$instrucoesObj->getBaixarApos());
+    }
+
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     */
+    public function aoTentarSetarBaixarAposComoNuloEntaoOValorConfiguradoDeveSerCarregado() {
+        self::$instrucoesObj->setBaixarApos(NULL);
+        $this->assertEquals(Config::getInstance()->getInstrucao("baixar_apos"), self::$instrucoesObj->getBaixarApos());
     }
 
 }

@@ -183,6 +183,10 @@ class InstrucoesDeTitulo {
      * @return \TIExpert\WSBoletoSantander\Titulo
      */
     public function setTipoDesconto($tipoDesconto) {
+        if (is_null($tipoDesconto)) {
+            $tipoDesconto = Config::getInstance()->getInstrucao("tipo_desconto");
+        }
+
         $this->tipoDesconto = $tipoDesconto;
         return $this;
     }
@@ -193,6 +197,10 @@ class InstrucoesDeTitulo {
      * @return \TIExpert\WSBoletoSantander\Titulo
      */
     public function setValorDesconto($valorDesconto) {
+        if (is_null($valorDesconto)) {
+            $valorDesconto = Config::getInstance()->getInstrucao("valor_desconto");
+        }
+
         $this->valorDesconto = $valorDesconto;
         return $this;
     }
@@ -203,6 +211,10 @@ class InstrucoesDeTitulo {
      * @return \TIExpert\WSBoletoSantander\Titulo
      */
     public function setDataLimiteDesconto($dataLimiteDesconto) {
+        if (is_null($dataLimiteDesconto)) {
+            $dataLimiteDesconto = Config::getInstance()->getInstrucao("data_limite_desconto");
+        }
+
         try {
             $this->dataLimiteDesconto = Util::converterParaDateTime($dataLimiteDesconto);
         } catch (\Exception $ex) {
@@ -227,6 +239,10 @@ class InstrucoesDeTitulo {
      * @return \TIExpert\WSBoletoSantander\Titulo
      */
     public function setTipoProtesto($tipoProtesto) {
+        if (is_null($tipoProtesto)) {
+            $tipoProtesto = Config::getInstance()->getInstrucao("tipo_protesto");
+        }
+
         $this->tipoProtesto = $tipoProtesto;
         return $this;
     }
@@ -247,6 +263,10 @@ class InstrucoesDeTitulo {
      * @return \TIExpert\WSBoletoSantander\Titulo
      */
     public function setBaixarApos($baixarApos) {
+        if (is_null($baixarApos)) {
+            $baixarApos = Config::getInstance()->getInstrucao("baixar_apos");
+        }
+
         $this->baixarApos = $baixarApos;
         return $this;
     }
