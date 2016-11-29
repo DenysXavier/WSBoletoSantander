@@ -38,7 +38,10 @@ class Config {
             "valor_desconto" => 0,
             "data_limite_desconto" => "now",
             "tipo_protesto" => 0,
-            "baixar_apos" => 0)
+            "baixar_apos" => 0),
+        "geral" => array(
+            "formato_data" => "dmY"
+        )
     );
 
     /** @property Config $instance Ponteiro para a instância única de Config */
@@ -100,6 +103,15 @@ class Config {
      */
     public function getInstrucao($chave) {
         return $this->getOpcao("instrucoes_banco", $chave);
+    }
+
+    /** Obtém o valor da chave informada dentro do grupo geral
+     * 
+     * @param string $chave Nome da chave da qual o valor deve ser retornado
+     * @return mixed
+     */
+    public function getGeral($chave) {
+        return $this->getOpcao("geral", $chave);
     }
 
     /** Obtém o valor da chave informada dentro do grupo informado
