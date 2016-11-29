@@ -134,10 +134,12 @@ class InstrucoesDeTituloTest extends PHPUnit_Framework_TestCase {
      */
     public function aoTentarSetarDataLimiteDescontoComoNuloEntaoOValorConfiguradoDeveSerCarregado() {
         self::$instrucoesObj->setDataLimiteDesconto(NULL);
+        $dataEsperadaObj = new \DateTime(Config::getInstance()->getInstrucao("data_limite_desconto"));
 
-        $dataEsperada = new \DateTime(Config::getInstance()->getInstrucao("data_limite_desconto"));
+        $dataEsperada = $dataEsperadaObj->format("Y-m-d");
+        $resultado = self::$instrucoesObj->getDataLimiteDesconto()->format("Y-m-d");
 
-        $this->assertEquals($dataEsperada, self::$instrucoesObj->getDataLimiteDesconto());
+        $this->assertEquals($dataEsperada, $resultado);
     }
 
     /**
@@ -200,6 +202,20 @@ class InstrucoesDeTituloTest extends PHPUnit_Framework_TestCase {
     public function aoTentarSetarBaixarAposComoNuloEntaoOValorConfiguradoDeveSerCarregado() {
         self::$instrucoesObj->setBaixarApos(NULL);
         $this->assertEquals(Config::getInstance()->getInstrucao("baixar_apos"), self::$instrucoesObj->getBaixarApos());
+    }
+
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     */
+    public function oArrayExportadoDevePossuirAsMesmasChavesUtilizadasPeloWSdoBanco() {
+        $chaveInstrucao = array("TITULO.PC-MULTA", "TITULO.QT-DIAS-MULTA", "TITULO.PC-JURO", "TITULO.TP-DESC", "TITULO.VL-DESC", "TITULO.DT-LIMI-DESC", "TITULO.VL-ABATIMENTO", "TITULO.TP-PROTESTO", "TITULO.QT-DIAS-PROTESTO", "TITULO.QT-DIAS-BAIXA");
+
+        $export = self::$instrucoesObj->exportarArray();
+
+        foreach ($chaveInstrucao as $chave) {
+            $this->assertArrayHasKey($chave, $export);
+        }
     }
 
 }
