@@ -29,8 +29,16 @@ class Config {
     private static $caminhoArquivoConfig = __DIR__ . "/config.ini";
 
     /** @property array $config Array de configurações unificado. */
-    private static $config = array("convenio" => array("banco_padrao" => "0033",
-            "convenio_padrao" => "")
+    private static $config = array(
+        "convenio" => array(
+            "banco_padrao" => "0033",
+            "convenio_padrao" => ""),
+        "instrucoes_banco" => array(
+            "tipo_desconto" => 0,
+            "valor_desconto" => 0,
+            "data_limite_desconto" => "now",
+            "tipo_protesto" => 0,
+            "baixar_apos" => 0)
     );
 
     /** @property Config $instance Ponteiro para a instância única de Config */
@@ -83,6 +91,15 @@ class Config {
      */
     public function getConvenio($chave) {
         return $this->getOpcao("convenio", $chave);
+    }
+
+    /** Obtém o valor da chave informada dentro do grupo instrucoes_banco
+     * 
+     * @param string $chave Nome da chave da qual o valor deve ser retornado
+     * @return mixed
+     */
+    public function getInstrucao($chave) {
+        return $this->getOpcao("instrucoes_banco", $chave);
     }
 
     /** Obtém o valor da chave informada dentro do grupo informado
