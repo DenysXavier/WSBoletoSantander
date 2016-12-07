@@ -40,8 +40,17 @@ class Config {
             "tipo_protesto" => 0,
             "baixar_apos" => 0),
         "geral" => array(
-            "formato_data" => "dmY"
-        )
+            "assegurar_endpoint" => true,
+            "timeout" => 30,
+            "ambiente" => "T",
+            "formato_data" => "dmY",
+            "estacao" => ""),
+        "certificado" => array(
+            "arquivo" => "",
+            "senha" => "",
+            "tipo_arquivo" => "PEM",
+            "diretorio_cas" => "",
+            "arquivo_ca" => "")
     );
 
     /** @property Config $instance Ponteiro para a instância única de Config */
@@ -112,6 +121,15 @@ class Config {
      */
     public function getGeral($chave) {
         return $this->getOpcao("geral", $chave);
+    }
+
+    /** Obtém o valor da chave informada dentro do grupo certificado
+     * 
+     * @param string $chave Nome da chave da qual o valor deve ser retornado
+     * @return mixed
+     */
+    public function getCertificado($chave) {
+        return $this->getOpcao("certificado", $chave);
     }
 
     /** Obtém o valor da chave informada dentro do grupo informado
