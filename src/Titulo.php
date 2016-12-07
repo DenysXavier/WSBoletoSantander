@@ -59,7 +59,7 @@ class Titulo implements PropriedadesExportaveisParaArrayInterface {
      * @param int $especie Código da Espécie do Documento.      
      * @param \TIExpert\WSBoletoSantander\InstrucoesDeTitulo $instrucoes Instruções do que o banco Santander deve fazer com o título bancário.
      */
-    public function __construct($valor, $nossoNumero, $seuNumero = NULL, $dataVencimento = NULL, $mensagem = NULL, $dataEmissao = NULL, $especie = NULL, InstrucoesDeTitulo $instrucoes = NULL) {
+    public function __construct($valor = 0, $nossoNumero = 0, $seuNumero = NULL, $dataVencimento = NULL, $mensagem = NULL, $dataEmissao = NULL, $especie = NULL, InstrucoesDeTitulo $instrucoes = NULL) {
         if (is_null($dataVencimento)) {
             $dataVencimento = new \DateTime();
         }
@@ -239,7 +239,7 @@ class Titulo implements PropriedadesExportaveisParaArrayInterface {
         $array["TITULO.DT-EMISSAO"] = $this->getDataEmissao()->format($formatoDataPadrao);
         $array["TITULO.ESPECIE"] = $this->getEspecie();
         $array["TITULO.VL-NOMINAL"] = $this->getValor();
-        $array["MENSAGEM"] = $this->getMensagem();
+        $array["MENSAGEM"] = wordwrap($this->getMensagem(), 100, "\r\n");
         return $array;
     }
 
