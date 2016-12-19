@@ -3,8 +3,8 @@ php:
   - '5.6'
 sudo: required
 before_install:
-  - sudo apt-get update -qq
   - sudo apt-get install php5-curl
+  - echo "extension = php_curl.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 install: composer install
 after_script:
   - php vendor/bin/coveralls -v
