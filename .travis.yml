@@ -3,8 +3,8 @@ php:
   - '7.0'
 sudo: required
 before_install:
-  - sudo apt-get update
-  - if [[ ${TRAVIS_PHP_VERSION:0:1} != "7" ]]; then sudo apt-get install php5-curl; else sudo apt-get install php7-curl; fi
+  - sudo apt-get update -qq
+  - if [[ ${TRAVIS_PHP_VERSION:0:1} neq "7" ]]; then sudo apt-get install php5-curl; else sudo apt-get install php7-curl; fi
 install: composer install
 after_script:
   - php vendor/bin/coveralls -v
