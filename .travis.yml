@@ -4,11 +4,9 @@ php:
   - '7.0'
   - hhvm
   - nightly
-addons:
-  apt:
-    packages:
-    - php-curl
-    - php-xml
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y php-curl php-xml
 install: composer install
 after_script:
   - php vendor/bin/coveralls -v
