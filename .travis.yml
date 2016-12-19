@@ -6,7 +6,8 @@ php:
   - nightly
 sudo: required
 before_install:
-  - echo "extension = php_curl.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - sudo apt-get update -qq
+  - if [[ ${TRAVIS_PHP_VERSION:0:1} == "7" ]]; then sudo apt-get install -y php7-curl; fi
 install: composer install
 after_script:
   - php vendor/bin/coveralls -v
