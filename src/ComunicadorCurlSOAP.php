@@ -44,7 +44,7 @@ class ComunicadorCurlSOAP {
             $error_message = curl_error($ch);
             curl_close($ch);
 
-            throw new Exception($error_message);
+            throw new \Exception($error_message);
         }
 
         curl_close($ch);
