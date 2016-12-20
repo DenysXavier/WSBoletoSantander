@@ -17,9 +17,9 @@
     },
     "require": {
         "php": ">=5.6",
-        "ext-dom": "20031129",
-        "ext-xmlwriter": ">=0.1",
-        "ext-curl": ">=0.1"
+        "ext-dom": "*",
+        "ext-xmlwriter": "*",
+        "ext-curl": "*"
     },
     "require-dev": {
         "fzaninotto/faker": "1.6.*",
