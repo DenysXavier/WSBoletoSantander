@@ -1,10 +1,10 @@
 language: php
 php:
   - '5.6'
-#sudo: required
-#before_install:
-#  - sudo apt-get install php5-curl
-#  - echo "extension = php_curl.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - '7.0'
+  - '7.1'
+  - hhvm
+  - nightly
 install: composer install
 after_script:
   - php vendor/bin/coveralls -v
