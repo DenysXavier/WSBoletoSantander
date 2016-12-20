@@ -19,7 +19,7 @@
 namespace TIExpert\WSBoletoSantander;
 
 /**
- * Classe que trata a comunicação entre a extensão Curl e um serviço SOAP
+ * Classe que trata a comunicação entre a extensão Curl e um serviço SOAP de registro de boletos no Santander
  *
  * @author Denys Xavier <equipe@tiexpert.net>
  */
@@ -103,7 +103,7 @@ class ComunicadorCurlSOAP {
         $arrayConfig[CURLOPT_SSLCERT] = $conf->getCertificado("arquivo");
         $arrayConfig[CURLOPT_SSLCERTPASSWD] = $conf->getCertificado("senha");
 
-        if ($conf->getGeral("verificar_santander") == true) {
+        if ($conf->getGeral("assegurar_endpoint") === true) {
             if ($conf->getCertificado("arquivo_ca") != "") {
                 $arrayConfig[CURLOPT_CAINFO] = $conf->getCertificado("arquivo_ca");
             }
