@@ -31,7 +31,7 @@ class Ticket {
     private $autenticacao;
 
     public function __construct() {
-        $this->data = new DateTime();
+        $this->data = new \DateTime();
         $this->ambiente = Config::getInstance()->getGeral("ambiente");
         $this->estacao = Config::getInstance()->getGeral("estacao");
     }
@@ -68,7 +68,7 @@ class Ticket {
     public function setData(\DateTime $data) {
         try {
             $this->data = Util::converterParaDateTime($data);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw $e;
         }
     }
@@ -89,7 +89,7 @@ class Ticket {
      * @return string
      */
     public function exportarParaXml($nomeNoRaiz = NULL) {
-        $xml = new XMLWriter();
+        $xml = new \XMLWriter();
         $xml->openMemory();
 
         if (!is_null($nomeNoRaiz)) {
