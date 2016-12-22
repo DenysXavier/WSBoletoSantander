@@ -63,7 +63,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase {
     /**
      * @author Denys Xavier <equipe@tiexpert.net>
      * @test
-     * @expectedException InvalidArgumentException
      */
     public function aoAlterarCaminhoDoArquivoDeConfiguracaoONovoArquivoDeveSerCarregado() {
         $caminhoArquivoConfigTemp = "./configTemp.ini";
@@ -72,7 +71,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase {
 
         try {
             $this->configObj->getOpcao("grupoTeste1", "chaveTeste1");
-        } catch (InvalidArgumentException $e) {
+        } catch (\InvalidArgumentException $e) {
             $handler = fopen($caminhoArquivoConfigTemp, "w");
             fwrite($handler, "[grupoTeste1]" . PHP_EOL . "chaveTeste1=1234567890");
             fclose($handler);
