@@ -38,10 +38,12 @@ class TituloTest extends PHPUnit_Framework_TestCase {
      * @test
      */
     public function osValoresPadroesParaDataDeEmissaoEDataDeVencimentoSaoOProprioDia() {
+        $obj = new Titulo();
+        
         $dataEsperada = new \DateTime();
 
-        $this->assertEquals($dataEsperada->format("Y-m-d"), self::$tituloObj->getDataEmissao()->format("Y-m-d"));
-        $this->assertEquals($dataEsperada->format("Y-m-d"), self::$tituloObj->getDataVencimento()->format("Y-m-d"));
+        $this->assertEquals($dataEsperada->format("Y-m-d"), $obj->getDataEmissao()->format("Y-m-d"));
+        $this->assertEquals($dataEsperada->format("Y-m-d"), $obj->getDataVencimento()->format("Y-m-d"));
     }
 
     /**
