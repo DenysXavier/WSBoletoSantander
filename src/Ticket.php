@@ -120,7 +120,7 @@ class Ticket {
      * @param string $ambiente Tipo de ambiente que está sendo usado. T = teste, P = produção
      * @return \TIExpert\WSBoletoSantander\Ticket
      */
-    function setAmbiente($ambiente) {
+    public function setAmbiente($ambiente) {
         $this->ambiente = $ambiente;
         return $this;
     }
