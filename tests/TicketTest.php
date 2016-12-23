@@ -120,4 +120,24 @@ class TicketTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($validParam, self::$ticket->getAutenticacao());
     }
 
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     */
+    public function aClasseDeveSerExportavelParaXmlDeAcordoComADocumentacao() {
+        $xmlEstrutura = array("nsu" => self::$ticket->getNsu(),
+            "dtNsu" => self::$ticket->getData()->format(Config::getInstance()->getGeral("formato_data")),
+            "tpAmbiente" => self::$ticket->getAmbiente(),
+            "estacao" => self::$ticket->getEstacao(),
+            "ticket" => self::$ticket->getAutenticacao());
+
+        $xmlString = self::$ticket->exportarParaXml("ticketRootNode");
+
+        $dom = DOMDocument::loadXML($xmlString);
+
+        foreach ($xmlEstrutura as $seletor => $conteudo) {
+            $this->assertEquals($conteudo, $dom->getElementsByTagName($seletor)->item(0)->nodeValue);
+        }
+    }
+
 }
