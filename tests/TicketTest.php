@@ -133,7 +133,8 @@ class TicketTest extends PHPUnit_Framework_TestCase {
 
         $xmlString = self::$ticket->exportarParaXml("ticketRootNode");
 
-        $dom = \DOMDocument::loadXML($xmlString);
+        $dom = new \DOMDocument();
+        $dom->loadXML($xmlString);
 
         foreach ($xmlEstrutura as $seletor => $conteudo) {
             $this->assertEquals($conteudo, $dom->getElementsByTagName($seletor)->item(0)->nodeValue);
