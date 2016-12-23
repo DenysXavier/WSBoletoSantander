@@ -24,38 +24,75 @@ namespace TIExpert\WSBoletoSantander;
  */
 class Ticket {
 
+    /** @property int $nsu Número seqüencial único por Convênio / Data */
     private $nsu;
+
+    /** @property \DateTime $data Data do NSU gerado */
     private $data;
+
+    /** @property string $ambiente Tipo de ambiente que está sendo usado. T = teste, P = produção */
     private $ambiente;
+
+    /** @property string $estacao Código da Estação gerado pelo Banco Santander */
     private $estacao;
+
+    /** @property string $autenticacao Código de autenticação retornado de uma solicitação ao serviço */
     private $autenticacao;
 
+    /**
+     * Cria uma nova instância de Ticket
+     */
     public function __construct() {
         $this->data = new \DateTime();
         $this->ambiente = Config::getInstance()->getGeral("ambiente");
         $this->estacao = Config::getInstance()->getGeral("estacao");
     }
 
+    /** Obtém o número seqüencial único por Convênio / Data
+     * 
+     * @return int
+     */
     public function getNsu() {
         return $this->nsu;
     }
 
+    /** Obtém a data do NSU gerado
+     * 
+     * @return \DateTime
+     */
     public function getData() {
         return $this->data;
     }
 
+    /** Obtém o Tipo de ambiente que está sendo usado
+     * 
+     * @return string
+     */
     public function getAmbiente() {
         return $this->ambiente;
     }
 
+    /** Obtém o código da Estação gerado pelo Banco Santander
+     * 
+     * @return string
+     */
     public function getEstacao() {
         return $this->estacao;
     }
 
+    /** Obtém o código de autenticação retornado de uma solicitação ao serviço
+     * 
+     * @return string
+     */
     public function getAutenticacao() {
         return $this->autenticacao;
     }
 
+    /** Determina o número seqüencial único por Convênio / Data
+     * 
+     * @param string $nsu Número seqüencial único por Convênio / Data
+     * @return \TIExpert\WSBoletoSantander\Ticket
+     */
     public function setNsu($nsu) {
         if ($this->ambiente == "T") {
             $nsu = "TST" . $nsu;
@@ -65,6 +102,11 @@ class Ticket {
         return $this;
     }
 
+    /** Determina a data do NSU gerado
+     * 
+     * @param \DateTime $data Data do NSU gerado
+     * @throws \Exception
+     */
     public function setData(\DateTime $data) {
         try {
             $this->data = Util::converterParaDateTime($data);
@@ -73,11 +115,31 @@ class Ticket {
         }
     }
 
+    /** Determina o tipo de ambiente que está sendo usado
+     * 
+     * @param string $ambiente Tipo de ambiente que está sendo usado. T = teste, P = produção
+     * @return \TIExpert\WSBoletoSantander\Ticket
+     */
+    function setAmbiente($ambiente) {
+        $this->ambiente = $ambiente;
+        return $this;
+    }
+
+    /** Determina o código da Estação gerado pelo Banco Santander
+     * 
+     * @param string $estacao Código da Estação gerado pelo Banco Santander
+     * @return \TIExpert\WSBoletoSantander\Ticket
+     */
     public function setEstacao($estacao) {
         $this->estacao = $estacao;
         return $this;
     }
 
+    /** Determina o código de autenticação retornado de uma solicitação ao serviço
+     * 
+     * @param type $autenticacao Código de autenticação retornado de uma solicitação ao serviço
+     * @return \TIExpert\WSBoletoSantander\Ticket
+     */
     public function setAutenticacao($autenticacao) {
         $this->autenticacao = $autenticacao;
         return $this;
