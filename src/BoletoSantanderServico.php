@@ -33,8 +33,8 @@ class BoletoSantanderServico {
     /**
      * Cria uma nova instância de BoletoSantanderServico
      */
-    public function __construct() {
-        $this->comunicador = new ComunicadorCurlSOAP();
+    public function __construct(ComunicadorCurlSOAP $comunicadorCurlSOAP) {
+        $this->comunicador = $comunicadorCurlSOAP;
     }
 
     public function solicitarTicketInclusao(Boleto $boleto) {
