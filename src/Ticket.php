@@ -105,6 +105,7 @@ class Ticket {
     /** Determina a data do NSU gerado
      * 
      * @param \DateTime $data Data do NSU gerado
+     * @return \TIExpert\WSBoletoSantander\Ticket
      * @throws \Exception
      */
     public function setData(\DateTime $data) {
@@ -113,6 +114,7 @@ class Ticket {
         } catch (\Exception $e) {
             throw $e;
         }
+        return $this;
     }
 
     /** Determina o tipo de ambiente que está sendo usado
@@ -137,7 +139,7 @@ class Ticket {
 
     /** Determina o código de autenticação retornado de uma solicitação ao serviço
      * 
-     * @param type $autenticacao Código de autenticação retornado de uma solicitação ao serviço
+     * @param string $autenticacao Código de autenticação retornado de uma solicitação ao serviço
      * @return \TIExpert\WSBoletoSantander\Ticket
      */
     public function setAutenticacao($autenticacao) {
@@ -147,7 +149,7 @@ class Ticket {
 
     /** Exporta as propriedades da classe para um formato XML de acordo com a documentação do banco Santander
      * 
-     * @param type $nomeNoRaiz Nome do nó raiz das propriedades
+     * @param string $nomeNoRaiz Nome do nó raiz das propriedades
      * @return string
      */
     public function exportarParaXml($nomeNoRaiz = NULL) {
