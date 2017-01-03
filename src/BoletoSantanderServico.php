@@ -96,7 +96,8 @@ class BoletoSantanderServico {
             throw $this->comunicador->converterSOAPFaultStringParaException($response);
         }
 
-        $XML = \DOMDocument::loadXML($response);
+        $XML = new \DOMDocument();
+        $XML->loadXML($response);
 
         try {
             $ticket = $this->criarTiqueteAPartirDaResposta($XML);
