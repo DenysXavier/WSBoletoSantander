@@ -148,9 +148,8 @@ class ComunicadorCurlSOAP {
                     return new \Exception($valor);
                 }
             }
-        } else {
-            throw new \InvalidArgumentException("O parâmetro informado não é um SOAP Fault em formato de string.");
         }
+        throw new \InvalidArgumentException("O parâmetro informado não é um SOAP Fault em formato de string.");
     }
 
 }
