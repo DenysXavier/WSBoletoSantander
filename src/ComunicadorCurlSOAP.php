@@ -97,13 +97,13 @@ class ComunicadorCurlSOAP {
     public function configurarCertificadosDeSeguranca(&$arrayConfig) {
         $conf = Config::getInstance();
 
-        $arrayConfig[CURLOPT_SSL_VERIFYPEER] = $conf->getGeral("verificar_santander");
-        $arrayConfig[CURLOPT_SSL_VERIFYHOST] = $conf->getGeral("verificar_santander");
+        $arrayConfig[CURLOPT_SSL_VERIFYPEER] = $conf->getGeral("assegurar_endpoint");
+        $arrayConfig[CURLOPT_SSL_VERIFYHOST] = $conf->getGeral("assegurar_endpoint");
 
         $arrayConfig[CURLOPT_SSLCERT] = $conf->getCertificado("arquivo");
         $arrayConfig[CURLOPT_SSLCERTPASSWD] = $conf->getCertificado("senha");
 
-        if ($conf->getGeral("assegurar_endpoint") === true) {
+        if ((bool) $conf->getGeral("assegurar_endpoint")) {
             if ($conf->getCertificado("arquivo_ca") != "") {
                 $arrayConfig[CURLOPT_CAINFO] = $conf->getCertificado("arquivo_ca");
             }
