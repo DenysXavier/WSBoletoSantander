@@ -32,11 +32,9 @@ class ComunicadorCurlSOAP {
      * @return string
      * @throws Exception
      */
-    public function chamar($endpoint, $xmlString) {
-        $chConfig = $this->getCurlConfiguracaoArray($xmlString);
-
+    public function chamar($endpoint, $endpointConfig) {
         $ch = curl_init($endpoint);
-        curl_setopt_array($ch, $chConfig);
+        curl_setopt_array($ch, $endpointConfig);
 
         $response = curl_exec($ch);
 
@@ -57,7 +55,7 @@ class ComunicadorCurlSOAP {
      * @param string $conteudoPost String no formato XML contendo os dados que devem ser informados ao WebService
      * @return array
      */
-    public function getCurlConfiguracaoArray($conteudoPost = "") {
+    public function prepararConfiguracaoEndpoint($conteudoPost = "") {
         $arrayConfig = array();
 
         $this->criarCabecalhosHTTP($arrayConfig, $conteudoPost);

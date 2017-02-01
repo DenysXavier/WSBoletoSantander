@@ -51,7 +51,8 @@ class BoletoSantanderServico {
         $xml->writeElement("sistema", "YMB");
         $xml->endDocument();
 
-        $retorno = $this->comunicador->chamar(self::TICKET_ENDPOINT, $xml->outputMemory());
+        $endpointConfig = $this->comunicador->prepararConfiguracaoEndpoint($xml->outputMemory());
+        $retorno = $this->comunicador->chamar(self::TICKET_ENDPOINT, $endpointConfig);
 
         return $this->processarRetornoParaTicket($retorno);
     }

@@ -34,7 +34,7 @@ class ComunicadorCurlSOAPTest extends PHPUnit_Framework_TestCase {
     public function metodoGetCurlConfiguracaoArrayDeveVirComAsConfiguracoesMinimasParaFazerUmChamado() {
         $itensNecessarios = array(CURLOPT_TIMEOUT, CURLOPT_RETURNTRANSFER, CURLOPT_POST, CURLOPT_POSTFIELDS, CURLOPT_HTTPHEADER, CURLOPT_SSL_VERIFYPEER, CURLOPT_SSL_VERIFYHOST);
 
-        $configResultante = self::$comunicadorCurlSoap->getCurlConfiguracaoArray();
+        $configResultante = self::$comunicadorCurlSoap->prepararConfiguracaoEndpoint();
 
         foreach ($itensNecessarios as $chave) {
             $this->assertArrayHasKey($chave, $configResultante);
@@ -71,5 +71,4 @@ class ComunicadorCurlSOAPTest extends PHPUnit_Framework_TestCase {
 
         $this->assertEquals($faultMessage, $excecao->getMessage());
     }
-
 }
