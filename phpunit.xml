@@ -1,4 +1,4 @@
-<phpunit bootstrap="vendor/autoload.php">
+<phpunit bootstrap="vendor/autoload.php" convertErrorsToExceptions="false">
     <testsuites>
         <testsuite name="WSBoletoSantander">
             <directory>tests</directory>
