@@ -28,7 +28,7 @@ class ComunicadorCurlSOAP {
     /** Executa uma comunicação com o endpoint enviando uma string em formato XML
      * 
      * @param string $endpoint Url que deve ser atingida para executar a ação do WebService
-     * @param string $xmlString String no formato XML contendo os dados que devem ser informados ao WebService
+     * @param array $endpointConfig Array contendo os parâmetros de configurações a serem usados na execução do cURL para que ele alcance o $endpoint
      * @return string
      * @throws Exception
      */
