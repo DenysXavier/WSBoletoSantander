@@ -71,4 +71,27 @@ class ComunicadorCurlSOAPTest extends PHPUnit_Framework_TestCase {
 
         $this->assertEquals($faultMessage, $excecao->getMessage());
     }
+
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     */
+    public function chamarQualquerURLValidaDeveRetornarUmaResposta() {
+        // Google.com será usado como parâmetro de URL sempre válida
+        $endpointConfig = array(CURLOPT_RETURNTRANSFER => true, CURLOPT_FOLLOWLOCATION => true);
+        $resposta = self::$comunicadorCurlSoap->chamar("http://google.com", $endpointConfig);
+
+        $this->assertContains("<html", $resposta);
+    }
+
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     * @expectedException \Exception
+     */
+    public function chamarQualquerURLInvalidaDeveLancarUmaExcecao() {
+        $endpointConfig = array(CURLOPT_RETURNTRANSFER => true, CURLOPT_TIMEOUT => 1);
+        self::$comunicadorCurlSoap->chamar("testedeurlinvalida", $endpointConfig);
+    }
+
 }
