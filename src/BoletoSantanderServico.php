@@ -37,24 +37,41 @@ class BoletoSantanderServico {
         $this->comunicador = $comunicadorCurlSOAP;
     }
 
+    /** Solicita um tíquete de segurança para inclusão do boleto no Santander
+     * 
+     * @param \TIExpert\WSBoletoSantander\Boleto $boleto Boleto que deverá ser validado e pré-cadastrado no Santander
+     * @return \TIExpert\WSBoletoSantander\Ticket
+     */
     public function solicitarTicketInclusao(Boleto $boleto) {
         $xml = $this->iniciarXmlSoapEnvelope();
 
         $xml->startElementNs("impl", "create", "http://impl.webservice.dl.app.bsbr.altec.com/");
         $xml->startElement("TicketRequest");
+
         $xml->startElement("dados");
-
         $this->anexarArrayMapeado($xml, $boleto);
-
         $xml->endElement();
+
         $xml->writeElement("expiracao", 100);
         $xml->writeElement("sistema", "YMB");
         $xml->endDocument();
 
-        $endpointConfig = $this->comunicador->prepararConfiguracaoEndpoint($xml->outputMemory());
-        $retorno = $this->comunicador->chamar(self::TICKET_ENDPOINT, $endpointConfig);
+        $retorno = $this->executarServico(self::TICKET_ENDPOINT, $xml);
 
-        return $this->processarRetornoParaTicket($retorno);
+        $retornoDocumentoXML = $this->converterRespostaParaDOMDocument($retorno);
+        return $this->processarRetornoParaTicket($retornoDocumentoXML);
+    }
+
+    public function incluirTitulo(Ticket $ticket) {
+        $xml = $this->iniciarXmlSoapEnvelope();
+        $xml->startElement("registraTitulo");
+        $xml->writeRaw($ticket->exportarParaXml("dto"));
+        $xml->endDocument();
+
+        $resposta = $this->executarServico(self::COBRANCA_ENDPOINT, $xml);
+        $retornoDocumentoXML = $this->converterRespostaParaDOMDocument($resposta);
+
+        return $this->tituloFoiIncluidoComSucesso($retornoDocumentoXML);
     }
 
     /** Inicia um novo objeto XMLWriter com o nó raiz Envelope, o nó Header e o nó Body aberto para receber conteúdo.
@@ -86,22 +103,43 @@ class BoletoSantanderServico {
         }
     }
 
-    /** Processa a resposta de uma chamada a um serviço de solicitação de tíquete de segurança
+    /** Executa o serviço usando o comunicador
      * 
-     * @param string $response Resposta de uma chamada a um serviço de solicitação de tíquete de segurança
-     * @return \TIExpert\WSBoletoSantander\Ticket
+     * @param string $url URL do endpoint onde está localizado o serviço
+     * @param \XMLWriter $xmlObject Objeto usado na escrita do XML que deve ser transmitido para o endpoint
+     * @return string
+     */
+    private function executarServico($url, \XMLWriter $xmlObject) {
+        $endpointConfig = $this->comunicador->prepararConfiguracaoEndpoint($xmlObject->outputMemory());
+        return $this->comunicador->chamar($url, $endpointConfig);
+    }
+
+    /** Converte toda o xml respondido em forma de string pelo serviço em um objeto DOMDocument
+     * 
+     * @param string $respostaString String de resposta
+     * @return \DOMDocument
      * @throws \Exception
      */
-    private function processarRetornoParaTicket($response) {
-        if ($this->comunicador->ehSOAPFaultComoString($response)) {
-            throw $this->comunicador->converterSOAPFaultStringParaException($response);
+    private function converterRespostaParaDOMDocument($respostaString) {
+        if ($this->comunicador->ehSOAPFaultComoString($respostaString)) {
+            throw $this->comunicador->converterSOAPFaultStringParaException($respostaString);
         }
 
         $XML = new \DOMDocument();
-        $XML->loadXML($response);
+        $XML->loadXML($respostaString);
 
+        return $XML;
+    }
+
+    /** Processa a resposta de uma chamada a um serviço de solicitação de tíquete de segurança
+     * 
+     * @param \DOMDocument $resposta Resposta de uma chamada a um serviço de solicitação de tíquete de segurança
+     * @return \TIExpert\WSBoletoSantander\Ticket
+     * @throws \Exception
+     */
+    private function processarRetornoParaTicket(\DOMDocument $resposta) {
         try {
-            $ticket = $this->criarTiqueteAPartirDaResposta($XML);
+            $ticket = $this->criarTiqueteAPartirDaResposta($resposta);
             return $ticket;
         } catch (\Exception $ex) {
             throw $ex;
@@ -129,7 +167,7 @@ class BoletoSantanderServico {
     /** Obtém o valor do primeiro nó com o nome informado
      * 
      * @param \DOMDocument $doc Documento XML a ser pesquisado
-     * @param type $tagName Nome do nó a ser pesquisado
+     * @param string $tagName Nome do nó a ser pesquisado
      * @return string
      * @throws \Exception
      */
@@ -139,6 +177,75 @@ class BoletoSantanderServico {
         } catch (\Exception $e) {
             throw $e;
         }
+    }
+
+    /** Verifica se um título foi incluído com sucesso no Santander a partir da resposta do serviço de inclusão de título
+     * 
+     * @param \DOMDocument $dom Documento XML representando a resposta do serviço
+     * @return boolean
+     * @throws \Exception
+     */
+    private function tituloFoiIncluidoComSucesso(\DOMDocument $dom) {
+        try {
+            $this->lancarExceptionSeRespostaForSOAPFault($dom);
+            $this->processarErros($dom);
+        } catch (\Exception $e) {
+            throw $e;
+        }
+
+        return true;
+    }
+
+    /** Verifica se a resposta de um serviço é um SOAPFault. Em caso verdadeiro, uma Exception é lançada com a mensagem contendo a faultstring.
+     * 
+     * @param \DOMDocument $dom Documento XML representando a resposta do serviço
+     * @return NULL
+     * @throws \Exception
+     */
+    private function lancarExceptionSeRespostaForSOAPFault(\DOMDocument $dom) {
+        try {
+            $faultString = $this->getNodeValue($dom, "faultstring");
+            throw new \Exception($faultString);
+        } catch (\Exception $e) {
+            return;
+        }
+    }
+
+    /** Lança uma exceção contendo todos os erros informados na resposta do serviço de inclusão de título
+     * 
+     * @param \DOMDocument $dom Documento XML representando a resposta do serviço
+     * @throws \Exception
+     */
+    private function processarErros(\DOMDocument $dom) {
+        $errosStr = $this->getNodeValue($dom, "descricaoErro");
+
+        $errorDesc = $this->gerarArrayDeErrosAPartirDaString($errosStr);
+
+        if (count($errorDesc) > 0) {
+            throw new \Exception("Serviço de inclusão de título do Santander retornou os seguintes erros: " . implode("; ", $errorDesc));
+        }
+    }
+
+    /** Gera um array a partir de uma string com layout definido pelo Santander contendo a descrição de todos os erros encontrados na requisição do serviço
+     * 
+     * @param string $errosStr String de formato determinado contendo os erros encontrados na requisição do serviço
+     * @return array
+     */
+    private function gerarArrayDeErrosAPartirDaString($errosStr) {
+        $errosRetornados = array();
+
+        $erros = explode("\n", $errosStr);
+        foreach ($erros as $erro) {
+            list($codigo, $descricao) = explode("-", $erro);
+
+            if (trim($codigo) == "00000") {
+                break;
+            }
+
+            $errosRetornados[] = trim($descricao);
+        }
+
+        return $errosRetornados;
     }
 
 }
