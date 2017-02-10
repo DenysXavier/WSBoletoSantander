@@ -63,6 +63,32 @@ class BoletoSantanderServicoTest extends PHPUnit_Framework_TestCase {
 
         $this->assertEquals($ticketBase64, $ticket->getAutenticacao());
     }
+    
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     */
+    public function testeParaSolicitarTicketDeSondagem() {
+        $ticketBase64 = self::$faker->regexify("[A-Za-z0-9+/]{48}");
+
+        $comunicador = $this->getMockBuilder("TIExpert\WSBoletoSantander\ComunicadorCurlSOAP")->getMock();
+        $comunicador->method("chamar")->willReturn('<?xml version="1.0" encoding="utf-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+  <soapenv:Body>
+    <dlwmin:createResponse xmlns:dlwmin="http://impl.webservice.dl.app.bsbr.altec.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <TicketResponse>
+        <retCode>0</retCode>
+        <ticket>' . $ticketBase64 . '</ticket>
+      </TicketResponse>
+    </dlwmin:createResponse>
+  </soapenv:Body>
+</soapenv:Envelope>');
+
+        $svc = new BoletoSantanderServico($comunicador);
+        $ticket = $svc->solicitarTicketSondagem(self::$boleto->getConvenio());
+
+        $this->assertEquals($ticketBase64, $ticket->getAutenticacao());
+    }
 
     /**
      * @author Denys Xavier <equipe@tiexpert.net>

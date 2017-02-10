@@ -43,13 +43,21 @@ class BoletoSantanderServico {
      * @return \TIExpert\WSBoletoSantander\Ticket
      */
     public function solicitarTicketInclusao(Boleto $boleto) {
+        return $this->gerarTicket($boleto);
+    }
+
+    public function solicitarTicketSondagem(Convenio $convenio) {
+        return $this->gerarTicket($convenio);
+    }
+
+    private function gerarTicket(PropriedadesExportaveisParaArrayInterface $objeto) {
         $xml = $this->iniciarXmlSoapEnvelope();
 
         $xml->startElementNs("impl", "create", "http://impl.webservice.dl.app.bsbr.altec.com/");
         $xml->startElement("TicketRequest");
 
         $xml->startElement("dados");
-        $this->anexarArrayMapeado($xml, $boleto);
+        $this->anexarArrayMapeado($xml, $objeto);
         $xml->endElement();
 
         $xml->writeElement("expiracao", 100);
