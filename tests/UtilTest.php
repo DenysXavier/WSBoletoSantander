@@ -30,11 +30,10 @@ class UtilTest extends \PHPUnit_Framework_TestCase {
      * @test
      */
     public function umaStringDeDataFormatadaCorretamenteDeveGerarUmObjetoDateTime() {
-        $str = "2016-11-28";
+        $str = date(\TIExpert\WSBoletoSantander\Config::getInstance()->getGeral("formato_data"));
 
         $dataEsperada = new \DateTime();
-        $dataEsperada->setDate(2016, 11, 28);
-        $dataEsperada->setTime(0, 0, 0);
+        $dataEsperada->setDate(date("Y"), date("m"), date("d"));
 
         $resultado = Util::converterParaDateTime($str);
 
@@ -78,7 +77,7 @@ class UtilTest extends \PHPUnit_Framework_TestCase {
      * @expectedException Exception
      */
     public function umaStringDeDataFormatadaIncorretamenteDeveLancarUmaExcecao() {
-        $string = "2016#11#28";
+        $string = "11#28#2016";
 
         Util::converterParaDateTime($string);
     }

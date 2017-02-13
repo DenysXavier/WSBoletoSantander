@@ -23,17 +23,20 @@ namespace TIExpert\WSBoletoSantander;
  * @author Denys Xavier <equipe@tiexpert.net>
  */
 class Util {
-/** Tenta converter um parâmetro do tipo string para um objeto \DateTime. Se o parâmetro for um objeto DateTime ou NULL, o próprio parâmetro é retornado.
- * 
- * @param \DateTime $param Parâmetro que será convertido
- * @return \DateTime
- * @throws \Exception
- * @throws \InvalidArgumentException
- */
+
+    /** Tenta converter um parâmetro para um objeto \DateTime. Se o parâmetro for um objeto DateTime ou NULL, o próprio parâmetro é retornado.
+     * 
+     * @param mixed $param Parâmetro que será convertido
+     * @return \DateTime
+     * @throws \Exception
+     * @throws \InvalidArgumentException
+     */
     public static function converterParaDateTime($param) {
         try {
-            if (is_string($param)) {
-                return new \DateTime($param);
+            if ($param == "now") {
+                return new \DateTime();
+            } else if (is_string($param)) {
+                return self::converterParaDateTimeUmaString($param);
             } else if ($param instanceof \DateTime || is_null($param)) {
                 return $param;
             }
@@ -42,6 +45,23 @@ class Util {
         } catch (\Exception $ex) {
             throw $ex;
         }
+    }
+
+    /** Tenta converter um parâmetro do tipo string para um objeto \DateTime.
+     * 
+     * @param string $param String que será convertida
+     * @return \DateTime
+     * @throws \InvalidArgumentException
+     */
+    private static function converterParaDateTimeUmaString($param) {
+        $formato_data = Config::getInstance()->getGeral("formato_data");
+        $data = \DateTime::createFromFormat($formato_data, $param);
+
+        if (!$data) {
+            throw new \InvalidArgumentException("Não é possível converter '" . $param . "' em uma data válida.");
+        }
+
+        return $data;
     }
 
 }
