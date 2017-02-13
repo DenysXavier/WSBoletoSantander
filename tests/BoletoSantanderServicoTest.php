@@ -63,7 +63,7 @@ class BoletoSantanderServicoTest extends PHPUnit_Framework_TestCase {
 
         $this->assertEquals($ticketBase64, $ticket->getAutenticacao());
     }
-    
+
     /**
      * @author Denys Xavier <equipe@tiexpert.net>
      * @test
@@ -95,7 +95,7 @@ class BoletoSantanderServicoTest extends PHPUnit_Framework_TestCase {
      * @test
      */
     public function testeParaIncluirUmTitulo() {
-        $dataFake = date("dmY");
+        $dataFake = date(TIExpert\WSBoletoSantander\Config::getInstance()->getGeral("formato_data"));
 
         $comunicador = $this->getMockBuilder("TIExpert\WSBoletoSantander\ComunicadorCurlSOAP")->getMock();
         $comunicador->method("chamar")->willReturn('<?xml version="1.0" encoding="utf-8"?>
@@ -110,7 +110,7 @@ class BoletoSantanderServicoTest extends PHPUnit_Framework_TestCase {
         </convenio>
         <descricaoErro>00000 - Título registrado em cobrança</descricaoErro>
         <dtNsu>' . $dataFake . '</dtNsu>
-        <estacao>' . self::$faker->regexify("[A-Z0-9]{9}") . '</estacao>
+        <estacao>' . self::$faker->regexify("[A-Z0-9]{4}") . '</estacao>
         <nsu>TST' . mt_rand(100000, 999999) . '</nsu>
         <pagador>
           <bairro>' . self::$faker->city . '</bairro>
@@ -157,6 +157,74 @@ class BoletoSantanderServicoTest extends PHPUnit_Framework_TestCase {
         $resultado = $svc->incluirTitulo(self::$ticket);
 
         $this->assertTrue($resultado);
+    }
+
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     */
+    public function testeParaSondarUmTitulo() {
+        $formato_data = TIExpert\WSBoletoSantander\Config::getInstance()->getGeral("formato_data");
+
+        $comunicador = $this->getMockBuilder("TIExpert\WSBoletoSantander\ComunicadorCurlSOAP")->getMock();
+        $comunicador->method("chamar")->willReturn('<?xml version="1.0" encoding="utf-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+  <soapenv:Body>
+    <dlwmin:consultaTituloResponse xmlns:dlwmin="http://impl.webservice.ymb.app.bsbr.altec.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <return xmlns:ns2="http://impl.webservice.ymb.app.bsbr.altec.com/">
+        <codcede>' . self::$faker->regexify("[0-9]{9}") . '</codcede>
+        <convenio>
+          <codBanco>' . self::$boleto->getConvenio()->getCodigoBanco() . '</codBanco>
+          <codConv>' . self::$boleto->getConvenio()->getCodigoConvenio() . '</codConv>
+        </convenio>
+        <descricaoErro></descricaoErro>
+        <dtNsu>10022017</dtNsu>
+        <estacao>' . self::$faker->regexify("[A-Z0-9]{4}") . '</estacao>
+        <nsu>TST' . self::$faker->regexify("[0-9]{4}") . '</nsu>
+        <pagador>
+          <bairro>' . self::$boleto->getPagador()->getBairro() . '</bairro>
+          <cep>' . self::$boleto->getPagador()->getCEP() . '</cep>
+          <cidade>' . self::$boleto->getPagador()->getCidade() . '</cidade>
+          <ender>' . self::$boleto->getPagador()->getEndereco() . '</ender>
+          <nome>' . self::$boleto->getPagador()->getNome() . '</nome>
+          <numDoc>' . self::$boleto->getPagador()->getNumeroDoc() . '</numDoc>
+          <tpDoc>' . self::$boleto->getPagador()->getTipoDoc() . '</tpDoc>
+          <uf>' . self::$boleto->getPagador()->getUF() . '</uf>
+        </pagador>
+        <situacao>0</situacao>
+        <titulo>
+          <aceito></aceito>
+          <cdBarra>' . self::$faker->regexify("[0-9]{44}") . '</cdBarra>
+          <dtEmissao>' . self::$boleto->getTitulo()->getDataEmissao()->format($formato_data) . '</dtEmissao>
+          <dtEntr>' . date($formato_data) . '</dtEntr>
+          <dtLimiDesc>' . self::$boleto->getTitulo()->getInstrucoes()->getDataLimiteDesconto()->format($formato_data) . '</dtLimiDesc>
+          <dtVencto>' . self::$boleto->getTitulo()->getDataVencimento()->format($formato_data) . '</dtVencto>
+          <especie>' . self::$boleto->getTitulo()->getEspecie() . '</especie>
+          <linDig>' . self::$faker->regexify("[0-9]{47}") . '</linDig>
+          <mensagem></mensagem>
+          <nossoNumero>' . self::$boleto->getTitulo()->getNossoNumero() . '</nossoNumero>
+          <pcJuro>' . self::$boleto->getTitulo()->getInstrucoes()->getJuros() . '</pcJuro>
+          <pcMulta>' . self::$boleto->getTitulo()->getInstrucoes()->getMulta() . '</pcMulta>
+          <qtDiasBaixa>' . self::$boleto->getTitulo()->getInstrucoes()->getBaixarApos() . '</qtDiasBaixa>
+          <qtDiasMulta>' . self::$boleto->getTitulo()->getInstrucoes()->getMultarApos() . '</qtDiasMulta>
+          <qtDiasProtesto>' . self::$boleto->getTitulo()->getInstrucoes()->getProtestarApos() . '</qtDiasProtesto>
+          <seuNumero>' . self::$boleto->getTitulo()->getSeuNumero() . '</seuNumero>
+          <tpDesc>' . self::$boleto->getTitulo()->getInstrucoes()->getTipoDesconto() . '</tpDesc>
+          <tpProtesto>' . self::$boleto->getTitulo()->getInstrucoes()->getTipoProtesto() . '</tpProtesto>
+          <vlAbatimento>' . self::$boleto->getTitulo()->getInstrucoes()->getValorAbatimento() * 100 . '</vlAbatimento>
+          <vlDesc>' . self::$boleto->getTitulo()->getInstrucoes()->getValorDesconto() * 100 . '</vlDesc>
+          <vlNominal>' . self::$boleto->getTitulo()->getValor() * 100 . '</vlNominal>
+        </titulo>
+        <tpAmbiente>T</tpAmbiente>
+      </return>
+    </dlwmin:consultaTituloResponse>
+  </soapenv:Body>
+</soapenv:Envelope>');
+
+        $svc = new BoletoSantanderServico($comunicador);
+        $resultado = $svc->sondarTitulo(self::$ticket);
+
+        $this->assertEquals(self::$boleto, $resultado, '', 60);
     }
 
 }

@@ -71,15 +71,29 @@ class BoletoSantanderServico {
     }
 
     public function incluirTitulo(Ticket $ticket) {
-        $xml = $this->iniciarXmlSoapEnvelope();
-        $xml->startElement("registraTitulo");
-        $xml->writeRaw($ticket->exportarParaXml("dto"));
-        $xml->endDocument();
+        $xml = $this->criarEnvelopeParaTicket($ticket, "registraTitulo");
 
         $resposta = $this->executarServico(self::COBRANCA_ENDPOINT, $xml);
         $retornoDocumentoXML = $this->converterRespostaParaDOMDocument($resposta);
 
         return $this->tituloFoiIncluidoComSucesso($retornoDocumentoXML);
+    }
+
+    public function sondarTitulo(Ticket $ticket) {
+        $xml = $this->criarEnvelopeParaTicket($ticket, "consultaTitulo");
+
+        $resposta = $this->executarServico(self::COBRANCA_ENDPOINT, $xml);
+        $respostaXML = $this->converterRespostaParaDOMDocument($resposta);
+
+        return $this->converterRespostaParaBoleto($respostaXML);
+    }
+
+    private function criarEnvelopeParaTicket(Ticket $ticket, $nomeAcao) {
+        $xml = $this->iniciarXmlSoapEnvelope();
+        $xml->startElement($nomeAcao);
+        $xml->writeRaw($ticket->exportarParaXml("dto"));
+        $xml->endDocument();
+        return $xml;
     }
 
     /** Inicia um novo objeto XMLWriter com o nó raiz Envelope, o nó Header e o nó Body aberto para receber conteúdo.
@@ -161,30 +175,16 @@ class BoletoSantanderServico {
      * @throws \Exception
      */
     private function criarTiqueteAPartirDaResposta(\DOMDocument $dom) {
-        $retCode = $this->getNodeValue($dom, "retCode");
+        $leitor = new LeitorSimplesXML($dom);
+        $retCode = $leitor->getValorNo("retCode");
 
         if ($retCode === "0") {
             $ticket = new Ticket();
-            $ticket->setAutenticacao($this->getNodeValue($dom, "ticket"));
+            $ticket->setAutenticacao($leitor->getValorNo("ticket"));
             return $ticket;
         }
 
         throw new \Exception("O serviço de inclusão de título do Santander retornou um erro. Código: " . $retCode);
-    }
-
-    /** Obtém o valor do primeiro nó com o nome informado
-     * 
-     * @param \DOMDocument $doc Documento XML a ser pesquisado
-     * @param string $tagName Nome do nó a ser pesquisado
-     * @return string
-     * @throws \Exception
-     */
-    private function getNodeValue(\DOMDocument $doc, $tagName) {
-        try {
-            return $doc->getElementsByTagName($tagName)->item(0)->nodeValue;
-        } catch (\Exception $e) {
-            throw $e;
-        }
     }
 
     /** Verifica se um título foi incluído com sucesso no Santander a partir da resposta do serviço de inclusão de título
@@ -211,8 +211,9 @@ class BoletoSantanderServico {
      * @throws \Exception
      */
     private function lancarExceptionSeRespostaForSOAPFault(\DOMDocument $dom) {
+        $leitor = new LeitorSimplesXML($dom);
         try {
-            $faultString = $this->getNodeValue($dom, "faultstring");
+            $faultString = $leitor->getValorNo("faultstring");
             throw new \Exception($faultString);
         } catch (\Exception $e) {
             return;
@@ -225,12 +226,13 @@ class BoletoSantanderServico {
      * @throws \Exception
      */
     private function processarErros(\DOMDocument $dom) {
-        $errosStr = $this->getNodeValue($dom, "descricaoErro");
+        $leitor = new LeitorSimplesXML($dom);
+        $errosStr = $leitor->getValorNo("descricaoErro");
 
         $errorDesc = $this->gerarArrayDeErrosAPartirDaString($errosStr);
 
         if (count($errorDesc) > 0) {
-            throw new \Exception("Serviço de inclusão de título do Santander retornou os seguintes erros: " . implode("; ", $errorDesc));
+            throw new \Exception("Serviço do Santander retornou os seguintes erros: " . implode("; ", $errorDesc));
         }
     }
 
@@ -241,19 +243,30 @@ class BoletoSantanderServico {
      */
     private function gerarArrayDeErrosAPartirDaString($errosStr) {
         $errosRetornados = array();
+        
+        if ($errosStr != "") {
+            $erros = explode("\n", $errosStr);
+            foreach ($erros as $erro) {
+                list($codigo, $descricao) = explode("-", $erro);
 
-        $erros = explode("\n", $errosStr);
-        foreach ($erros as $erro) {
-            list($codigo, $descricao) = explode("-", $erro);
+                if (trim($codigo) == "00000") {
+                    break;
+                }
 
-            if (trim($codigo) == "00000") {
-                break;
+                $errosRetornados[] = trim($descricao);
             }
-
-            $errosRetornados[] = trim($descricao);
         }
 
         return $errosRetornados;
+    }
+
+    private function converterRespostaParaBoleto($respostaXML) {
+        $this->lancarExceptionSeRespostaForSOAPFault($respostaXML);
+        $this->processarErros($respostaXML);
+
+        $boleto = new Boleto();
+        $boleto->carregarPorXML($respostaXML);
+        return $boleto;
     }
 
 }
