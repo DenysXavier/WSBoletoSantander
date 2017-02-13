@@ -22,7 +22,7 @@ namespace TIExpert\WSBoletoSantander;
  * 
  * @author Denys Xavier <equipe@tiexpert.net>
  */
-class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface {
+class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface, PropriedadesImportaveisPorXMLInterface {
 
     /** @property float $multa Percentual da multa com 2 decimais. Opcional. */
     private $multa;
@@ -290,6 +290,25 @@ class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface {
         $array["TITULO.QT-DIAS-BAIXA"] = $this->getBaixarApos();
 
         return $array;
+    }
+
+    /** Carrega as propriedades da instância usando a estrutura XML
+     * 
+     * @param \DOMDocument $xml Estrutura XML legível
+     */
+    public function carregarPorXML(\DOMDocument $xml) {
+        $leitor = new LeitorSimplesXML($xml);
+
+        $this->setBaixarApos($leitor->getValorNo("qtDiasBaixa"));
+        $this->setDataLimiteDesconto($leitor->getValorNo("dtLimiDesc"));
+        $this->setJuros($leitor->getValorNo("pcJuro"));
+        $this->setMulta($leitor->getValorNo("pcMulta"));
+        $this->setMultarApos($leitor->getValorNo("qtDiasMulta"));
+        $this->setProtestarApos($leitor->getValorNo("qtDiasProtesto"));
+        $this->setTipoDesconto($leitor->getValorNo("tpDesc"));
+        $this->setTipoProtesto($leitor->getValorNo("tpProtesto"));
+        $this->setValorAbatimento($leitor->getValorNo("vlAbatimento") / 100);
+        $this->setValorDesconto($leitor->getValorNo("vlDesc") / 100);
     }
 
 }

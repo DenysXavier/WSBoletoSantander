@@ -23,7 +23,7 @@ namespace TIExpert\WSBoletoSantander;
  *
  * @author Denys Xavier <equipe@tiexpert.net>
  */
-class Convenio implements PropriedadesExportaveisParaArrayInterface {
+class Convenio implements PropriedadesExportaveisParaArrayInterface, PropriedadesImportaveisPorXMLInterface {
 
     /** property string $codigoBanco Código do banco */
     private $codigoBanco;
@@ -92,6 +92,17 @@ class Convenio implements PropriedadesExportaveisParaArrayInterface {
         $array["CONVENIO.COD-CONVENIO"] = $this->codigoConvenio;
 
         return $array;
+    }
+
+    /** Carrega as propriedades da instância usando a estrutura XML
+     * 
+     * @param \DOMDocument $xml Estrutura XML legível
+     */
+    public function carregarPorXML(\DOMDocument $xml) {
+        $leitor = new LeitorSimplesXML($xml);
+
+        $this->setCodigoBanco($leitor->getValorNo("codBanco"));
+        $this->setCodigoConvenio($leitor->getValorNo("codConv"));
     }
 
 }

@@ -22,7 +22,7 @@ namespace TIExpert\WSBoletoSantander;
  * 
  * @author Denys Xavier <equipe@tiexpert.net>
  */
-class Titulo implements PropriedadesExportaveisParaArrayInterface {
+class Titulo implements PropriedadesExportaveisParaArrayInterface, PropriedadesImportaveisPorXMLInterface {
 
     /** @property string $nossoNumero Número do Título no Banco. */
     private $nossoNumero;
@@ -241,6 +241,26 @@ class Titulo implements PropriedadesExportaveisParaArrayInterface {
         $array["TITULO.VL-NOMINAL"] = $this->getValor();
         $array["MENSAGEM"] = wordwrap($this->getMensagem(), 100, "\r\n");
         return $array;
+    }
+
+    /** Carrega as propriedades da instância usando a estrutura XML
+     * 
+     * @param \DOMDocument $xml Estrutura XML legível
+     */
+    public function carregarPorXML(\DOMDocument $xml) {
+        $leitor = new LeitorSimplesXML($xml);
+
+        $instrucoes = new InstrucoesDeTitulo();
+        $instrucoes->carregarPorXML($xml);
+        $this->setInstrucoes($instrucoes);
+
+        $this->setDataEmissao($leitor->getValorNo("dtEmissao"));
+        $this->setDataVencimento($leitor->getValorNo("dtVencto"));
+        $this->setEspecie($leitor->getValorNo("especie"));
+        $this->setMensagem($leitor->getValorNo("mensagem"));
+        $this->setNossoNumero($leitor->getValorNo("nossoNumero"));
+        $this->setSeuNumero($leitor->getValorNo("seuNumero"));
+        $this->setValor($leitor->getValorNo("vlNominal") / 100);
     }
 
 }

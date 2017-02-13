@@ -23,7 +23,7 @@ namespace TIExpert\WSBoletoSantander;
  * 
  * @author Denys Xavier <equipe@tiexpert.net>
  */
-class Pagador implements PropriedadesExportaveisParaArrayInterface {
+class Pagador implements PropriedadesExportaveisParaArrayInterface, PropriedadesImportaveisPorXMLInterface {
 
     /** property int $tipoDoc Tipo de Documento do Pagador */
     private $tipoDoc;
@@ -229,6 +229,23 @@ class Pagador implements PropriedadesExportaveisParaArrayInterface {
         $array["PAGADOR.UF"] = $this->UF;
         $array["PAGADOR.CEP"] = $this->CEP;
         return $array;
+    }
+
+    /** Carrega as propriedades da instância usando a estrutura XML
+     * 
+     * @param \DOMDocument $xml Estrutura XML legível
+     */
+    public function carregarPorXML(\DOMDocument $xml) {
+        $leitor = new LeitorSimplesXML($xml);
+
+        $this->setBairro($leitor->getValorNo("bairro"));
+        $this->setCEP($leitor->getValorNo("cep"));
+        $this->setCidade($leitor->getValorNo("cidade"));
+        $this->setEndereco($leitor->getValorNo("ender"));
+        $this->setNome($leitor->getValorNo("nome"));
+        $this->setNumeroDoc($leitor->getValorNo("numDoc"));
+        $this->setTipoDoc($leitor->getValorNo("tpDoc"));
+        $this->setUF($leitor->getValorNo("uf"));
     }
 
 }

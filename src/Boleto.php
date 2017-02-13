@@ -23,13 +23,13 @@ namespace TIExpert\WSBoletoSantander;
  * 
  * @author Denys Xavier <equipe@tiexpert.net>
  */
-class Boleto implements PropriedadesExportaveisParaArrayInterface {
+class Boleto implements PropriedadesExportaveisParaArrayInterface, PropriedadesImportaveisPorXMLInterface {
 
     private $convenio;
     private $pagador;
     private $titulo;
 
-    public function __construct(Convenio $convenio, Pagador $pagador, Titulo $titulo) {
+    public function __construct(Convenio $convenio = NULL, Pagador $pagador = NULL, Titulo $titulo = NULL) {
         $this->convenio = $convenio;
         $this->pagador = $pagador;
         $this->titulo = $titulo;
@@ -68,6 +68,24 @@ class Boleto implements PropriedadesExportaveisParaArrayInterface {
      */
     public function exportarArray() {
         return array_merge($this->convenio->exportarArray(), $this->pagador->exportarArray(), $this->titulo->exportarArray(), $this->titulo->getInstrucoes()->exportarArray());
+    }
+
+    /** Carrega as propriedades da instância usando a estrutura XML
+     * 
+     * @param \DOMDocument $xml Estrutura XML legível
+     */
+    public function carregarPorXML(\DOMDocument $xml) {
+        $convenio = new Convenio();
+        $convenio->carregarPorXML($xml);
+        $this->convenio = $convenio;
+
+        $pagador = new Pagador();
+        $pagador->carregarPorXML($xml);
+        $this->pagador = $pagador;
+
+        $titulo = new Titulo();
+        $titulo->carregarPorXML($xml);
+        $this->titulo = $titulo;
     }
 
 }
