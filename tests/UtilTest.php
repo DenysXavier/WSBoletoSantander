@@ -37,7 +37,7 @@ class UtilTest extends \PHPUnit_Framework_TestCase {
 
         $resultado = Util::converterParaDateTime($str);
 
-        $this->assertEquals($dataEsperada, $resultado);
+        $this->assertEquals($dataEsperada, $resultado, '', 60);
     }
 
     /**
@@ -49,7 +49,7 @@ class UtilTest extends \PHPUnit_Framework_TestCase {
 
         $resultado = Util::converterParaDateTime($dataEsperada);
 
-        $this->assertEquals($dataEsperada, $resultado);
+        $this->assertEquals($dataEsperada, $resultado, '', 60);
     }
 
     /**
