@@ -71,21 +71,21 @@ class BoletoSantanderServico {
     }
 
     public function incluirTitulo(Ticket $ticket) {
-        $xml = $this->criarEnvelopeParaTicket($ticket, "registraTitulo");
+        $respostaXML = $this->procederTicket($ticket, "registraTitulo");
 
-        $resposta = $this->executarServico(self::COBRANCA_ENDPOINT, $xml);
-        $retornoDocumentoXML = $this->converterRespostaParaDOMDocument($resposta);
-
-        return $this->tituloFoiIncluidoComSucesso($retornoDocumentoXML);
+        return $this->tituloFoiIncluidoComSucesso($respostaXML);
     }
 
     public function sondarTitulo(Ticket $ticket) {
-        $xml = $this->criarEnvelopeParaTicket($ticket, "consultaTitulo");
-
-        $resposta = $this->executarServico(self::COBRANCA_ENDPOINT, $xml);
-        $respostaXML = $this->converterRespostaParaDOMDocument($resposta);
+        $respostaXML = $this->procederTicket($ticket, "consultaTitulo");
 
         return $this->converterRespostaParaBoleto($respostaXML);
+    }
+
+    private function procederTicket(Ticket $ticket, $acao) {
+        $xml = $this->criarEnvelopeParaTicket($ticket, $acao);
+        $resposta = $this->executarServico(self::COBRANCA_ENDPOINT, $xml);
+        return $this->converterRespostaParaDOMDocument($resposta);
     }
 
     private function criarEnvelopeParaTicket(Ticket $ticket, $nomeAcao) {
@@ -243,7 +243,7 @@ class BoletoSantanderServico {
      */
     private function gerarArrayDeErrosAPartirDaString($errosStr) {
         $errosRetornados = array();
-        
+
         if ($errosStr != "") {
             $erros = explode("\n", $errosStr);
             foreach ($erros as $erro) {
