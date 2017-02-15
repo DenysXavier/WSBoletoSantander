@@ -300,4 +300,71 @@ class BoletoSantanderServicoTest extends PHPUnit_Framework_TestCase {
         $svc->sondarTitulo(self::$ticket);
     }
 
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     * @expectedException \Exception
+     */
+    public function incluirUmTituloBaseadoEmUmTicketDeBoletoIncorretoDeveLancarUmaExcecao(){
+        $hoje = date(Config::getInstance()->getGeral("formato_data"));
+        
+        $comunicador = $this->getMockBuilder("TIExpert\WSBoletoSantander\ComunicadorCurlSOAP")->getMock();
+        $comunicador->method("chamar")->willReturn('<?xml version="1.0" encoding="utf-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+  <soapenv:Body>
+    <dlwmin:registraTituloResponse xmlns:dlwmin="http://impl.webservice.ymb.app.bsbr.altec.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <return xmlns:ns2="http://impl.webservice.ymb.app.bsbr.altec.com/">
+        <codcede></codcede>
+        <convenio>
+          <codBanco>0033</codBanco>
+          <codConv>' . self::$faker->regexify('[0-9]{9}') . '</codConv>
+        </convenio>
+        <descricaoErro>00058-CPF / CNPJ INCORRETO</descricaoErro>
+        <dtNsu>' . $hoje . '</dtNsu>
+        <estacao>' . self::$faker->regexify("[A-Z0-9]{4}") . '</estacao>
+        <nsu>TST' . self::$faker->regexify("[0-9]{4}") . '</nsu>
+        <pagador>
+          <bairro>' . self::$faker->city . '</bairro>
+          <cep>' . self::$faker->postcode . '</cep>
+          <cidade>' . self::$faker->city . '</cidade>
+          <ender>' . self::$faker->streetAddress . '</ender>
+          <nome>' . self::$faker->name . '</nome>
+          <numDoc>00000000000</numDoc>
+          <tpDoc>01</tpDoc>
+          <uf>SP</uf>
+        </pagador>
+        <situacao>20</situacao>
+        <titulo>
+          <aceito></aceito>
+          <cdBarra></cdBarra>
+          <dtEmissao>' . $hoje . '</dtEmissao>
+          <dtEntr></dtEntr>
+          <dtLimiDesc>' . $hoje . '</dtLimiDesc>
+          <dtVencto>' . $hoje . '</dtVencto>
+          <especie>99</especie>
+          <linDig></linDig>
+          <mensagem>' . self::$faker->text . '</mensagem>
+          <nossoNumero>' . self::$faker->regexify("[0-9]{13}") . '</nossoNumero>
+          <pcJuro>00000</pcJuro>
+          <pcMulta>00000</pcMulta>
+          <qtDiasBaixa>00</qtDiasBaixa>
+          <qtDiasMulta>00</qtDiasMulta>
+          <qtDiasProtesto>00</qtDiasProtesto>
+          <seuNumero>' . self::$faker->regexify("[0-9]{15}") . '</seuNumero>
+          <tpDesc>0</tpDesc>
+          <tpProtesto>0</tpProtesto>
+          <vlAbatimento>000000000000000</vlAbatimento>
+          <vlDesc>000000000000000</vlDesc>
+          <vlNominal>000000000000110</vlNominal>
+        </titulo>
+        <tpAmbiente>T</tpAmbiente>
+      </return>
+    </dlwmin:registraTituloResponse>
+  </soapenv:Body>
+</soapenv:Envelope>
+');
+
+        $svc = new BoletoSantanderServico($comunicador);
+        $svc->incluirTitulo(self::$ticket);
+    }
 }
