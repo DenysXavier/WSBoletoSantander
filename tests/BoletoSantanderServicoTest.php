@@ -305,9 +305,9 @@ class BoletoSantanderServicoTest extends PHPUnit_Framework_TestCase {
      * @test
      * @expectedException \Exception
      */
-    public function incluirUmTituloBaseadoEmUmTicketDeBoletoIncorretoDeveLancarUmaExcecao(){
+    public function incluirUmTituloBaseadoEmUmTicketDeBoletoIncorretoDeveLancarUmaExcecao() {
         $hoje = date(Config::getInstance()->getGeral("formato_data"));
-        
+
         $comunicador = $this->getMockBuilder("TIExpert\WSBoletoSantander\ComunicadorCurlSOAP")->getMock();
         $comunicador->method("chamar")->willReturn('<?xml version="1.0" encoding="utf-8"?>
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
@@ -367,4 +367,28 @@ class BoletoSantanderServicoTest extends PHPUnit_Framework_TestCase {
         $svc = new BoletoSantanderServico($comunicador);
         $svc->incluirTitulo(self::$ticket);
     }
+
+    /**
+     * @author Denys Xavier <equipe@tiexpet.net>
+     * @test
+     * @expectedException \Exception
+     */
+    public function xmlDeTicketRetornadoComNodeRetcodeDiferenteDeZeroDeveLancarUmaExcecao() {
+        $comunicador = $this->getMockBuilder("TIExpert\WSBoletoSantander\ComunicadorCurlSOAP")->getMock();
+        $comunicador->method("chamar")->willReturn('<?xml version="1.0" encoding="utf-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+  <soapenv:Body>
+    <dlwmin:createResponse xmlns:dlwmin="http://impl.webservice.dl.app.bsbr.altec.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <TicketResponse>
+        <retCode>4</retCode>
+        <ticket>' . self::$faker->regexify("[A-Za-z0-9+/]{48}") . '</ticket>
+      </TicketResponse>
+    </dlwmin:createResponse>
+  </soapenv:Body>
+</soapenv:Envelope>');
+
+        $svc = new BoletoSantanderServico($comunicador);
+        $svc->solicitarTicketInclusao(self::$boleto);
+    }
+
 }
