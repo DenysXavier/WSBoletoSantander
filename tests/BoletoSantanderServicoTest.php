@@ -16,7 +16,14 @@
  * limitations under the License.
  */
 
+use TIExpert\WSBoletoSantander\Boleto;
 use TIExpert\WSBoletoSantander\BoletoSantanderServico;
+use TIExpert\WSBoletoSantander\Config;
+use TIExpert\WSBoletoSantander\Convenio;
+use TIExpert\WSBoletoSantander\InstrucoesDeTitulo;
+use TIExpert\WSBoletoSantander\Pagador;
+use TIExpert\WSBoletoSantander\Ticket;
+use TIExpert\WSBoletoSantander\Titulo;
 
 class BoletoSantanderServicoTest extends PHPUnit_Framework_TestCase {
 
@@ -28,13 +35,13 @@ class BoletoSantanderServicoTest extends PHPUnit_Framework_TestCase {
         parent::setUpBeforeClass();
         self::$faker = Faker\Factory::create("pt_BR");
 
-        $convenio = new TIExpert\WSBoletoSantander\Convenio();
-        $pagador = new \TIExpert\WSBoletoSantander\Pagador(1, mt_rand(100000, 999999), self::$faker->name, self::$faker->streetAddress, self::$faker->city, self::$faker->city, self::$faker->stateAbbr, self::$faker->postcode);
-        $titulo = new TIExpert\WSBoletoSantander\Titulo(mt_rand(0, 9999999), mt_rand(100000000, 999999999), mt_rand(100000000, 999999999), "now", NULL, NULL, NULL, new \TIExpert\WSBoletoSantander\InstrucoesDeTitulo());
+        $convenio = new Convenio();
+        $pagador = new Pagador(1, mt_rand(100000, 999999), self::$faker->name, self::$faker->streetAddress, self::$faker->city, self::$faker->city, self::$faker->stateAbbr, self::$faker->postcode);
+        $titulo = new Titulo(mt_rand(0, 9999999), mt_rand(100000000, 999999999), mt_rand(100000000, 999999999), "now", NULL, NULL, NULL, new InstrucoesDeTitulo());
 
-        self::$boleto = new \TIExpert\WSBoletoSantander\Boleto($convenio, $pagador, $titulo);
+        self::$boleto = new Boleto($convenio, $pagador, $titulo);
 
-        self::$ticket = new \TIExpert\WSBoletoSantander\Ticket();
+        self::$ticket = new Ticket();
         self::$ticket->setNsu(mt_rand(100000, 999999))->setAutenticacao(self::$faker->regexify("[A-Za-z0-9+/]{48}"));
     }
 
@@ -95,7 +102,7 @@ class BoletoSantanderServicoTest extends PHPUnit_Framework_TestCase {
      * @test
      */
     public function testeParaIncluirUmTitulo() {
-        $dataFake = date(TIExpert\WSBoletoSantander\Config::getInstance()->getGeral("formato_data"));
+        $dataFake = date(Config::getInstance()->getGeral("formato_data"));
 
         $comunicador = $this->getMockBuilder("TIExpert\WSBoletoSantander\ComunicadorCurlSOAP")->getMock();
         $comunicador->method("chamar")->willReturn('<?xml version="1.0" encoding="utf-8"?>
@@ -164,7 +171,7 @@ class BoletoSantanderServicoTest extends PHPUnit_Framework_TestCase {
      * @test
      */
     public function testeParaSondarUmTitulo() {
-        $formato_data = TIExpert\WSBoletoSantander\Config::getInstance()->getGeral("formato_data");
+        $formato_data = Config::getInstance()->getGeral("formato_data");
 
         $comunicador = $this->getMockBuilder("TIExpert\WSBoletoSantander\ComunicadorCurlSOAP")->getMock();
         $comunicador->method("chamar")->willReturn('<?xml version="1.0" encoding="utf-8"?>
@@ -225,6 +232,72 @@ class BoletoSantanderServicoTest extends PHPUnit_Framework_TestCase {
         $resultado = $svc->sondarTitulo(self::$ticket);
 
         $this->assertEquals(self::$boleto, $resultado, '', 60);
+    }
+
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     * @expectedException \Exception
+     */
+    public function seOBoletoSondadoNaoExistirEntaoUmaExcecaoDeveSerLancada() {
+        $comunicador = $this->getMockBuilder("TIExpert\WSBoletoSantander\ComunicadorCurlSOAP")->getMock();
+        $comunicador->method("chamar")->willReturn('<?xml version="1.0" encoding="utf-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+  <soapenv:Body>
+    <dlwmin:consultaTituloResponse xmlns:dlwmin="http://impl.webservice.ymb.app.bsbr.altec.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <return xmlns:ns2="http://impl.webservice.ymb.app.bsbr.altec.com/">
+        <codcede></codcede>
+        <convenio>
+          <codBanco>0033</codBanco>
+          <codConv>' . self::$faker->regexify('[0-9]{9}') . '</codConv>
+        </convenio>
+        <descricaoErro>@ERYKE0411 - TITULO NAO ENCONTRADO</descricaoErro>
+        <dtNsu>' . date(Config::getInstance()->getGeral("formato_data")) . '</dtNsu>
+        <estacao>' . self::$faker->regexify("[A-Z0-9]{4}") . '</estacao>
+        <nsu>TST' . self::$faker->regexify("[0-9]{4}") . '</nsu>
+        <pagador>
+          <bairro></bairro>
+          <cep></cep>
+          <cidade></cidade>
+          <ender></ender>
+          <nome></nome>
+          <numDoc></numDoc>
+          <tpDoc></tpDoc>
+          <uf></uf>
+        </pagador>
+        <situacao>20</situacao>
+        <titulo>
+          <aceito></aceito>
+          <cdBarra></cdBarra>
+          <dtEmissao></dtEmissao>
+          <dtEntr></dtEntr>
+          <dtLimiDesc></dtLimiDesc>
+          <dtVencto></dtVencto>
+          <especie></especie>
+          <linDig></linDig>
+          <mensagem></mensagem>
+          <nossoNumero></nossoNumero>
+          <pcJuro></pcJuro>
+          <pcMulta></pcMulta>
+          <qtDiasBaixa></qtDiasBaixa>
+          <qtDiasMulta></qtDiasMulta>
+          <qtDiasProtesto></qtDiasProtesto>
+          <seuNumero></seuNumero>
+          <tpDesc></tpDesc>
+          <tpProtesto></tpProtesto>
+          <vlAbatimento></vlAbatimento>
+          <vlDesc></vlDesc>
+          <vlNominal></vlNominal>
+        </titulo>
+        <tpAmbiente>T</tpAmbiente>
+      </return>
+    </dlwmin:consultaTituloResponse>
+  </soapenv:Body>
+</soapenv:Envelope>
+');
+
+        $svc = new BoletoSantanderServico($comunicador);
+        $svc->sondarTitulo(self::$ticket);
     }
 
 }
