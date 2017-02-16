@@ -64,7 +64,7 @@ class Ticket {
         return $this->data;
     }
 
-    /** Obtém o Tipo de ambiente que está sendo usado
+    /** Obtém o tipo de ambiente que está sendo usado
      * 
      * @return string
      */

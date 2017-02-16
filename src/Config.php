@@ -92,10 +92,10 @@ class Config {
     public static function setCaminhoArquivoConfig($caminhoArquivoConfig) {
         $caminhoAnterior = self::$caminhoArquivoConfig;
         self::$caminhoArquivoConfig = $caminhoArquivoConfig;
-        
+
         if (!is_null(self::$instance) && $caminhoAnterior != $caminhoArquivoConfig) {
             self::carregarConfiguracao();
-        }        
+        }
     }
 
     /** Obtém o valor da chave informada dentro do grupo convenio
