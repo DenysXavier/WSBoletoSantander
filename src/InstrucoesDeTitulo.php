@@ -54,6 +54,19 @@ class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface, P
     /** @property int $baixarApos Quantidade de dias após o vencimento para baixa/devolução do título. */
     private $baixarApos;
 
+    /** Cria uma nova instância de InstrucoesDeTitulo
+     * 
+     * @param float $multa Percentual da multa com 2 decimais.
+     * @param int $multarApos Quantidade de dias após o vencimento do título para incidência da multa.
+     * @param float $juros Percentual de juros com 2 decimais.
+     * @param int $tipoDesconto Tipo de desconto a ser aplicado. Sendo: 0 = isento; 1 = Valor fixo até a data informada; 2 = Percentual até a data informada; 3 = Valor por antecipação dia corrido.
+     * @param float $valorDesconto Valor ou percentual de desconto, com 2 casas decimais.
+     * @param \DateTime $dataLimiteDesconto Data limite para Desconto.
+     * @param float $valorAbatimento Valor do abatimento.
+     * @param int $tipoProtesto Tipo de protesto a ser adotado. Sendo: 0 = Nao Protestar; 1 = Protestar dias corridos; 2 = Protestar dias úteis; 3 = Utilizar Perfil Cedente.
+     * @param int $protestarApos Quantidade de dias após o vencimento para protesto.
+     * @param int $baixarApos Quantidade de dias após o vencimento para baixa/devolução do título.
+     */
     public function __construct($multa = NULL, $multarApos = NULL, $juros = NULL, $tipoDesconto = NULL, $valorDesconto = NULL, $dataLimiteDesconto = NULL, $valorAbatimento = NULL, $tipoProtesto = NULL, $protestarApos = NULL, $baixarApos = NULL) {
         $this->setMulta($multa);
         $this->setMultarApos($multarApos);
@@ -179,6 +192,8 @@ class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface, P
 
     /** Determina o tipo de desconto a ser aplicado.
      * 
+     * Se <code>NULL<code> for informado, então, o valor de tipo será o mesmo que está configurado no arquivo config.ini
+     * 
      * @param int $tipoDesconto Tipo de desconto a ser aplicado. Sendo: 0 = isento; 1 = Valor fixo até a data informada; 2 = Percentual até a data informada; 3 = Valor por antecipação dia corrido.
      * @return \TIExpert\WSBoletoSantander\Titulo
      */
@@ -193,6 +208,8 @@ class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface, P
 
     /** Determina o valor ou percentual de desconto com 2 casas decimais.
      * 
+     * Se <code>NULL<code> for informado, então, o valor do desconto será o mesmo que está configurado no arquivo config.ini
+     * 
      * @param float $valorDesconto Valor ou percentual de desconto com 2 casas decimais.
      * @return \TIExpert\WSBoletoSantander\Titulo
      */
@@ -206,6 +223,8 @@ class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface, P
     }
 
     /** Determina a data limite para Desconto.
+     * 
+     * Se <code>NULL<code> for informado, então, a data será o mesmo que está configurada no arquivo config.ini
      * 
      * @param \DateTime $dataLimiteDesconto Data limite para Desconto.
      * @return \TIExpert\WSBoletoSantander\Titulo
@@ -235,6 +254,8 @@ class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface, P
 
     /** Determina o tipo de protesto a ser adotado.
      * 
+     * Se <code>NULL<code> for informado, então, o valor de tipo de protesto será o mesmo que está configurado no arquivo config.ini
+     * 
      * @param int $tipoProtesto Tipo de protesto a ser adotado. Sendo: 0 = Nao Protestar; 1 = Protestar dias corridos; 2 = Protestar dias úteis; 3 = Utilizar Perfil Cedente.
      * @return \TIExpert\WSBoletoSantander\Titulo
      */
@@ -258,6 +279,8 @@ class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface, P
     }
 
     /** Determina a quantidade de dias após o vencimento para baixa/devolução do título.
+     * 
+     * Se <code>NULL<code> for informado, então, o valor de baixar após será o mesmo que está configurado no arquivo config.ini
      * 
      * @param int $baixarApos Quantidade de dias após o vencimento para baixa/devolução do título.
      * @return \TIExpert\WSBoletoSantander\Titulo
