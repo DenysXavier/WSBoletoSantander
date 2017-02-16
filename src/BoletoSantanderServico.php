@@ -28,10 +28,12 @@ class BoletoSantanderServico {
     const TICKET_ENDPOINT = "https://ymbdlb.santander.com.br/dl-ticket-services/TicketEndpointService";
     const COBRANCA_ENDPOINT = "https://ymbcash.santander.com.br/ymbsrv/CobrancaEndpointService";
 
+    /** @property \TIExpert\WSBoletoSantander\ComunicadorCurlSOAP $comunicador Referência ao objeto a ser usado como ponte de comunicação entre o serviço e a extensão cURL do PHP. */
     private $comunicador;
 
-    /**
-     * Cria uma nova instância de BoletoSantanderServico
+    /** Cria uma nova instância de BoletoSantanderServico
+     * 
+     * @param \TIExpert\WSBoletoSantander\ComunicadorCurlSOAP $comunicadorCurlSOAP Referência ao objeto a ser usado como ponte de comunicação entre o serviço e a extensão cURL do PHP.
      */
     public function __construct(ComunicadorCurlSOAP $comunicadorCurlSOAP) {
         $this->comunicador = $comunicadorCurlSOAP;
@@ -46,10 +48,20 @@ class BoletoSantanderServico {
         return $this->gerarTicket($boleto);
     }
 
+    /** Solicita um tíquete de segurança para sondagem de um boleto no Santander
+     * 
+     * @param \TIExpert\WSBoletoSantander\Convenio $convenio
+     * @return \TIExpert\WSBoletoSantander\Ticket
+     */
     public function solicitarTicketSondagem(Convenio $convenio) {
         return $this->gerarTicket($convenio);
     }
 
+    /** Faz chamada a um serviço gerador de tíquete baseado no objeto informado
+     * 
+     * @param \TIExpert\WSBoletoSantander\PropriedadesExportaveisParaArrayInterface $objeto Objeto passível de ter suas propriedades exportadas.
+     * @return \TIExpert\WSBoletoSantander\Ticket
+     */
     private function gerarTicket(PropriedadesExportaveisParaArrayInterface $objeto) {
         $xml = $this->iniciarXmlSoapEnvelope();
 
@@ -70,24 +82,45 @@ class BoletoSantanderServico {
         return $this->processarRetornoParaTicket($retornoDocumentoXML);
     }
 
+    /** Inclui um título a partir de um tíquete de segurança de inclusão
+     * 
+     * @param \TIExpert\WSBoletoSantander\Ticket $ticket Tíquete de segurança de inclusão.
+     * @return boolean
+     */
     public function incluirTitulo(Ticket $ticket) {
         $respostaXML = $this->procederTicket($ticket, "registraTitulo");
 
         return $this->tituloFoiIncluidoComSucesso($respostaXML);
     }
 
+    /** Sonda um título a partir de um tíquete de segurança de sondagem
+     * 
+     * @param \TIExpert\WSBoletoSantander\Ticket $ticket Tíquete de segurança de sondagem.
+     * @return \TIExpert\WSBoletoSantander\Boleto
+     */
     public function sondarTitulo(Ticket $ticket) {
         $respostaXML = $this->procederTicket($ticket, "consultaTitulo");
-
         return $this->converterRespostaParaBoleto($respostaXML);
     }
 
+    /** Encaminha um tíquete de segurança para endpoint do serviço do Santander
+     * 
+     * @param \TIExpert\WSBoletoSantander\Ticket $ticket Tíquete a ser enviado.
+     * @param string $acao Nome do método a ser executado no endpoint
+     * @return \DOMDocument
+     */
     private function procederTicket(Ticket $ticket, $acao) {
         $xml = $this->criarEnvelopeParaTicket($ticket, $acao);
         $resposta = $this->executarServico(self::COBRANCA_ENDPOINT, $xml);
         return $this->converterRespostaParaDOMDocument($resposta);
     }
 
+    /** Cria todo o XML do envelope SOAP contendo as informações do tíquete
+     * 
+     * @param \TIExpert\WSBoletoSantander\Ticket $ticket Tíquete a ser envelopado
+     * @param string $nomeAcao Nome do nó que será o método a ser chamado no endpoint
+     * @return \XMLWriter
+     */
     private function criarEnvelopeParaTicket(Ticket $ticket, $nomeAcao) {
         $xml = $this->iniciarXmlSoapEnvelope();
         $xml->startElement($nomeAcao);
@@ -204,6 +237,20 @@ class BoletoSantanderServico {
         return true;
     }
 
+    /** Tenta converter um documento XML de reposta em uma instância da classe Boleto
+     * 
+     * @param \DOMDocument $respostaXML Documento XML respondido pelo serviço
+     * @return \TIExpert\WSBoletoSantander\Boleto
+     */
+    private function converterRespostaParaBoleto(\DOMDocument $respostaXML) {
+        $this->lancarExceptionSeRespostaForSOAPFault($respostaXML);
+        $this->processarErros($respostaXML);
+
+        $boleto = new Boleto();
+        $boleto->carregarPorXML($respostaXML);
+        return $boleto;
+    }
+
     /** Verifica se a resposta de um serviço é um SOAPFault. Em caso verdadeiro, uma Exception é lançada com a mensagem contendo a faultstring.
      * 
      * @param \DOMDocument $dom Documento XML representando a resposta do serviço
@@ -258,15 +305,6 @@ class BoletoSantanderServico {
         }
 
         return $errosRetornados;
-    }
-
-    private function converterRespostaParaBoleto($respostaXML) {
-        $this->lancarExceptionSeRespostaForSOAPFault($respostaXML);
-        $this->processarErros($respostaXML);
-
-        $boleto = new Boleto();
-        $boleto->carregarPorXML($respostaXML);
-        return $boleto;
     }
 
 }
