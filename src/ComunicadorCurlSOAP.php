@@ -71,19 +71,14 @@ class ComunicadorCurlSOAP {
      * 
      * @param array $arrayConfig Array contendo as configurações atuais do cURL
      * @param string $conteudoPost Conteúdo que será enviado ao endpoint
-     * @param string $SOAPAction A ação do SOAP a ser chamada caso seja necessário
      */
-    public function criarCabecalhosHTTP(&$arrayConfig, $conteudoPost, $SOAPAction = NULL) {
+    public function criarCabecalhosHTTP(&$arrayConfig, $conteudoPost) {
         $arrayConfig[CURLOPT_POST] = true;
         $arrayConfig[CURLOPT_POSTFIELDS] = $conteudoPost;
 
         $headers = array("Content-type: text/xml;charset=\"utf-8\"",
             "Accept: text/xml",
             "Content-length: " . strlen($conteudoPost));
-
-        if (!is_null($SOAPAction)) {
-            $headers[] = "SOAPAction: " . $SOAPAction;
-        }
 
         $arrayConfig[CURLOPT_HTTPHEADER] = $headers;
     }
@@ -115,7 +110,7 @@ class ComunicadorCurlSOAP {
     /** Indica se a resposta de uma chamada ao endpoint pode ser um SOAP Fault que está formatado como string
      * 
      * @param string $response String de resposta a ser analisada
-     * @return boll
+     * @return boolean
      */
     public function ehSOAPFaultComoString($response) {
         $isFault = false;
