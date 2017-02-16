@@ -18,6 +18,13 @@
 
 namespace TIExpert\WSBoletoSantander;
 
+/**
+ * Interface que define as ações necessárias para importar as propriedades de uma classe.
+ * 
+ * Idealmente, o XML importado deve ter a mesma estrutura de nós retornada pelo WS do banco.
+ * 
+ * @author Denys Xavier <equipe@tiexpert.net>
+ */
 interface PropriedadesImportaveisPorXMLInterface {
 
     /** Carrega as propriedades da instância da classe que implementa esta interface usando a estrutura XML
