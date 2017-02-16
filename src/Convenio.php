@@ -31,10 +31,12 @@ class Convenio implements PropriedadesExportaveisParaArrayInterface, Propriedade
     /** property string $codigoConvenio Número do convênio informado pelo banco */
     private $codigoConvenio;
 
-    /** Cria uma nova instância de Convenio
+    /** Cria uma nova instância de Convenio.
      * 
-     * @param type $codigoBanco Código do banco
-     * @param type $codigoConvenio Número do convênio informado pelo banco
+     * Se nenhum parâmetro for informado, então, o código do banco e o convênio são carregados a partir da configuração do arquivo config.ini
+     * 
+     * @param string $codigoBanco Código do banco
+     * @param string $codigoConvenio Número do convênio informado pelo banco
      */
     public function __construct($codigoBanco = NULL, $codigoConvenio = NULL) {
         $this->codigoBanco = $codigoBanco;
