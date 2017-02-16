@@ -59,7 +59,7 @@ class Titulo implements PropriedadesExportaveisParaArrayInterface, PropriedadesI
      * @param int $especie Código da Espécie do Documento.      
      * @param \TIExpert\WSBoletoSantander\InstrucoesDeTitulo $instrucoes Instruções do que o banco Santander deve fazer com o título bancário.
      */
-    public function __construct($valor = 0, $nossoNumero = 0, $seuNumero = NULL, $dataVencimento = NULL, $mensagem = NULL, $dataEmissao = NULL, $especie = NULL, InstrucoesDeTitulo $instrucoes = NULL) {
+    public function __construct($valor = 0, $nossoNumero = "0", $seuNumero = NULL, $dataVencimento = NULL, $mensagem = NULL, $dataEmissao = NULL, $especie = NULL, InstrucoesDeTitulo $instrucoes = NULL) {
         if (is_null($dataVencimento)) {
             $dataVencimento = new \DateTime();
         }
@@ -230,6 +230,10 @@ class Titulo implements PropriedadesExportaveisParaArrayInterface, PropriedadesI
         return $this;
     }
 
+    /** Exporta um array associativo no qual as chaves são as propriedades representadas como no WebService do Santander
+     * 
+     * @return array
+     */
     public function exportarArray() {
         $formatoDataPadrao = Config::getInstance()->getGeral("formato_data");
 
