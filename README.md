@@ -10,4 +10,36 @@
 
 # WSBoletoSantander
 
-WS Boletos Santander são classes criadas para facilitar a integração entre aplicativos feitos em PHP e a geração de boletos online no banco Santander.
+WS Boleto Santander é um conjunto de classes criadas para facilitar a integração entre aplicativos feitos em PHP e a geração de boletos online no banco Santander.
+
+## Funcionalidades
+
+- [x] Inclusão/Registro de boletos
+- [x] Sondagem de boletos registrados
+- [x] Tratamento de erros de comunicação com o serviço do Santander
+
+## Instalação da Biblioteca
+
+WS Boleto Santander pode ser instalado via [Composer](https://getcomposer.org) usando o comando:
+
+`composer require tiexpert/ws-boleto-santander`
+
+### Requisitos
+
+* PHP 5.6 ou superior
+
+Com as seguintes extensões ativas:
+
+* cURL
+* DOM
+* XmlWriter
+
+## Documentação
+
+Em breve, na Wiki do projeto.
+
+## Licença
+
+WS Boleto Santander é distribuído sob a Licença Apache 2.0 e não pode ser usado de forma diferente que a expressa por essa licença.
+
+Maiores informações, acesse http://www.apache.org/licenses/LICENSE-2.0.
