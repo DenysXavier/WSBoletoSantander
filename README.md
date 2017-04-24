@@ -43,3 +43,9 @@ Em breve, na Wiki do projeto.
 WS Boleto Santander é distribuído sob a Licença Apache 2.0 e não pode ser usado de forma diferente que a expressa por essa licença.
 
 Maiores informações, acesse http://www.apache.org/licenses/LICENSE-2.0.
+
+## Aviso Legal
+
+O autor deste projeto não tem nenhuma afiliação, vínculo ou qualquer outra relação com o banco Santander S.A.
+
+O software é oferecido aqui "como está" e nenhuma garantia é proferida. Portanto, o uso deste software é de inteira responsabilidade do utilizador.
