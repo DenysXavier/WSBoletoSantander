@@ -188,4 +188,18 @@ class TituloTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($nossoNumeroComDigito, $titulo->getNossoNumeroComDigito());
     }
 
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     */
+    public function calculoDeDigitoVerificadorDeNossoNumeroOndeOTotalDaSomatoriaEhDivisivelPorOnzeDeveRetornarZero() {
+        $nossoNumero = 2023;
+        $nossoNumeroComDigito = 20230;
+
+        $titulo = new Titulo();
+        $titulo->setNossoNumero($nossoNumero);
+
+        $this->assertEquals($nossoNumeroComDigito, $titulo->getNossoNumeroComDigito());
+    }
+
 }
