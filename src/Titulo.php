@@ -91,7 +91,7 @@ class Titulo implements PropriedadesExportaveisParaArrayInterface, PropriedadesI
      * @return string
      */
     public function getNossoNumeroComDigito() {
-        return $this->nossoNumero . $this->calcularDigitoNossoNumero();
+        return $this->nossoNumero . $this->calcularDigitoVerificador($this->nossoNumero);
     }
 
     /** Obtém o número do Título no cliente.
@@ -242,11 +242,11 @@ class Titulo implements PropriedadesExportaveisParaArrayInterface, PropriedadesI
      *
      * return int
      */
-    private function calcularDigitoNossoNumero() {
+    private function calcularDigitoVerificador($numero) {
         $digito = 0;
         $multiplicador = 2;
         $total = 0;
-        $algarismosInvertidos = array_reverse(str_split($this->nossoNumero));
+        $algarismosInvertidos = array_reverse(str_split($numero));
 
         foreach ($algarismosInvertidos as $algarismo) {
             $total += $multiplicador * $algarismo;
