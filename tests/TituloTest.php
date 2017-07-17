@@ -192,14 +192,20 @@ class TituloTest extends PHPUnit_Framework_TestCase {
      * @author Denys Xavier <equipe@tiexpert.net>
      * @test
      */
-    public function calculoDeDigitoVerificadorDeNossoNumeroOndeOTotalDaSomatoriaEhDivisivelPorOnzeDeveRetornarZero() {
-        $nossoNumero = 2023;
-        $nossoNumeroComDigito = 20230;
-
+    public function sempreQueOModulo11DaSomatoriaDosAlgarismosForMenorQue1EntaoDeveRetornarZero() {
         $titulo = new Titulo();
-        $titulo->setNossoNumero($nossoNumero);
 
-        $this->assertEquals($nossoNumeroComDigito, $titulo->getNossoNumeroComDigito());
+        $nossoNumeroModulo11Igual0 = 2023;
+        $nossoNumeroModulo11Igual0ComDigito = 20230;
+
+        $titulo->setNossoNumero($nossoNumeroModulo11Igual0);
+        $this->assertEquals($nossoNumeroModulo11Igual0ComDigito, $titulo->getNossoNumeroComDigito());
+
+        $nossoNumeroModulo11Igual1 = 2001;
+        $nossoNumeroModulo11Igual1ComDigito = 20010;
+
+        $titulo->setNossoNumero($nossoNumeroModulo11Igual1);
+        $this->assertEquals($nossoNumeroModulo11Igual1ComDigito, $titulo->getNossoNumeroComDigito());
     }
 
 }
