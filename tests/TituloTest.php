@@ -39,7 +39,7 @@ class TituloTest extends PHPUnit_Framework_TestCase {
      */
     public function osValoresPadroesParaDataDeEmissaoEDataDeVencimentoSaoOProprioDia() {
         $obj = new Titulo();
-        
+
         $dataEsperada = new \DateTime();
 
         $this->assertEquals($dataEsperada->format("Y-m-d"), $obj->getDataEmissao()->format("Y-m-d"));
@@ -158,6 +158,54 @@ class TituloTest extends PHPUnit_Framework_TestCase {
         foreach ($chaveTitulo as $chave) {
             $this->assertArrayHasKey($chave, $export);
         }
+    }
+
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     */
+    public function calculoDeDigitoVerificadorDeNossoNumeroComMenosDe8Algarismos() {
+        $nossoNumero = 12345;
+        $nossoNumeroComDigito = 123455;
+
+        $titulo = new Titulo();
+        $titulo->setNossoNumero($nossoNumero);
+
+        $this->assertEquals($nossoNumeroComDigito, $titulo->getNossoNumeroComDigito());
+    }
+
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     */
+    public function calculoDeDigitoVerificadorDeNossoNumeroComMaisDe8Algarismos() {
+        $nossoNumero = 123456789012;
+        $nossoNumeroComDigito = 1234567890123;
+
+        $titulo = new Titulo();
+        $titulo->setNossoNumero($nossoNumero);
+
+        $this->assertEquals($nossoNumeroComDigito, $titulo->getNossoNumeroComDigito());
+    }
+
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     */
+    public function sempreQueOModulo11DaSomatoriaDosAlgarismosForMenorQue1EntaoDeveRetornarZero() {
+        $titulo = new Titulo();
+
+        $nossoNumeroModulo11Igual0 = 2023;
+        $nossoNumeroModulo11Igual0ComDigito = 20230;
+
+        $titulo->setNossoNumero($nossoNumeroModulo11Igual0);
+        $this->assertEquals($nossoNumeroModulo11Igual0ComDigito, $titulo->getNossoNumeroComDigito());
+
+        $nossoNumeroModulo11Igual1 = 2001;
+        $nossoNumeroModulo11Igual1ComDigito = 20010;
+
+        $titulo->setNossoNumero($nossoNumeroModulo11Igual1);
+        $this->assertEquals($nossoNumeroModulo11Igual1ComDigito, $titulo->getNossoNumeroComDigito());
     }
 
 }

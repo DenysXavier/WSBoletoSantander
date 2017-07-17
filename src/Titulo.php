@@ -86,6 +86,14 @@ class Titulo implements PropriedadesExportaveisParaArrayInterface, PropriedadesI
         return $this->nossoNumero;
     }
 
+    /** Obtém o número do título no banco com seu dígito verificador
+     * 
+     * @return string
+     */
+    public function getNossoNumeroComDigito() {
+        return $this->nossoNumero . $this->calcularDigitoVerificador($this->nossoNumero);
+    }
+
     /** Obtém o número do Título no cliente.
      * 
      * @return string
@@ -230,6 +238,32 @@ class Titulo implements PropriedadesExportaveisParaArrayInterface, PropriedadesI
         return $this;
     }
 
+    /** Calcula o dígito do campo nosso número
+     *
+     * return int
+     */
+    private function calcularDigitoVerificador($numero) {
+        $digito = 0;
+        $multiplicador = 2;
+        $total = 0;
+        $algarismosInvertidos = array_reverse(str_split($numero));
+
+        foreach ($algarismosInvertidos as $algarismo) {
+            $total += $multiplicador * $algarismo;
+
+            if (++$multiplicador > 9) {
+                $multiplicador = 2;
+            }
+        }
+
+        $modulo = $total % 11;
+        if ($modulo > 1) {
+            $digito = 11 - $modulo;
+        }
+
+        return $digito;
+    }
+
     /** Exporta um array associativo no qual as chaves são as propriedades representadas como no WebService do Santander
      * 
      * @return array
@@ -237,7 +271,7 @@ class Titulo implements PropriedadesExportaveisParaArrayInterface, PropriedadesI
     public function exportarArray() {
         $formatoDataPadrao = Config::getInstance()->getGeral("formato_data");
 
-        $array["TITULO.NOSSO-NUMERO"] = $this->getNossoNumero();
+        $array["TITULO.NOSSO-NUMERO"] = $this->getNossoNumeroComDigito();
         $array["TITULO.SEU-NUMERO"] = $this->getSeuNumero();
         $array["TITULO.DT-VENCTO"] = $this->getDataVencimento()->format($formatoDataPadrao);
         $array["TITULO.DT-EMISSAO"] = $this->getDataEmissao()->format($formatoDataPadrao);
