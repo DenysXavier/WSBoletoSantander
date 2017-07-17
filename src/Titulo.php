@@ -94,8 +94,9 @@ class Titulo implements PropriedadesExportaveisParaArrayInterface, PropriedadesI
         $digito = 0;
         $contagem = 2;
         $total = 0;
+        $algarismosInvertidos = array_reverse(str_split($this->nossoNumero));
 
-        foreach (array_reverse(str_split($this->nossoNumero)) as $algarismo) {
+        foreach ($algarismosInvertidos as $algarismo) {
             $total += $contagem * $algarismo;
 
             if (++$contagem > 9) {
