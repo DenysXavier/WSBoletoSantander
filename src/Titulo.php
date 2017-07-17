@@ -276,7 +276,7 @@ class Titulo implements PropriedadesExportaveisParaArrayInterface, PropriedadesI
         $array["TITULO.DT-VENCTO"] = $this->getDataVencimento()->format($formatoDataPadrao);
         $array["TITULO.DT-EMISSAO"] = $this->getDataEmissao()->format($formatoDataPadrao);
         $array["TITULO.ESPECIE"] = $this->getEspecie();
-        $array["TITULO.VL-NOMINAL"] = $this->getValor();
+        $array["TITULO.VL-NOMINAL"] = number_format($this->getValor() * 100, 0, "", "");
         $array["MENSAGEM"] = wordwrap($this->getMensagem(), 100, "\r\n");
         return $array;
     }
