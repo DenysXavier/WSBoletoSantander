@@ -96,7 +96,10 @@ class Titulo implements PropriedadesExportaveisParaArrayInterface, PropriedadesI
 
         foreach (array_reverse(str_split($this->nossoNumero)) as $algarismo) {
             $total += $contagem * $algarismo;
-            $contagem++;
+
+            if (++$contagem > 9) {
+                $contagem = 2;
+            }
         }
 
         $modulo = $total % 11;
