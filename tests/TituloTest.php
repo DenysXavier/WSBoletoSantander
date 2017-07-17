@@ -164,6 +164,20 @@ class TituloTest extends PHPUnit_Framework_TestCase {
      * @author Denys Xavier <equipe@tiexpert.net>
      * @test
      */
+    public function oValorMonetarioDaChaveTITULO_VL_NOMINALNaoPossuiVirgula() {
+        $valorNominal = 100.123;
+        $valorExportado = 10012;
+
+        $titulo = new Titulo($valorNominal);
+        $export = $titulo->exportarArray();
+
+        $this->assertEquals($valorExportado, $export["TITULO.VL-NOMINAL"]);
+    }
+
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     */
     public function calculoDeDigitoVerificadorDeNossoNumeroComMenosDe8Algarismos() {
         $nossoNumero = 12345;
         $nossoNumeroComDigito = 123455;
