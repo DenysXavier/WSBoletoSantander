@@ -103,7 +103,11 @@ class Titulo implements PropriedadesExportaveisParaArrayInterface, PropriedadesI
         }
 
         $modulo = $total % 11;
-        $digito = 11 - $modulo;
+        if ($modulo != 0) {
+            $digito = 11 - $modulo;
+        } else {
+            $digito = 0;
+        }
 
         return $this->nossoNumero . $digito;
     }
