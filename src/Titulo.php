@@ -296,9 +296,19 @@ class Titulo implements PropriedadesExportaveisParaArrayInterface, PropriedadesI
         $this->setDataVencimento($leitor->getValorNo("dtVencto"));
         $this->setEspecie($leitor->getValorNo("especie"));
         $this->setMensagem($leitor->getValorNo("mensagem"));
-        $this->setNossoNumero(substr($leitor->getValorNo("nossoNumero"), 0, strlen($leitor->getValorNo("mensagem")) - 1));
+        $this->setNossoNumero($this->removerUltimoCaracter($leitor->getValorNo("nossoNumero")));
         $this->setSeuNumero($leitor->getValorNo("seuNumero"));
         $this->setValor($leitor->getValorNo("vlNominal") / 100);
+    }
+
+    /** Remove o último caracter da string
+     * 
+     * @return string
+     */
+    private function removerUltimoCaracter($string) {
+        $corte = strlen($string) - 1;
+        $stringSemUltimoCaracter = substr($string, 0, $corte);
+        return $stringSemUltimoCaracter;
     }
 
 }
