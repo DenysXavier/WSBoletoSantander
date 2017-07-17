@@ -296,7 +296,7 @@ class Titulo implements PropriedadesExportaveisParaArrayInterface, PropriedadesI
         $this->setDataVencimento($leitor->getValorNo("dtVencto"));
         $this->setEspecie($leitor->getValorNo("especie"));
         $this->setMensagem($leitor->getValorNo("mensagem"));
-        $this->setNossoNumero($leitor->getValorNo("nossoNumero"));
+        $this->setNossoNumero(substr($leitor->getValorNo("nossoNumero"), 0, strlen($leitor->getValorNo("mensagem")) - 1));
         $this->setSeuNumero($leitor->getValorNo("seuNumero"));
         $this->setValor($leitor->getValorNo("vlNominal") / 100);
     }
