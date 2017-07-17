@@ -86,6 +86,25 @@ class Titulo implements PropriedadesExportaveisParaArrayInterface, PropriedadesI
         return $this->nossoNumero;
     }
 
+    /** Obtém o número do título no banco com seu dígito verificador
+     * 
+     * @return string
+     */
+    public function getNossoNumeroComDigito() {
+        $contagem = 2;
+        $total = 0;
+
+        foreach (array_reverse(str_split($this->nossoNumero)) as $algarismo) {
+            $total += $contagem * $algarismo;
+            $contagem++;
+        }
+
+        $modulo = $total % 11;
+        $digito = 11 - $modulo;
+
+        return $this->nossoNumero . $digito;
+    }
+
     /** Obtém o número do Título no cliente.
      * 
      * @return string
