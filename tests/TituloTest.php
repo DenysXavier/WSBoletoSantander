@@ -160,4 +160,17 @@ class TituloTest extends PHPUnit_Framework_TestCase {
         }
     }
 
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     */
+    public function calculoDeDigitoVerificadorDeNossoNumeroComMenosDe8Algarismos(){
+        $nossoNumero = 12345;
+        $nossoNumeroComDigito = 123455;
+        
+        $titulo = new Titulo();
+        $titulo->setNossoNumero($nossoNumero);
+        
+        $this->assertEquals($nossoNumeroComDigito, $titulo->getNossoNumeroComDigito());
+    }
 }
