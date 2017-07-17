@@ -244,15 +244,15 @@ class Titulo implements PropriedadesExportaveisParaArrayInterface, PropriedadesI
      */
     private function calcularDigitoNossoNumero() {
         $digito = 0;
-        $contagem = 2;
+        $multiplicador = 2;
         $total = 0;
         $algarismosInvertidos = array_reverse(str_split($this->nossoNumero));
 
         foreach ($algarismosInvertidos as $algarismo) {
-            $total += $contagem * $algarismo;
+            $total += $multiplicador * $algarismo;
 
-            if (++$contagem > 9) {
-                $contagem = 2;
+            if (++$multiplicador > 9) {
+                $multiplicador = 2;
             }
         }
 
