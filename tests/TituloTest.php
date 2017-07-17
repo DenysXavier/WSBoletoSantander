@@ -222,4 +222,43 @@ class TituloTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($nossoNumeroModulo11Igual1ComDigito, $titulo->getNossoNumeroComDigito());
     }
 
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     */
+    public function aoSondarUmTituloODigitoVerificadorDoNossoNumeroDeveSerRemovido() {
+        $nossoNumeroSondado = "1234567890123";
+        $nossoNumeroEsperado = "123456789012";
+
+        $xml = new DOMDocument();
+        $xml->loadXML("<titulo>
+          <aceito></aceito>
+          <cdBarra></cdBarra>
+          <dtEmissao>17072017</dtEmissao>
+          <dtEntr>17072017</dtEntr>
+          <dtLimiDesc>17072017</dtLimiDesc>
+          <dtVencto>30072017</dtVencto>
+          <especie>099</especie>
+          <linDig></linDig>
+          <mensagem></mensagem>
+          <nossoNumero>" . $nossoNumeroSondado . "</nossoNumero>
+          <pcJuro>00000</pcJuro>
+          <pcMulta>00000</pcMulta>
+          <qtDiasBaixa>00</qtDiasBaixa>
+          <qtDiasMulta>00</qtDiasMulta>
+          <qtDiasProtesto>00</qtDiasProtesto>
+          <seuNumero>000000000123456</seuNumero>
+          <tpDesc>0</tpDesc>
+          <tpProtesto>0</tpProtesto>
+          <vlAbatimento>000000000000000</vlAbatimento>
+          <vlDesc>000000000000000</vlDesc>
+          <vlNominal>000000000000110</vlNominal>
+        </titulo>");
+
+        $titulo = new Titulo();
+        $titulo->carregarPorXML($xml);
+
+        $this->assertEquals($nossoNumeroEsperado, $titulo->getNossoNumero());
+    }
+
 }
