@@ -91,25 +91,7 @@ class Titulo implements PropriedadesExportaveisParaArrayInterface, PropriedadesI
      * @return string
      */
     public function getNossoNumeroComDigito() {
-        $digito = 0;
-        $contagem = 2;
-        $total = 0;
-        $algarismosInvertidos = array_reverse(str_split($this->nossoNumero));
-
-        foreach ($algarismosInvertidos as $algarismo) {
-            $total += $contagem * $algarismo;
-
-            if (++$contagem > 9) {
-                $contagem = 2;
-            }
-        }
-
-        $modulo = $total % 11;
-        if ($modulo > 1) {
-            $digito = 11 - $modulo;
-        }
-
-        return $this->nossoNumero . $digito;
+        return $this->nossoNumero . $this->calcularDigitoNossoNumero();
     }
 
     /** Obtém o número do Título no cliente.
@@ -254,6 +236,32 @@ class Titulo implements PropriedadesExportaveisParaArrayInterface, PropriedadesI
     public function setMensagem($mensagem) {
         $this->mensagem = $mensagem;
         return $this;
+    }
+
+    /** Calcula o dígito do campo nosso número
+     *
+     * return int
+     */
+    private function calcularDigitoNossoNumero() {
+        $digito = 0;
+        $contagem = 2;
+        $total = 0;
+        $algarismosInvertidos = array_reverse(str_split($this->nossoNumero));
+
+        foreach ($algarismosInvertidos as $algarismo) {
+            $total += $contagem * $algarismo;
+
+            if (++$contagem > 9) {
+                $contagem = 2;
+            }
+        }
+
+        $modulo = $total % 11;
+        if ($modulo > 1) {
+            $digito = 11 - $modulo;
+        }
+
+        return $digito;
     }
 
     /** Exporta um array associativo no qual as chaves são as propriedades representadas como no WebService do Santander
