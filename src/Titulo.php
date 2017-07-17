@@ -91,6 +91,7 @@ class Titulo implements PropriedadesExportaveisParaArrayInterface, PropriedadesI
      * @return string
      */
     public function getNossoNumeroComDigito() {
+        $digito = 0;
         $contagem = 2;
         $total = 0;
 
@@ -105,8 +106,6 @@ class Titulo implements PropriedadesExportaveisParaArrayInterface, PropriedadesI
         $modulo = $total % 11;
         if ($modulo > 1) {
             $digito = 11 - $modulo;
-        } else {
-            $digito = 0;
         }
 
         return $this->nossoNumero . $digito;
