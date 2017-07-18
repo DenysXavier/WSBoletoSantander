@@ -209,7 +209,7 @@ class BoletoSantanderServicoTest extends PHPUnit_Framework_TestCase {
           <especie>' . self::$boleto->getTitulo()->getEspecie() . '</especie>
           <linDig>' . self::$faker->regexify("[0-9]{47}") . '</linDig>
           <mensagem></mensagem>
-          <nossoNumero>' . self::$boleto->getTitulo()->getNossoNumero() . '</nossoNumero>
+          <nossoNumero>' . self::$boleto->getTitulo()->getNossoNumeroComDigito() . '</nossoNumero>
           <pcJuro>' . self::$boleto->getTitulo()->getInstrucoes()->getJuros() . '</pcJuro>
           <pcMulta>' . self::$boleto->getTitulo()->getInstrucoes()->getMulta() . '</pcMulta>
           <qtDiasBaixa>' . self::$boleto->getTitulo()->getInstrucoes()->getBaixarApos() . '</qtDiasBaixa>
