@@ -391,11 +391,10 @@ class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface, P
         $this->percentualMinimo = $percentualMinimo;
     }
 
-    /*     * Determina o valor máximo ou percentual máximo do título.
+    /** Determina o valor máximo ou percentual máximo do título.
      * 
      * @param float $percentualMaximo Valor máximo ou percentual máximo do título.
      */
-
     public function setPercentualMaximo($percentualMaximo) {
         $this->percentualMaximo = $percentualMaximo;
     }
@@ -421,6 +420,7 @@ class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface, P
         $array["TITULO.QT-PARCIAIS"] = $this->getQtdParciais();
         $array["TITULO.TP-VALOR"] = $this->getTipoValor();
         $array["TITULO.VL-PERC-MINIMO"] = $this->getPercentualMinimo();
+        $array["TITULO.VL-PERC-MAXIMO"] = $this->getPercentualMaximo();
 
         return $array;
     }
