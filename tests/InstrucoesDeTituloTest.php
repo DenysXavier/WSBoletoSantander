@@ -26,11 +26,13 @@ use TIExpert\WSBoletoSantander\Config;
  */
 class InstrucoesDeTituloTest extends PHPUnit_Framework_TestCase {
 
+    private static $faker;
     private static $instrucoesObj;
 
     public static function setUpBeforeClass() {
         parent::setUpBeforeClass();
         self::$instrucoesObj = new InstrucoesDeTitulo();
+        self::$faker = \Faker\Factory::create("pt_BR");
     }
 
     /**
@@ -208,8 +210,81 @@ class InstrucoesDeTituloTest extends PHPUnit_Framework_TestCase {
      * @author Denys Xavier <equipe@tiexpert.net>
      * @test
      */
+    public function testeAcessorDaPropriedadeTipoPagamento() {
+        $validParam = 2;
+
+        self::$instrucoesObj->setTipoPagamento($validParam);
+        $this->assertEquals($validParam, self::$instrucoesObj->getTipoPagamento());
+    }
+
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     */
+    public function oValorPadraoDaPropriedadeTipoPagamentoEh1() {
+        $obj = new InstrucoesDeTitulo();
+        $this->assertEquals(1, $obj->getTipoPagamento());
+    }
+
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     */
+    public function testeAcessorDaPropriedadeQtdParciais() {
+        $validParam = mt_rand(1, 99);
+
+        self::$instrucoesObj->setQtdParciais($validParam);
+        $this->assertEquals($validParam, self::$instrucoesObj->getQtdParciais());
+    }
+
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     */
+    public function oValorPadraoDaPropriedadeQtdParciaisEhZero() {
+        $obj = new InstrucoesDeTitulo();
+        $this->assertEquals("0", $obj->getQtdParciais());
+    }
+
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     */
+    public function testeAcessorDaPropriedadeTipoValor() {
+        $validParam = 2;
+
+        self::$instrucoesObj->setTipoValor($validParam);
+        $this->assertEquals($validParam, self::$instrucoesObj->getTipoValor());
+    }
+
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     */
+    public function testeAcessorDaPropriedadePercentualMinimo() {
+        $validParam = self::$faker->randomFloat();
+
+        self::$instrucoesObj->setPercentualMinimo($validParam);
+        $this->assertEquals($validParam, self::$instrucoesObj->getPercentualMinimo());
+    }
+
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     */
+    public function testeAcessorDaPropriedadePercentualMaximo() {
+        $validParam = self::$faker->randomFloat();
+
+        self::$instrucoesObj->setPercentualMaximo($validParam);
+        $this->assertEquals($validParam, self::$instrucoesObj->getPercentualMaximo());
+    }
+
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     */
     public function oArrayExportadoDevePossuirAsMesmasChavesUtilizadasPeloWSdoBanco() {
-        $chaveInstrucao = array("TITULO.PC-MULTA", "TITULO.QT-DIAS-MULTA", "TITULO.PC-JURO", "TITULO.TP-DESC", "TITULO.VL-DESC", "TITULO.DT-LIMI-DESC", "TITULO.VL-ABATIMENTO", "TITULO.TP-PROTESTO", "TITULO.QT-DIAS-PROTESTO", "TITULO.QT-DIAS-BAIXA");
+        $chaveInstrucao = array("TITULO.PC-MULTA", "TITULO.QT-DIAS-MULTA", "TITULO.PC-JURO", "TITULO.TP-DESC", "TITULO.VL-DESC", "TITULO.DT-LIMI-DESC", "TITULO.VL-ABATIMENTO", "TITULO.TP-PROTESTO", "TITULO.QT-DIAS-PROTESTO", "TITULO.QT-DIAS-BAIXA", "TITULO.TP-PAGAMENTO", "TITULO.QT-PARCIAIS", "TITULO.TP-VALOR", "TITULO.VL-PERC-MINIMO", "TITULO.VL-PERC-MAXIMO");
 
         $export = self::$instrucoesObj->exportarArray();
 

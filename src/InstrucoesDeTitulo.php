@@ -33,7 +33,7 @@ class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface, P
     /** @property float $juros Percentual de juros com 2 decimais. Opcional. */
     private $juros;
 
-    /** @property int $tipoDesconto Tipo de desconto a ser aplicado. Sendo: 0 = isento; 1 = Valor fixo até a data informada; 2 = Percentual até a data informada; 3 = Valor por antecipação dia corrido. */
+    /** @property int $tipoDesconto Tipo de desconto a ser aplicado. Sendo: 0 = isento; 1 = Valor fixo até a data informada; 2 = Valor por antecipação dia corrido; 3 = Valor por antecipação dia útil. */
     private $tipoDesconto;
 
     /** @property float $valorDesconto Valor ou percentual de desconto, com 2 casas decimais. */
@@ -54,6 +54,21 @@ class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface, P
     /** @property int $baixarApos Quantidade de dias após o vencimento para baixa/devolução do título. */
     private $baixarApos;
 
+    /** @property int $tipoPagamento Identificação do tipo de pagamento. Sendo: 1 = Conforme Registro; 2 = Divergente; 3 = Parcial. */
+    private $tipoPagamento;
+
+    /** @property int $qtdParciais Quantidade de pagamentos possíveis. */
+    private $qtdParciais;
+
+    /** @property int $tipoValor Tipo de valor informado. Sendo: 1 = Percentual; 2 = Valor. */
+    private $tipoValor;
+
+    /** @property float $percentualMinimo Valor mínimo ou percentual mínimo do título. */
+    private $percentualMinimo;
+
+    /** @property float $percentualMaximo Valor máximo ou percentual máximo do título. */
+    private $percentualMaximo;
+
     /** Cria uma nova instância de InstrucoesDeTitulo
      * 
      * @param float $multa Percentual da multa com 2 decimais.
@@ -66,8 +81,13 @@ class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface, P
      * @param int $tipoProtesto Tipo de protesto a ser adotado. Sendo: 0 = Nao Protestar; 1 = Protestar dias corridos; 2 = Protestar dias úteis; 3 = Utilizar Perfil Cedente.
      * @param int $protestarApos Quantidade de dias após o vencimento para protesto.
      * @param int $baixarApos Quantidade de dias após o vencimento para baixa/devolução do título.
+     * @param int $tipoPagamento Identificação do tipo de pagamento. Sendo: 1 = Conforme Registro; 2 = Divergente; 3 = Parcial.
+     * @param int $qtdParciais Quantidade de pagamentos possíveis.
+     * @param int $tipoValor Tipo de valor informado. Sendo: 1 = Percentual; 2 = Valor.
+     * @param float $percentualMinimo Valor mínimo ou percentual mínimo do título.
+     * @param float $percentualMaximo Valor máximo ou percentual máximo do título.
      */
-    public function __construct($multa = NULL, $multarApos = NULL, $juros = NULL, $tipoDesconto = NULL, $valorDesconto = NULL, $dataLimiteDesconto = NULL, $valorAbatimento = NULL, $tipoProtesto = NULL, $protestarApos = NULL, $baixarApos = NULL) {
+    public function __construct($multa = NULL, $multarApos = NULL, $juros = NULL, $tipoDesconto = NULL, $valorDesconto = NULL, $dataLimiteDesconto = NULL, $valorAbatimento = NULL, $tipoProtesto = NULL, $protestarApos = NULL, $baixarApos = NULL, $tipoPagamento = 1, $qtdParciais = 0, $tipoValor = 1, $percentualMinimo = 0, $percentualMaximo = 0) {
         $this->setMulta($multa);
         $this->setMultarApos($multarApos);
         $this->setJuros($juros);
@@ -78,6 +98,11 @@ class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface, P
         $this->setTipoProtesto($tipoProtesto);
         $this->setProtestarApos($protestarApos);
         $this->setBaixarApos($baixarApos);
+        $this->setTipoPagamento($tipoPagamento);
+        $this->setQtdParciais($qtdParciais);
+        $this->setTipoValor($tipoValor);
+        $this->setPercentualMinimo($percentualMinimo);
+        $this->setPercentualMaximo($percentualMaximo);
     }
 
     /** Obtém o percentual da multa, com 2 decimais.
@@ -158,6 +183,46 @@ class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface, P
      */
     public function getBaixarApos() {
         return $this->baixarApos;
+    }
+
+    /** Obtém a identificação do tipo de pagamento.
+     * 
+     * @return int
+     */
+    public function getTipoPagamento() {
+        return $this->tipoPagamento;
+    }
+
+    /** Obtém a quantidade de pagamentos possíveis.
+     * 
+     * @return int
+     */
+    public function getQtdParciais() {
+        return $this->qtdParciais;
+    }
+
+    /** Obtém o tipo de valor informado
+     * 
+     * @return int
+     */
+    public function getTipoValor() {
+        return $this->tipoValor;
+    }
+
+    /** Obtém o valor mínimo ou percentual mínimo do título.
+     * 
+     * @return float
+     */
+    public function getPercentualMinimo() {
+        return $this->percentualMinimo;
+    }
+
+    /** Obtém o valor máximo ou percentual máximo do título.
+     * 
+     * @return float
+     */
+    public function getPercentualMaximo() {
+        return $this->percentualMaximo;
     }
 
     /** Determina o percentual da multa, com 2 decimais.
@@ -294,6 +359,46 @@ class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface, P
         return $this;
     }
 
+    /** Determina a identificação do tipo de pagamento.
+     * 
+     * @param int $tipoPagamento Código do tipo de pagamento. Sendo: 1 = Conforme Registro; 2 = Divergente; 3 = Parcial.
+     */
+    public function setTipoPagamento($tipoPagamento) {
+        $this->tipoPagamento = $tipoPagamento;
+    }
+
+    /** Determina a quantidade de pagamentos possíveis.
+     * 
+     * @param int $qtdParciais Quantidade de pagamentos possíveis
+     */
+    public function setQtdParciais($qtdParciais = 0) {
+        $this->qtdParciais = $qtdParciais;
+    }
+
+    /** Determina o tipo de valor informado
+     * 
+     * @param int $tipoValor Tipo de valor informado. Sendo: 1 = Percentual; 2 = Valor.
+     */
+    public function setTipoValor($tipoValor) {
+        $this->tipoValor = $tipoValor;
+    }
+
+    /** Determina o valor mínimo ou percentual mínimo do título.
+     * 
+     * @param type $percentualMinimo Valor mínimo ou percentual mínimo do título.
+     */
+    public function setPercentualMinimo($percentualMinimo) {
+        $this->percentualMinimo = $percentualMinimo;
+    }
+
+    /** Determina o valor máximo ou percentual máximo do título.
+     * 
+     * @param float $percentualMaximo Valor máximo ou percentual máximo do título.
+     */
+    public function setPercentualMaximo($percentualMaximo) {
+        $this->percentualMaximo = $percentualMaximo;
+    }
+
     /** Exporta um array associativo no qual as chaves são as propriedades representadas como no WebService do Santander
      * 
      * @return array
@@ -311,6 +416,11 @@ class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface, P
         $array["TITULO.TP-PROTESTO"] = $this->getTipoProtesto();
         $array["TITULO.QT-DIAS-PROTESTO"] = $this->getProtestarApos();
         $array["TITULO.QT-DIAS-BAIXA"] = $this->getBaixarApos();
+        $array["TITULO.TP-PAGAMENTO"] = $this->getTipoPagamento();
+        $array["TITULO.QT-PARCIAIS"] = $this->getQtdParciais();
+        $array["TITULO.TP-VALOR"] = $this->getTipoValor();
+        $array["TITULO.VL-PERC-MINIMO"] = $this->getPercentualMinimo();
+        $array["TITULO.VL-PERC-MAXIMO"] = $this->getPercentualMaximo();
 
         return $array;
     }
