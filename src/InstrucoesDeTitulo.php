@@ -396,6 +396,7 @@ class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface, P
         $array["TITULO.TP-PAGAMENTO"] = $this->getTipoPagamento();
         $array["TITULO.QT-PARCIAIS"] = $this->getQtdParciais();
         $array["TITULO.TP-VALOR"] = $this->getTipoValor();
+        $array["TITULO.VL-PERC-MINIMO"] = $this->getPercentualMinimo();
 
         return $array;
     }
