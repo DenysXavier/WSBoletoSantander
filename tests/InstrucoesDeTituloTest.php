@@ -257,11 +257,26 @@ class InstrucoesDeTituloTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($validParam, self::$instrucoesObj->getTipoValor());
     }
 
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     */
     public function testeAcessorDaPropriedadePercentualMinimo() {
         $validParam = self::$faker->randomFloat();
 
         self::$instrucoesObj->setPercentualMinimo($validParam);
         $this->assertEquals($validParam, self::$instrucoesObj->getPercentualMinimo());
+    }
+
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     */
+    public function testeAcessorDaPropriedadePercentualMaximo() {
+        $validParam = self::$faker->randomFloat();
+
+        self::$instrucoesObj->setPercentualMaximo($validParam);
+        $this->assertEquals($validParam, self::$instrucoesObj->getPercentualMaximo());
     }
 
     /**
