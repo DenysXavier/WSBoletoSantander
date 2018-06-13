@@ -57,6 +57,9 @@ class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface, P
     /** @property int $tipoPagamento Identificação do tipo de pagamento. Sendo: 1 = Conforme Registro; 2 = Divergente; 3 = Parcial. */
     private $tipoPagamento;
 
+    /** @property int $qtdParciais Quantidade de pagamentos possíveis. */
+    private $qtdParciais;
+
     /** Cria uma nova instância de InstrucoesDeTitulo
      * 
      * @param float $multa Percentual da multa com 2 decimais.
@@ -171,6 +174,14 @@ class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface, P
      */
     public function getTipoPagamento() {
         return $this->tipoPagamento;
+    }
+
+    /** Obtém a quantidade de pagamentos possíveis.
+     * 
+     * @return int
+     */
+    public function getQtdParciais() {
+        return $this->qtdParciais;
     }
 
     /** Determina o percentual da multa, com 2 decimais.
@@ -313,6 +324,14 @@ class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface, P
      */
     public function setTipoPagamento($tipoPagamento) {
         $this->tipoPagamento = $tipoPagamento;
+    }
+
+    /** Determina a quantidade de pagamentos possíveis.
+     * 
+     * @param int $qtdParciais Quantidade de pagamentos possíveis
+     */
+    public function setQtdParciais($qtdParciais) {
+        $this->qtdParciais = $qtdParciais;
     }
 
     /** Exporta um array associativo no qual as chaves são as propriedades representadas como no WebService do Santander
