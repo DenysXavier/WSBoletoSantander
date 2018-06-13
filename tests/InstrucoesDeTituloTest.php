@@ -26,11 +26,13 @@ use TIExpert\WSBoletoSantander\Config;
  */
 class InstrucoesDeTituloTest extends PHPUnit_Framework_TestCase {
 
+    private static $faker;
     private static $instrucoesObj;
 
     public static function setUpBeforeClass() {
         parent::setUpBeforeClass();
         self::$instrucoesObj = new InstrucoesDeTitulo();
+        self::$faker = \Faker\Factory::create("pt_BR");
     }
 
     /**
@@ -253,6 +255,13 @@ class InstrucoesDeTituloTest extends PHPUnit_Framework_TestCase {
 
         self::$instrucoesObj->setTipoValor($validParam);
         $this->assertEquals($validParam, self::$instrucoesObj->getTipoValor());
+    }
+
+    public function testeAcessorDaPropriedadePercentualMinimo() {
+        $validParam = self::$faker->randomFloat();
+
+        self::$instrucoesObj->setPercentualMinimo($validParam);
+        $this->assertEquals($validParam, self::$instrucoesObj->getPercentualMinimo());
     }
 
     /**
