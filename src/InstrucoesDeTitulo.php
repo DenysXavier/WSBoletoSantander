@@ -332,6 +332,7 @@ class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface, P
         $array["TITULO.TP-PROTESTO"] = $this->getTipoProtesto();
         $array["TITULO.QT-DIAS-PROTESTO"] = $this->getProtestarApos();
         $array["TITULO.QT-DIAS-BAIXA"] = $this->getBaixarApos();
+        $array["TITULO.TP-PAGAMENTO"] = $this->getTipoPagamento();
 
         return $array;
     }
