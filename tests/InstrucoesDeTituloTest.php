@@ -239,6 +239,15 @@ class InstrucoesDeTituloTest extends PHPUnit_Framework_TestCase {
      * @author Denys Xavier <equipe@tiexpert.net>
      * @test
      */
+    public function oValorPadraoDaPropriedadeQtdParciaisEhZero() {
+        $obj = new InstrucoesDeTitulo();
+        $this->assertEquals("0", $obj->getQtdParciais());
+    }
+
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     */
     public function oArrayExportadoDevePossuirAsMesmasChavesUtilizadasPeloWSdoBanco() {
         $chaveInstrucao = array("TITULO.PC-MULTA", "TITULO.QT-DIAS-MULTA", "TITULO.PC-JURO", "TITULO.TP-DESC", "TITULO.VL-DESC", "TITULO.DT-LIMI-DESC", "TITULO.VL-ABATIMENTO", "TITULO.TP-PROTESTO", "TITULO.QT-DIAS-PROTESTO", "TITULO.QT-DIAS-BAIXA", "TITULO.TP-PAGAMENTO");
 
