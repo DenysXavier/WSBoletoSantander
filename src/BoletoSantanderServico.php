@@ -26,7 +26,7 @@ namespace TIExpert\WSBoletoSantander;
 class BoletoSantanderServico {
 
     const TICKET_ENDPOINT = "https://ymbdlb.santander.com.br/dl-ticket-services/TicketEndpointService";
-    const COBRANCA_ENDPOINT = "https://ymbcash.santander.com.br/ymbsrv/CobrancaEndpointService";
+    const COBRANCA_ENDPOINT = "https://ymbcash.santander.com.br/ymbsrv/CobrancaV2EndpointService";
 
     /** @property \TIExpert\WSBoletoSantander\ComunicadorCurlSOAP $comunicador Referência ao objeto a ser usado como ponte de comunicação entre o serviço e a extensão cURL do PHP. */
     private $comunicador;
