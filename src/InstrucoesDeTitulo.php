@@ -60,6 +60,9 @@ class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface, P
     /** @property int $qtdParciais Quantidade de pagamentos possíveis. */
     private $qtdParciais;
 
+    /** @property int $tipoValor Tipo de valor informado. Sendo: 1 = Percentual; 2 = Valor. */
+    private $tipoValor;
+
     /** Cria uma nova instância de InstrucoesDeTitulo
      * 
      * @param float $multa Percentual da multa com 2 decimais.
@@ -73,8 +76,10 @@ class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface, P
      * @param int $protestarApos Quantidade de dias após o vencimento para protesto.
      * @param int $baixarApos Quantidade de dias após o vencimento para baixa/devolução do título.
      * @param int $tipoPagamento Identificação do tipo de pagamento. Sendo: 1 = Conforme Registro; 2 = Divergente; 3 = Parcial.
+     * @param int $qtdParciais Quantidade de pagamentos possíveis.
+     * @param int $tipoValor Tipo de valor informado. Sendo: 1 = Percentual; 2 = Valor.
      */
-    public function __construct($multa = NULL, $multarApos = NULL, $juros = NULL, $tipoDesconto = NULL, $valorDesconto = NULL, $dataLimiteDesconto = NULL, $valorAbatimento = NULL, $tipoProtesto = NULL, $protestarApos = NULL, $baixarApos = NULL, $tipoPagamento = 1, $qtdParciais = 0) {
+    public function __construct($multa = NULL, $multarApos = NULL, $juros = NULL, $tipoDesconto = NULL, $valorDesconto = NULL, $dataLimiteDesconto = NULL, $valorAbatimento = NULL, $tipoProtesto = NULL, $protestarApos = NULL, $baixarApos = NULL, $tipoPagamento = 1, $qtdParciais = 0, $tipoValor = 1) {
         $this->setMulta($multa);
         $this->setMultarApos($multarApos);
         $this->setJuros($juros);
@@ -87,6 +92,7 @@ class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface, P
         $this->setBaixarApos($baixarApos);
         $this->setTipoPagamento($tipoPagamento);
         $this->setQtdParciais($qtdParciais);
+        $this->setTipoValor($tipoValor);
     }
 
     /** Obtém o percentual da multa, com 2 decimais.
@@ -183,6 +189,14 @@ class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface, P
      */
     public function getQtdParciais() {
         return $this->qtdParciais;
+    }
+
+    /** Obtém o tipo de valor informado
+     * 
+     * @return int
+     */
+    public function getTipoValor() {
+        return $this->tipoValor;
     }
 
     /** Determina o percentual da multa, com 2 decimais.
@@ -333,6 +347,14 @@ class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface, P
      */
     public function setQtdParciais($qtdParciais = 0) {
         $this->qtdParciais = $qtdParciais;
+    }
+
+    /** Determina o tipo de valor informado
+     * 
+     * @param int $tipoValor Tipo de valor informado. Sendo: 1 = Percentual; 2 = Valor.
+     */
+    public function setTipoValor($tipoValor) {
+        $this->tipoValor = $tipoValor;
     }
 
     /** Exporta um array associativo no qual as chaves são as propriedades representadas como no WebService do Santander
