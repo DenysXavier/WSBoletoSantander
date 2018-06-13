@@ -63,6 +63,9 @@ class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface, P
     /** @property int $tipoValor Tipo de valor informado. Sendo: 1 = Percentual; 2 = Valor. */
     private $tipoValor;
 
+    /** @property float $percentualMinimo Valor mínimo ou percentual mínimo do título. */
+    private $percentualMinimo;
+
     /** Cria uma nova instância de InstrucoesDeTitulo
      * 
      * @param float $multa Percentual da multa com 2 decimais.
@@ -79,7 +82,7 @@ class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface, P
      * @param int $qtdParciais Quantidade de pagamentos possíveis.
      * @param int $tipoValor Tipo de valor informado. Sendo: 1 = Percentual; 2 = Valor.
      */
-    public function __construct($multa = NULL, $multarApos = NULL, $juros = NULL, $tipoDesconto = NULL, $valorDesconto = NULL, $dataLimiteDesconto = NULL, $valorAbatimento = NULL, $tipoProtesto = NULL, $protestarApos = NULL, $baixarApos = NULL, $tipoPagamento = 1, $qtdParciais = 0, $tipoValor = 1) {
+    public function __construct($multa = NULL, $multarApos = NULL, $juros = NULL, $tipoDesconto = NULL, $valorDesconto = NULL, $dataLimiteDesconto = NULL, $valorAbatimento = NULL, $tipoProtesto = NULL, $protestarApos = NULL, $baixarApos = NULL, $tipoPagamento = 1, $qtdParciais = 0, $tipoValor = 1, $percentualMinimo = 0) {
         $this->setMulta($multa);
         $this->setMultarApos($multarApos);
         $this->setJuros($juros);
@@ -197,6 +200,14 @@ class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface, P
      */
     public function getTipoValor() {
         return $this->tipoValor;
+    }
+
+    /** Obtém o valor mínimo ou percentual mínimo do título.
+     * 
+     * @return float
+     */
+    public function getPercentualMinimo() {
+        return $this->percentualMinimo;
     }
 
     /** Determina o percentual da multa, com 2 decimais.
@@ -355,6 +366,14 @@ class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface, P
      */
     public function setTipoValor($tipoValor) {
         $this->tipoValor = $tipoValor;
+    }
+
+    /** Determina o valor mínimo ou percentual mínimo do título.
+     * 
+     * @param type $percentualMinimo Valor mínimo ou percentual mínimo do título.
+     */
+    public function setPercentualMinimo($percentualMinimo) {
+        $this->percentualMinimo = $percentualMinimo;
     }
 
     /** Exporta um array associativo no qual as chaves são as propriedades representadas como no WebService do Santander
