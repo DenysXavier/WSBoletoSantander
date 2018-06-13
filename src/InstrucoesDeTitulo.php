@@ -33,7 +33,7 @@ class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface, P
     /** @property float $juros Percentual de juros com 2 decimais. Opcional. */
     private $juros;
 
-    /** @property int $tipoDesconto Tipo de desconto a ser aplicado. Sendo: 0 = isento; 1 = Valor fixo até a data informada; 2 = Percentual até a data informada; 3 = Valor por antecipação dia corrido. */
+    /** @property int $tipoDesconto Tipo de desconto a ser aplicado. Sendo: 0 = isento; 1 = Valor fixo até a data informada; 2 = Valor por antecipação dia corrido; 3 = Valor por antecipação dia útil. */
     private $tipoDesconto;
 
     /** @property float $valorDesconto Valor ou percentual de desconto, com 2 casas decimais. */
@@ -53,6 +53,9 @@ class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface, P
 
     /** @property int $baixarApos Quantidade de dias após o vencimento para baixa/devolução do título. */
     private $baixarApos;
+
+    /** @property int $tipoPagamento Identificação do tipo de pagamento. Sendo: 1 = Conforme Registro; 2 = Divergente; 3 = Parcial. */
+    private $tipoPagamento;
 
     /** Cria uma nova instância de InstrucoesDeTitulo
      * 
@@ -158,6 +161,14 @@ class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface, P
      */
     public function getBaixarApos() {
         return $this->baixarApos;
+    }
+
+    /** Obtém a identificação do tipo de pagamento.
+     * 
+     * @return int
+     */
+    public function getTipoPagamento() {
+        return $this->tipoPagamento;
     }
 
     /** Determina o percentual da multa, com 2 decimais.
@@ -292,6 +303,14 @@ class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface, P
 
         $this->baixarApos = $baixarApos;
         return $this;
+    }
+
+    /** Determina a identificação do tipo de pagamento.
+     * 
+     * @param int $tipoPagamento Código do tipo de pagamento. Sendo: 1 = Conforme Registro; 2 = Divergente; 3 = Parcial.
+     */
+    public function setTipoPagamento($tipoPagamento) {
+        $this->tipoPagamento = $tipoPagamento;
     }
 
     /** Exporta um array associativo no qual as chaves são as propriedades representadas como no WebService do Santander
