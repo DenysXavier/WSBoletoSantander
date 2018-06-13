@@ -66,6 +66,9 @@ class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface, P
     /** @property float $percentualMinimo Valor mínimo ou percentual mínimo do título. */
     private $percentualMinimo;
 
+    /** @property float $percentualMaximo Valor máximo ou percentual máximo do título. */
+    private $percentualMaximo;
+
     /** Cria uma nova instância de InstrucoesDeTitulo
      * 
      * @param float $multa Percentual da multa com 2 decimais.
@@ -81,8 +84,10 @@ class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface, P
      * @param int $tipoPagamento Identificação do tipo de pagamento. Sendo: 1 = Conforme Registro; 2 = Divergente; 3 = Parcial.
      * @param int $qtdParciais Quantidade de pagamentos possíveis.
      * @param int $tipoValor Tipo de valor informado. Sendo: 1 = Percentual; 2 = Valor.
+     * @param float $percentualMinimo Valor mínimo ou percentual mínimo do título.
+     * @param float $percentualMaximo Valor máximo ou percentual máximo do título.
      */
-    public function __construct($multa = NULL, $multarApos = NULL, $juros = NULL, $tipoDesconto = NULL, $valorDesconto = NULL, $dataLimiteDesconto = NULL, $valorAbatimento = NULL, $tipoProtesto = NULL, $protestarApos = NULL, $baixarApos = NULL, $tipoPagamento = 1, $qtdParciais = 0, $tipoValor = 1, $percentualMinimo = 0) {
+    public function __construct($multa = NULL, $multarApos = NULL, $juros = NULL, $tipoDesconto = NULL, $valorDesconto = NULL, $dataLimiteDesconto = NULL, $valorAbatimento = NULL, $tipoProtesto = NULL, $protestarApos = NULL, $baixarApos = NULL, $tipoPagamento = 1, $qtdParciais = 0, $tipoValor = 1, $percentualMinimo = 0, $percentualMaximo = 0) {
         $this->setMulta($multa);
         $this->setMultarApos($multarApos);
         $this->setJuros($juros);
@@ -96,6 +101,8 @@ class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface, P
         $this->setTipoPagamento($tipoPagamento);
         $this->setQtdParciais($qtdParciais);
         $this->setTipoValor($tipoValor);
+        $this->setPercentualMinimo($percentualMinimo);
+        $this->setPercentualMaximo($percentualMaximo);
     }
 
     /** Obtém o percentual da multa, com 2 decimais.
@@ -208,6 +215,14 @@ class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface, P
      */
     public function getPercentualMinimo() {
         return $this->percentualMinimo;
+    }
+
+    /** Obtém o valor máximo ou percentual máximo do título.
+     * 
+     * @return float
+     */
+    public function getPercentualMaximo() {
+        return $this->percentualMaximo;
     }
 
     /** Determina o percentual da multa, com 2 decimais.
@@ -374,6 +389,15 @@ class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface, P
      */
     public function setPercentualMinimo($percentualMinimo) {
         $this->percentualMinimo = $percentualMinimo;
+    }
+
+    /*     * Determina o valor máximo ou percentual máximo do título.
+     * 
+     * @param float $percentualMaximo Valor máximo ou percentual máximo do título.
+     */
+
+    public function setPercentualMaximo($percentualMaximo) {
+        $this->percentualMaximo = $percentualMaximo;
     }
 
     /** Exporta um array associativo no qual as chaves são as propriedades representadas como no WebService do Santander
