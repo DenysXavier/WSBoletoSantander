@@ -69,8 +69,9 @@ class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface, P
      * @param int $tipoProtesto Tipo de protesto a ser adotado. Sendo: 0 = Nao Protestar; 1 = Protestar dias corridos; 2 = Protestar dias úteis; 3 = Utilizar Perfil Cedente.
      * @param int $protestarApos Quantidade de dias após o vencimento para protesto.
      * @param int $baixarApos Quantidade de dias após o vencimento para baixa/devolução do título.
+     * @param int $tipoPagamento Identificação do tipo de pagamento. Sendo: 1 = Conforme Registro; 2 = Divergente; 3 = Parcial.
      */
-    public function __construct($multa = NULL, $multarApos = NULL, $juros = NULL, $tipoDesconto = NULL, $valorDesconto = NULL, $dataLimiteDesconto = NULL, $valorAbatimento = NULL, $tipoProtesto = NULL, $protestarApos = NULL, $baixarApos = NULL) {
+    public function __construct($multa = NULL, $multarApos = NULL, $juros = NULL, $tipoDesconto = NULL, $valorDesconto = NULL, $dataLimiteDesconto = NULL, $valorAbatimento = NULL, $tipoProtesto = NULL, $protestarApos = NULL, $baixarApos = NULL, $tipoPagamento = 1) {
         $this->setMulta($multa);
         $this->setMultarApos($multarApos);
         $this->setJuros($juros);
@@ -81,6 +82,7 @@ class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface, P
         $this->setTipoProtesto($tipoProtesto);
         $this->setProtestarApos($protestarApos);
         $this->setBaixarApos($baixarApos);
+        $this->setTipoPagamento($tipoPagamento);
     }
 
     /** Obtém o percentual da multa, com 2 decimais.
