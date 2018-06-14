@@ -82,4 +82,69 @@ class UtilTest extends \PHPUnit_Framework_TestCase {
         Util::converterParaDateTime($string);
     }
 
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     */
+    public function umNumeroFormatadoComZeroPrecisaoSempreSeraApenasSuaParteInteira() {
+        $float = 12.25;
+        $resultadoEsperado = "12";
+
+        $stringFormatada = Util::formatarNumero($float, 0);
+
+        $this->assertEquals($resultadoEsperado, $stringFormatada);
+    }
+
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     */
+    public function aoFormatarUmNumeroComGrandePrecisaoAParteDecimalNaoDeveSerArredondada() {
+        $bigFloat = 1.789;
+        $resultadoEsperado = "1.78";
+
+        $stringFormatada = Util::formatarNumero($bigFloat, 2, '.');
+
+        $this->assertEquals($resultadoEsperado, $stringFormatada);
+    }
+
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     */
+    public function aoFormatarUmNumeroComBaixaPrecisaoAParteDecimalDeveSerCompletadaComZeros() {
+        $smallFloat = 1.789;
+        $resultadoEsperado = "1.78900";
+
+        $stringFormatada = Util::formatarNumero($smallFloat, 5, '.');
+
+        $this->assertSame($resultadoEsperado, $stringFormatada);
+    }
+
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     */
+    public function aoFormatarUmNumeroMaiorQue999ACada3AlgarismosDeveVirUmSeparadorDeterminado() {
+        $bigNumber = 12345678;
+        $resultadoEsperado = "12@345@678";
+
+        $stringFormatada = Util::formatarNumero($bigNumber, 0, '.', '@');
+
+        $this->assertEquals($resultadoEsperado, $stringFormatada);
+    }
+
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     */
+    public function aoFormatarUmNumeroInteiroAPrecisaoDeveVirCompostaDeZeros() {
+        $number = 1;
+        $resultadoEsperado = "1.00";
+
+        $stringFormatada = Util::formatarNumero($number, 2, '.');
+
+        $this->assertSame($resultadoEsperado, $stringFormatada);
+    }
+
 }
