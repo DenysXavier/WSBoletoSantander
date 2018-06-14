@@ -283,6 +283,33 @@ class InstrucoesDeTituloTest extends PHPUnit_Framework_TestCase {
      * @author Denys Xavier <equipe@tiexpert.net>
      * @test
      */
+    public function propriedadesPercentualMinimoEPercentualMaximoDevemTer5CasasAposAVirgulaQuandoExportados() {
+        $maisDe5DigitosDecimais = 12345.123456789;
+        $maisDe5DigitosDecimaisEsperado = "12345,12345";
+        $menosDe5DigitosDecimais = 54321.12;
+        $menosDe5DigitosDecimaisEsperado = "54321,12000";
+
+        $obj = new InstrucoesDeTitulo();
+
+        $obj->setPercentualMinimo($maisDe5DigitosDecimais);
+        $obj->setPercentualMaximo($maisDe5DigitosDecimais);
+
+        $exportacao = $obj->exportarArray();
+        $this->assertEquals($maisDe5DigitosDecimaisEsperado, $exportacao["TITULO.VL-PERC-MINIMO"]);
+        $this->assertEquals($maisDe5DigitosDecimaisEsperado, $exportacao["TITULO.VL-PERC-MAXIMO"]);
+
+        $obj->setPercentualMinimo($menosDe5DigitosDecimais);
+        $obj->setPercentualMaximo($menosDe5DigitosDecimais);
+
+        $exportacao = $obj->exportarArray();
+        $this->assertEquals($menosDe5DigitosDecimaisEsperado, $exportacao["TITULO.VL-PERC-MINIMO"]);
+        $this->assertEquals($menosDe5DigitosDecimaisEsperado, $exportacao["TITULO.VL-PERC-MAXIMO"]);
+    }
+
+    /**
+     * @author Denys Xavier <equipe@tiexpert.net>
+     * @test
+     */
     public function oArrayExportadoDevePossuirAsMesmasChavesUtilizadasPeloWSdoBanco() {
         $chaveInstrucao = array("TITULO.PC-MULTA", "TITULO.QT-DIAS-MULTA", "TITULO.PC-JURO", "TITULO.TP-DESC", "TITULO.VL-DESC", "TITULO.DT-LIMI-DESC", "TITULO.VL-ABATIMENTO", "TITULO.TP-PROTESTO", "TITULO.QT-DIAS-PROTESTO", "TITULO.QT-DIAS-BAIXA", "TITULO.TP-PAGAMENTO", "TITULO.QT-PARCIAIS", "TITULO.TP-VALOR", "TITULO.VL-PERC-MINIMO", "TITULO.VL-PERC-MAXIMO");
 
