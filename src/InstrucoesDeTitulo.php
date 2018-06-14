@@ -419,8 +419,8 @@ class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface, P
         $array["TITULO.TP-PAGAMENTO"] = $this->getTipoPagamento();
         $array["TITULO.QT-PARCIAIS"] = $this->getQtdParciais();
         $array["TITULO.TP-VALOR"] = $this->getTipoValor();
-        $array["TITULO.VL-PERC-MINIMO"] = $this->getPercentualMinimo();
-        $array["TITULO.VL-PERC-MAXIMO"] = $this->getPercentualMaximo();
+        $array["TITULO.VL-PERC-MINIMO"] = Util::formatarNumero($this->getPercentualMinimo(), 5, ',', '');
+        $array["TITULO.VL-PERC-MAXIMO"] = Util::formatarNumero($this->getPercentualMaximo(), 5, ',', '');
 
         return $array;
     }
