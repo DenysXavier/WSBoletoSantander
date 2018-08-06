@@ -12,6 +12,19 @@
 
 WS Boleto Santander é um conjunto de classes criadas para facilitar a integração entre aplicativos feitos em PHP e a geração de boletos online no banco Santander.
 
+## Índice
+
+> * [Funcionalidades](#funcionalidades)
+> * [Requisitos](#requisitos)
+> * [Guia Básico de Uso](#guia-básico-de-uso)
+>   * [Instalação da Biblioteca](#instalação-da-biblioteca)
+>   * [Montagem do Boleto](#montagem-do-boleto)
+>   * [Registrando o Boleto](#registrando-o-boleto)
+> * [Questões Importantes](#questões-importantes)
+> * [Mais Documentação](#mais-documentação)
+> * [Licença](#licença)
+> * [Aviso Legal](#aviso-legal)
+
 ## Funcionalidades
 
 - [x] Inclusão/Registro de boletos
@@ -146,7 +159,6 @@ Primeiro, ele deve ser do tipo cliente ou ambos, ou seja, ele deve de qualquer f
 Além disso, seu certificado deve ter 4 informações importantes:
 
 1) O tamanho da chave chave-pública deve ser de 2048 bits.
-
 
 ![Tamanho da chave-pública](http://i67.tinypic.com/2wecfad.jpg)
 
