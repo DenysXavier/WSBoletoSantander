@@ -37,7 +37,15 @@ class BoletoSantanderServicoTest extends PHPUnit_Framework_TestCase {
 
         $convenio = new Convenio();
         $pagador = new Pagador(1, mt_rand(100000, 999999), self::$faker->name, self::$faker->streetAddress, self::$faker->city, self::$faker->city, self::$faker->stateAbbr, self::$faker->postcode);
-        $titulo = new Titulo(mt_rand(0, 9999999), mt_rand(100000000, 999999999), mt_rand(100000000, 999999999), "now", NULL, NULL, NULL, new InstrucoesDeTitulo());
+
+        $instrucoesDeTitulo = new InstrucoesDeTitulo();
+        $instrucoesDeTitulo->setTipoPagamento(3);
+        $instrucoesDeTitulo->setTipoValor(1);
+        $instrucoesDeTitulo->setPercentualMaximo(mt_rand(0, 9999999) . "." . mt_rand(0, 99999));
+        $instrucoesDeTitulo->setPercentualMinimo(mt_rand(0, 9999999) . "." . mt_rand(0, 99999));
+        $instrucoesDeTitulo->setQtdParciais(mt_rand(1, 99));
+
+        $titulo = new Titulo(mt_rand(0, 9999999), mt_rand(100000000, 999999999), mt_rand(100000000, 999999999), "now", NULL, NULL, NULL, $instrucoesDeTitulo);
 
         self::$boleto = new Boleto($convenio, $pagador, $titulo);
 
@@ -215,9 +223,14 @@ class BoletoSantanderServicoTest extends PHPUnit_Framework_TestCase {
           <qtDiasBaixa>' . self::$boleto->getTitulo()->getInstrucoes()->getBaixarApos() . '</qtDiasBaixa>
           <qtDiasMulta>' . self::$boleto->getTitulo()->getInstrucoes()->getMultarApos() . '</qtDiasMulta>
           <qtDiasProtesto>' . self::$boleto->getTitulo()->getInstrucoes()->getProtestarApos() . '</qtDiasProtesto>
+          <qtdParciais>' . self::$boleto->getTitulo()->getInstrucoes()->getQtdParciais() . '</qtdParciais>
           <seuNumero>' . self::$boleto->getTitulo()->getSeuNumero() . '</seuNumero>
+          <tipoPagto>' . self::$boleto->getTitulo()->getInstrucoes()->getTipoPagamento() . '</tipoPagto>
+          <tipoValor>' . self::$boleto->getTitulo()->getInstrucoes()->getTipoValor() . '</tipoValor>
           <tpDesc>' . self::$boleto->getTitulo()->getInstrucoes()->getTipoDesconto() . '</tpDesc>
           <tpProtesto>' . self::$boleto->getTitulo()->getInstrucoes()->getTipoProtesto() . '</tpProtesto>
+          <valorMaximo>' . \TIExpert\WSBoletoSantander\Util::formatarNumero(self::$boleto->getTitulo()->getInstrucoes()->getPercentualMaximo(), 5, '') . '</valorMaximo>
+          <valorMinimo>' . \TIExpert\WSBoletoSantander\Util::formatarNumero(self::$boleto->getTitulo()->getInstrucoes()->getPercentualMinimo(), 5, '') . '</valorMinimo>
           <vlAbatimento>' . self::$boleto->getTitulo()->getInstrucoes()->getValorAbatimento() * 100 . '</vlAbatimento>
           <vlDesc>' . self::$boleto->getTitulo()->getInstrucoes()->getValorDesconto() * 100 . '</vlDesc>
           <vlNominal>' . self::$boleto->getTitulo()->getValor() * 100 . '</vlNominal>

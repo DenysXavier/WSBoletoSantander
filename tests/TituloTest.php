@@ -250,6 +250,11 @@ class TituloTest extends PHPUnit_Framework_TestCase {
           <seuNumero>000000000123456</seuNumero>
           <tpDesc>0</tpDesc>
           <tpProtesto>0</tpProtesto>
+          <tipoValor>0</tipoValor>
+          <tipoPagto>1</tipoPagto>
+          <qtdParciais>00</qtdParciais>
+          <valorMaximo>00000000000000000</valorMaximo>
+          <valorMinimo>00000000000000000</valorMinimo>
           <vlAbatimento>000000000000000</vlAbatimento>
           <vlDesc>000000000000000</vlDesc>
           <vlNominal>000000000000110</vlNominal>
