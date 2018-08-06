@@ -35,6 +35,10 @@ WS Boleto Santander é um conjunto de classes criadas para facilitar a integraç
 
 * PHP 5.6 ou superior
 
+> *Suporte para PHP 5.6 e 7.0 terminará em dezembro de 2018.*
+>
+> **É fortemente recomendável que se migre para versões superiores.**
+
 Com as seguintes extensões ativas:
 
 * cURL
