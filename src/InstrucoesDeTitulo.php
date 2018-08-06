@@ -442,6 +442,11 @@ class InstrucoesDeTitulo implements PropriedadesExportaveisParaArrayInterface, P
         $this->setTipoProtesto($leitor->getValorNo("tpProtesto"));
         $this->setValorAbatimento($leitor->getValorNo("vlAbatimento") / 100);
         $this->setValorDesconto($leitor->getValorNo("vlDesc") / 100);
+        $this->setTipoPagamento($leitor->getValorNo("tipoPagto"));
+        $this->setQtdParciais($leitor->getValorNo("qtdParciais"));
+        $this->setTipoValor($leitor->getValorNo("tipoValor"));
+        $this->setPercentualMaximo($leitor->getValorNo("valorMaximo") / 100000);
+        $this->setPercentualMinimo($leitor->getValorNo("valorMinimo") / 100000);
     }
 
 }
