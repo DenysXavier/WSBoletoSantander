@@ -91,7 +91,7 @@ class ComunicadorCurlSOAP {
         $conf = Config::getInstance();
 
         $arrayConfig[CURLOPT_SSL_VERIFYPEER] = $conf->getGeral("assegurar_endpoint");
-        $arrayConfig[CURLOPT_SSL_VERIFYHOST] = $conf->getGeral("assegurar_endpoint");
+        $arrayConfig[CURLOPT_SSL_VERIFYHOST] = $conf->getGeral("assegurar_endpoint") ? 2 : 0;
 
         $arrayConfig[CURLOPT_SSLCERT] = $conf->getCertificado("arquivo");
         $arrayConfig[CURLOPT_SSLCERTPASSWD] = $conf->getCertificado("senha");
