@@ -283,11 +283,11 @@ class InstrucoesDeTituloTest extends PHPUnit_Framework_TestCase {
      * @author Denys Xavier <equipe@tiexpert.net>
      * @test
      */
-    public function propriedadesPercentualMinimoEPercentualMaximoDevemTer5CasasAposAVirgulaQuandoExportados() {
+    public function propriedadesPercentualMinimoEPercentualMaximoDevemTer5CasasDecimaisSemSeparacaoPorVirgulaQuandoExportados() {
         $maisDe5DigitosDecimais = 12345.123456789;
-        $maisDe5DigitosDecimaisEsperado = "12345,12345";
+        $maisDe5DigitosDecimaisEsperado = "1234512345";
         $menosDe5DigitosDecimais = 54321.12;
-        $menosDe5DigitosDecimaisEsperado = "54321,12000";
+        $menosDe5DigitosDecimaisEsperado = "5432112000";
 
         $obj = new InstrucoesDeTitulo();
 
